@@ -2,4 +2,5 @@ import wx
 import wx.py.shell as wxshell
 
 class CustomShell(wxshell.Shell):
-    pass
+    def __init__(self,*args,**kwargs):
+        wxshell.Shell.__init__(self,*args,**kwargs)
