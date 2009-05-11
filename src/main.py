@@ -1,6 +1,7 @@
 import wx
 import customshell
 import turtlewidget
+import vector
 
 class ApplicationWindow(wx.Frame):
     """
@@ -13,7 +14,10 @@ class ApplicationWindow(wx.Frame):
 
 
         locals_for_shell=locals()
-        locals_for_shell.update({'go':turtle_widget.go,'rotate':turtle_widget.rotate})
+        locals_for_shell.update({'go':turtle_widget.go,'rotate':turtle_widget.rotate,
+                                 'visible':turtle_widget.visible,'invisible':turtle_widget.invisible,
+                                 'pen_up':turtle_widget.pen_up,'pen_down':turtle_widget.pen_down,
+                                 'width':turtle_widget.width})
 
         shell=self.shell=customshell.CustomShell(self.splitter,locals=locals_for_shell)
 
@@ -26,6 +30,13 @@ class ApplicationWindow(wx.Frame):
 
         self.Maximize()
         self.Show()
+
+        self.shell.setFocus()
+        """
+        Note that this is a special setFocus function
+        of the shell
+        """
+
 
 
 if __name__=="__main__":

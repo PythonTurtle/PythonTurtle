@@ -101,6 +101,9 @@ class Vector(tuple):
                 self=self|other
                 return self
 
+        def __repr__(self):
+            return "Vector("+tuple.__repr__(self)+")"
+
         def norm(self):
                 """
                 gives the Vector, normalized

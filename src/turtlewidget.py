@@ -5,54 +5,30 @@ import math
 
 from vector import Vector
 
+BITMAP_SIZE=Vector((2000,1200))
+origin=Vector(([thing/2.0 for thing in BITMAP_SIZE]))
+
 deg_to_rad=lambda deg: (deg*math.pi)/180
 rad_to_deg=lambda rad: (rad/math.pi)*180
 
-dsin=lambda a: sin(deg_to_rad(a))
-dcos=lambda a: cos(deg_to_rad(a))
+to_my_angle=lambda angle: rad_to_deg(-angle)-180
+from_my_angle=lambda angle: deg_to_rad(-angle+180)
 
+from_my_pos=lambda pos: -pos+origin
+to_my_pos=lambda pos: -pos+origin
 
 class TurtleWidget(wx.Panel):
     def __init__(self,*args,**kwargs):
         wx.Panel.__init__(self,style=wx.SUNKEN_BORDER,*args,**kwargs)
 
         BACKGROUND_COLOR=self.BACKGROUND_COLOR=wx.Colour(212,208,200)
-        BITMAP_SIZE=self.BITMAP_SIZE=(2000,1200)
 
         turtle=self.turtle=Turtle()
-        turtle.pos=tuple([thing/2.0 for thing in BITMAP_SIZE])
         bitmap=self.bitmap=wx.EmptyBitmapRGBA(2000,1200,BACKGROUND_COLOR[0],BACKGROUND_COLOR[1],BACKGROUND_COLOR[2],255) # todo: Change to something smarter?
         bitmap=self.bitmap=wx.EmptyBitmap(*BITMAP_SIZE)
         self.Bind(wx.EVT_PAINT, self.on_paint)
         self.Bind(wx.EVT_SIZE,self.on_size)
-        #self.shit()
 
-
-
-
-    def go(self,x):
-        turtle=self.turtle
-        bitmap=self.bitmap
-
-        old_pos=turtle.pos
-        new_pos=Vector(turtle.pos)+x*Vector((dsin(turtle.orientation),dcos(turtle.orientation)))
-        turtle.pos=new_pos
-
-        dc=wx.MemoryDC()
-        dc.SelectObject(bitmap)
-        print(tuple(old_pos),tuple(new_pos))
-        dc.SetPen(turtle.give_pen())
-        #dc.DrawLine(0,0,3000,2000)
-        #dc.DrawCircle(600,600,203)
-        #dc.DrawRectangle(300,250,100,204)
-        dc.DrawLinePoint(tuple(old_pos),tuple(new_pos))
-        dc.Destroy()
-
-        self.Refresh()
-
-    def rotate(self,angle):
-        self.turtle.orientation+=angle
-        self.Refresh()
 
 
     def on_paint(self,e=None):
@@ -60,17 +36,16 @@ class TurtleWidget(wx.Panel):
         bitmap=self.bitmap
 
         dc=wx.PaintDC(self)
-        bitmap_size=bitmap.GetSize()
-        widget_size=self.GetSize()
-        top_left_corner=(-(bitmap_size[0]-widget_size[0])/2.0,-(bitmap_size[1]-widget_size[1])/2.0)
+        widget_size=Vector(self.GetSize())
+        top_left_corner=(-BITMAP_SIZE+widget_size)/2.0
 
         # Draw the bitmap:
         dc.DrawBitmap(self.bitmap,*top_left_corner)
 
         # Draw the turtle:
         if turtle.visible:
-            new_pos=(top_left_corner[0]+turtle.pos[0]-turtle.image.GetSize()[0]/2.0,top_left_corner[1]+turtle.pos[1]-turtle.image.GetSize()[1]/2.0)
-            dc.DrawBitmap(turtle.image,*new_pos,useMask=True)
+            new_pos=top_left_corner+from_my_pos(turtle.pos)-Vector(turtle.image.GetSize())/2.0
+            draw_bitmap_to_dc_rotated(dc,turtle.image,from_my_angle(turtle.orientation),new_pos)
 
 
         dc.Destroy()
@@ -80,20 +55,70 @@ class TurtleWidget(wx.Panel):
 
 
 
+    def go(self,distance):
+        turtle=self.turtle
+        bitmap=self.bitmap
+
+        old_pos=turtle.pos
+        orientation=from_my_angle(turtle.orientation)
+        new_pos=Vector(turtle.pos)+distance*Vector((sin(orientation),cos(orientation)))
+        turtle.pos=new_pos
+
+        dc=wx.MemoryDC()
+        dc.SelectObject(bitmap)
+        dc.SetPen(turtle.give_pen())
+        dc.DrawLinePoint(from_my_pos(old_pos),from_my_pos(new_pos))
+        dc.Destroy()
+
+        self.Refresh()
+
+    def rotate(self,angle):
+        self.turtle.orientation=self.turtle.orientation+angle
+        self.turtle.orientation%=360
+        self.Refresh()
+
+    def pen_up(self):
+        self.turtle.pen_down=False
+        self.Refresh()
+
+    def pen_down(self):
+        self.turtle.pen_down=True
+        self.Refresh()
+
+    def visible(self):
+        self.turtle.visible=True
+        self.Refresh()
+
+    def invisible(self):
+        self.turtle.visible=False
+        self.Refresh()
+
+    def width(self,width):
+        self.turtle.width=width
+        self.Refresh()
+
+
+
 class Turtle(object):
     def __init__(self):
         self.pos=Vector((0,0))
         self.orientation=180
         self.color=wx.NamedColor("red")#wx.NamedColor("Black")
-        self.image=wx.Bitmap("turtle.gif")
+        self.image=wx.Bitmap("turtle.png")
         self.width=3
         self.visible=True
         self.pen_down=True
 
+
     def give_pen(self):
-        return wx.Pen(self.color,self.width,wx.SOLID)# if self.pen_down else wx.TRANSPARENT)
+        return wx.Pen(self.color,self.width,wx.SOLID if self.pen_down else wx.TRANSPARENT)
 
-
-
-
-
+def draw_bitmap_to_dc_rotated( dc, bitmap, angle , point):
+    '''
+    Rotate a bitmap and write it to the supplied device context.
+    '''
+    img = bitmap.ConvertToImage()
+    img_centre = wx.Point( img.GetWidth()/2.0, img.GetHeight()/2.0 )
+    print(img_centre)
+    img = img.Rotate( angle, img_centre , interpolating=True)
+    dc.DrawBitmap( img.ConvertToBitmap(), *point,useMask=True )
