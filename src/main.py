@@ -17,7 +17,9 @@ class ApplicationWindow(wx.Frame):
         locals_for_shell.update({'go':turtle_widget.go,'rotate':turtle_widget.rotate,
                                  'visible':turtle_widget.visible,'invisible':turtle_widget.invisible,
                                  'pen_up':turtle_widget.pen_up,'pen_down':turtle_widget.pen_down,
-                                 'width':turtle_widget.width})
+                                 'width':turtle_widget.width,
+
+                                 'turtle':turtle_widget.turtle})
 
         shell=self.shell=customshell.CustomShell(self.splitter,locals=locals_for_shell)
 
