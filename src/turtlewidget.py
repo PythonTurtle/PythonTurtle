@@ -53,13 +53,19 @@ class TurtleWidget(wx.Panel):
 
         if self.in_middle_of_order:
             new_time=time.time()
-            current_order=self.orders[0]
-            end_timepoint=self.time_thingy+current_order.time_interval
-            if new_time<end_timepoint:
-                current_order(turtle,bitmap,new_time-self.time_thingy,current_order.time_interval)
-            else:
-                current_order(turtle,bitmap,current_order.time_interval,current_order.time_interval)
-                self.orders.remove(current_order)
+            time_sum=0.0
+            for current_order in self.orders[:]:
+                start_timepoint=self.time_thingy+time_sum
+                time_sum+=current_order.time_interval
+                end_timepoint=self.time_thingy+time_sum
+                if new_time<end_timepoint:
+                    current_order(turtle,bitmap,new_time-start_timepoint,current_order.time_interval)
+                    break
+                else:
+                    current_order(turtle,bitmap,current_order.time_interval,current_order.time_interval)
+                    self.orders.remove(current_order)
+
+            if self.orders==[]:
                 self.in_middle_of_order=False
                 self.time_thingy=None
 
@@ -159,24 +165,45 @@ class TurtleWidget(wx.Panel):
         self.give_order(order)
 
     def pen_up(self):
-        self.turtle.pen_down=False
-        self.Refresh()
+
+        def pen_up_func(turtle,bitmap,t,time_interval):
+            turtle.pen_down=False
+
+        order=Order(time_interval=0,function=pen_up_func)
+        self.give_order(order)
 
     def pen_down(self):
-        self.turtle.pen_down=True
-        self.Refresh()
+
+        def pen_down_func(turtle,bitmap,t,time_interval):
+            turtle.pen_down=True
+
+        order=Order(time_interval=0,function=pen_down_func)
+        self.give_order(order)
 
     def visible(self):
-        self.turtle.visible=True
-        self.Refresh()
+
+        def visible_func(turtle,bitmap,t,time_interval):
+            turtle.visible=True
+
+        order=Order(time_interval=0,function=visible_func)
+        self.give_order(order)
 
     def invisible(self):
-        self.turtle.visible=False
-        self.Refresh()
+
+        def invisible_func(turtle,bitmap,t,time_interval):
+            turtle.visible=False
+
+        order=Order(time_interval=0,function=invisible_func)
+        self.give_order(order)
+
 
     def width(self,width):
-        self.turtle.width=width
-        self.Refresh()
+
+        def width_func(turtle,bitmap,t,time_interval):
+            turtle.width=width
+
+        order=Order(time_interval=0,function=width_func)
+        self.give_order(order)
 
 
 
