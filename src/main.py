@@ -13,10 +13,10 @@ class ApplicationWindow(wx.Frame):
 
         turtle_process=self.turtle_process=turtleprocess.TurtleProcess()
         turtle_process.start()
-        reporter=self.reporter=turtle_process.reporter
+        turtle_queue=self.turtle_queue=turtle_process.turtle_queue
 
         splitter=self.splitter = wx.SplitterWindow(self, style=wx.SP_LIVE_UPDATE)
-        turtle_widget=self.turtle_widget=turtlewidget.TurtleWidget(self.splitter,reporter)
+        turtle_widget=self.turtle_widget=turtlewidget.TurtleWidget(self.splitter,turtle_queue)
 
 
         locals_for_shell=locals()
@@ -29,7 +29,7 @@ class ApplicationWindow(wx.Frame):
                                  'turtle':turtle_widget.turtle})
         """
 
-        shell=self.shell=customshell.CustomShell(self.splitter,locals=locals_for_shell)
+        shell=self.shell=customshell.CustomShell(self.splitter,process=turtle_process)
 
         splitter.SplitHorizontally(turtle_widget,shell,splitter.GetSize()[1]-250)
         splitter.SetSashGravity(1)

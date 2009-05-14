@@ -1,3 +1,7 @@
+"""
+todo: GCDC needed?
+"""
+
 import wx
 
 import Queue
@@ -11,15 +15,16 @@ import time
 
 from turtle import *
 
-
+import dumpqueue
 
 
 
 class TurtleWidget(wx.Panel):
-    def __init__(self,parent,reporter,*args,**kwargs):
+    def __init__(self,parent,turtle_queue,*args,**kwargs):
         wx.Panel.__init__(self,parent,style=wx.SUNKEN_BORDER,*args,**kwargs)
 
         BACKGROUND_COLOR=self.BACKGROUND_COLOR=wx.Colour(212,208,200)
+        TURTLE_IMAGE=self.TURTLE_IMAGE=wx.Bitmap("turtle.png")
 
         turtle=self.turtle=Turtle()
         #bitmap=self.bitmap=wx.EmptyBitmapRGBA(2000,1200,BACKGROUND_COLOR[0],BACKGROUND_COLOR[1],BACKGROUND_COLOR[2],255) # todo: Change to something smarter?
@@ -28,22 +33,26 @@ class TurtleWidget(wx.Panel):
         self.Bind(wx.EVT_SIZE,self.on_size)
         self.Bind(wx.EVT_IDLE,self.on_idle)
 
-        self.reporter=reporter
+        self.turtle_queue=turtle_queue
 
         self.idle_block=False
 
 
 
     def on_paint(self,e=None):
+        turtle_reports=dumpqueue.dump_queue(self.turtle_queue)
+        dc=wx.GCDC(wx.MemoryDC(self.bitmap))
+        for turtle_report in turtle_reports:
+            if self.turtle.pen_down==True:
+                dc.SetPen(self.turtle.give_pen())
+                dc.DrawLinePoint(from_my_pos(self.turtle.pos),from_my_pos(turtle_report.pos))
+
+            self.turtle=turtle_report
+        del dc
 
 
-        try:
-            turtle=self.turtle=self.reporter.get_report(block=False)
-        except Queue.Empty:
-            turtle=self.turtle=Turtle()
-
+        turtle=self.turtle
         bitmap=self.bitmap
-
 
         dc=wx.PaintDC(self)
         widget_size=Vector(self.GetSize())
@@ -54,8 +63,8 @@ class TurtleWidget(wx.Panel):
 
         # Draw the turtle:
         if turtle.visible:
-            new_pos=top_left_corner+from_my_pos(turtle.pos)-Vector(turtle.image.GetSize())/2.0
-            draw_bitmap_to_dc_rotated(dc,turtle.image,from_my_angle(turtle.orientation),new_pos)
+            new_pos=top_left_corner+from_my_pos(turtle.pos)-Vector(self.TURTLE_IMAGE.GetSize())/2.0
+            draw_bitmap_to_dc_rotated(dc,self.TURTLE_IMAGE,from_my_angle(turtle.orientation),new_pos)
 
 
         dc.Destroy()

@@ -2,7 +2,6 @@ import multiprocessing
 import code
 
 from turtle import *
-from reporter import Reporter
 from vector import Vector
 import math
 import time
@@ -31,18 +30,18 @@ class TurtleProcess(multiprocessing.Process):
 
         self.input_queue=multiprocessing.Queue()
         self.output_queue=multiprocessing.Queue()
-        self.reporter=Reporter()
+        self.turtle_queue=multiprocessing.Queue()
 
         """
         Constants:
         """
         self.FPS=25
-        self.FRAME_TIME=1/self.FPS
+        self.FRAME_TIME=1/float(self.FPS)
 
 
 
     def send_report(self):
-        self.reporter.send_report(self.turtle)
+        self.turtle_queue.put(self.turtle)
 
     def run(self):
         turtle=self.turtle=Turtle()
@@ -67,8 +66,10 @@ class TurtleProcess(multiprocessing.Process):
             self.send_report()
 
 
+        locals_for_console=locals()
+        locals_for_console.update({"go":go})
 
-        console=MyConsole(read=self.input_queue.get,write=self.output_queue.put)
+        console=MyConsole(read=self.input_queue.get,write=self.output_queue.put,locals=locals_for_console)
         print("1")
         console.interact()
         print("2")

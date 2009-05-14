@@ -18,8 +18,7 @@ class Turtle(object):
     def __init__(self):
         self.pos=Vector((0,0))
         self.orientation=180
-        self.color=wx.NamedColor("red")#wx.NamedColor("Black")
-        self.image=wx.Bitmap("turtle.png")
+        self.color="red"
         self.width=3
         self.visible=True
         self.pen_down=True
