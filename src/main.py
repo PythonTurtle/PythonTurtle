@@ -2,6 +2,7 @@ import wx
 import customshell
 import turtlewidget
 import vector
+import turtleprocess
 
 class ApplicationWindow(wx.Frame):
     """
@@ -9,17 +10,24 @@ class ApplicationWindow(wx.Frame):
     def __init__(self,*args,**keywords):
         wx.Frame.__init__(self,*args,**keywords)
         self.SetDoubleBuffered(True)
+
+        turtle_process=self.turtle_process=turtleprocess.TurtleProcess()
+        turtle_process.start()
+        reporter=self.reporter=turtle_process.reporter
+
         splitter=self.splitter = wx.SplitterWindow(self, style=wx.SP_LIVE_UPDATE)
-        turtle_widget=self.turtle_widget=turtlewidget.TurtleWidget(self.splitter)
+        turtle_widget=self.turtle_widget=turtlewidget.TurtleWidget(self.splitter,reporter)
 
 
         locals_for_shell=locals()
+        """
         locals_for_shell.update({'go':turtle_widget.go,'rotate':turtle_widget.rotate,
                                  'visible':turtle_widget.visible,'invisible':turtle_widget.invisible,
                                  'pen_up':turtle_widget.pen_up,'pen_down':turtle_widget.pen_down,
                                  'width':turtle_widget.width,
 
                                  'turtle':turtle_widget.turtle})
+        """
 
         shell=self.shell=customshell.CustomShell(self.splitter,locals=locals_for_shell)
 
