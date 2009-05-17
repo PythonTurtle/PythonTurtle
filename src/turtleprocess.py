@@ -87,11 +87,11 @@ class TurtleProcess(multiprocessing.Process):
                 self.send_report()
                 angle_gone+=angle_per_frame
 
-            last_angle=angle-distance_gone
+            last_angle=angle-angle_gone
             last_sleep=last_angle/float(self.turtle.ANGULAR_SPEED)
             last_step=last_angle*sign
-            turtle.orientation+=last_angle
-            time.sleep(last_angle)
+            turtle.orientation+=last_step
+            time.sleep(last_sleep)
             self.send_report()
 
 
