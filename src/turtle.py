@@ -24,7 +24,7 @@ class Turtle(object):
         self.pen_down=True
 
         self.SPEED=400.0 # Pixels per second
-        self.ANGULAR_SPEED=540.0 # Degrees per second
+        self.ANGULAR_SPEED=360.0 # Degrees per second
 
 
     def give_pen(self): # Not sure if this is a good idea

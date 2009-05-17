@@ -3,6 +3,7 @@ import customshell
 import turtlewidget
 import vector
 import turtleprocess
+import dumpqueue
 
 class ApplicationWindow(wx.Frame):
     """
@@ -20,6 +21,9 @@ class ApplicationWindow(wx.Frame):
 
 
         locals_for_shell=locals()
+        locals_for_shell.update({'i': turtle_process.input_queue,
+                                 'o': turtle_process.output_queue,
+                                 'dump_queue': dumpqueue.dump_queue})
         """
         locals_for_shell.update({'go':turtle_widget.go,'rotate':turtle_widget.rotate,
                                  'visible':turtle_widget.visible,'invisible':turtle_widget.invisible,
@@ -29,7 +33,9 @@ class ApplicationWindow(wx.Frame):
                                  'turtle':turtle_widget.turtle})
         """
 
-        shell=self.shell=customshell.CustomShell(self.splitter,process=turtle_process)
+        shell=self.shell=customshell.CustomShell(self.splitter,
+                                                 process=turtle_process,
+                                                 locals=locals_for_shell)
 
         splitter.SplitHorizontally(turtle_widget,shell,splitter.GetSize()[1]-250)
         splitter.SetSashGravity(1)
