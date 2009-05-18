@@ -63,10 +63,10 @@ class TurtleWidget(wx.Panel):
 
         # Draw the turtle:
         if turtle.visible:
-            new_pos=top_left_corner+from_my_pos(turtle.pos)-Vector(self.TURTLE_IMAGE.GetSize())/2.0
+            new_pos=top_left_corner+from_my_pos(turtle.pos)#-Vector(self.TURTLE_IMAGE.GetSize())/2.0
+            #dc.Rotate(from_my_angle(turtle.orientation))
+            #dc.DrawBitmap(self.TURTLE_IMAGE,*new_pos)
             draw_bitmap_to_dc_rotated(dc,self.TURTLE_IMAGE,from_my_angle(turtle.orientation),new_pos)
-
-
         dc.Destroy()
 
 
@@ -97,7 +97,21 @@ def draw_bitmap_to_dc_rotated( dc, bitmap, angle , point):
     '''
     Rotate a bitmap and write it to the supplied device context.
     '''
+    """
+    assert isinstance(dc,wx.PaintDC)
+    img = bitmap.ConvertToImage()
+    img_centre = wx.Point( img.GetWidth()/2.0, img.GetHeight()/2.0 )
+
+    my_dc=wx.GCDC(dc)
+    my_dc.GetGraphicsContext().Rotate(angle)
+    my_dc.DrawBitmapPoint(img.ConvertToBitmap(),point,useMask=True)
+    del my_dc
+    """
     img = bitmap.ConvertToImage()
     img_centre = wx.Point( img.GetWidth()/2.0, img.GetHeight()/2.0 )
     img = img.Rotate( angle, img_centre , interpolating=True)
-    dc.DrawBitmap( img.ConvertToBitmap(), *point,useMask=True )
+    new_point=Vector(point)-Vector(img.GetSize())/2
+    dc.DrawBitmapPoint( img.ConvertToBitmap(), new_point,useMask=True )
+
+
+
