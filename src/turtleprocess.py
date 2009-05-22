@@ -94,9 +94,21 @@ class TurtleProcess(multiprocessing.Process):
             time.sleep(last_sleep)
             self.send_report()
 
+        def color(color):
+            if not valid_color(color):
+                raise StandardError(color+" is not a valid color.")
+            turtle.color=color
+            self.send_report()
+
 
         locals_for_console=locals()
-        locals_for_console.update({"go":go})
+        #locals_for_console.update({"go":go})
+
+        import wx; app=wx.App();
+        def valid_color(color):
+            return not wx.Pen(color).GetColour()==wx.Pen("malformed").GetColour()
+
+
 
         console=MyConsole(read=self.input_queue.get,write=self.output_queue.put,locals=locals_for_console)
         #console=wx.py.interpreter.Interpreter
