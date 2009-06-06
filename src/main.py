@@ -20,11 +20,12 @@ class ApplicationWindow(wx.Frame):
         splitter=self.splitter = wx.SplitterWindow(self, style=wx.SP_LIVE_UPDATE)
         turtle_widget=self.turtle_widget=turtlewidget.TurtleWidget(self.splitter,turtle_queue)
 
-
+        """
         locals_for_shell=locals()
         locals_for_shell.update({'i': turtle_process.input_queue,
                                  'o': turtle_process.output_queue,
                                  'dump_queue': dumpqueue.dump_queue})
+        """
         """
         locals_for_shell.update({'go':turtle_widget.go,'rotate':turtle_widget.rotate,
                                  'visible':turtle_widget.visible,'invisible':turtle_widget.invisible,
@@ -35,8 +36,7 @@ class ApplicationWindow(wx.Frame):
         """
 
         shell=self.shell=customshell.CustomShell(self.splitter,
-                                                 process=turtle_process,
-                                                 locals=locals_for_shell)
+                                                 process=turtle_process)
 
         splitter.SplitHorizontally(turtle_widget,shell,splitter.GetSize()[1]-250)
         splitter.SetSashGravity(1)

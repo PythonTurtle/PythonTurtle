@@ -73,7 +73,7 @@ class TurtleProcess(multiprocessing.Process):
             time.sleep(last_sleep)
             self.send_report()
 
-        def rotate(angle):
+        def turn(angle):
             if angle==0: return
             sign=1 if angle>0 else -1
             angle=copy.copy(abs(angle))
@@ -95,26 +95,25 @@ class TurtleProcess(multiprocessing.Process):
             self.send_report()
 
         def color(color):
-            if not valid_color(color):
-                raise StandardError(color+" is not a valid color.")
+            #if not valid_color(color):
+            #    raise StandardError(color+" is not a valid color.")
             turtle.color=color
             self.send_report()
 
 
-        locals_for_console=locals()
+        locals_for_console=locals() # Maybe make sure there's no junk?
         #locals_for_console.update({"go":go})
 
+        """
         import wx; app=wx.App();
         def valid_color(color):
             return not wx.Pen(color).GetColour()==wx.Pen("malformed").GetColour()
-
+        """
 
 
         console=MyConsole(read=self.input_queue.get,write=self.output_queue.put,locals=locals_for_console)
         #console=wx.py.interpreter.Interpreter
-        print("1")
         console.interact()
-        print("2")
         """
         while True:
             input=self.input_queue.get()
