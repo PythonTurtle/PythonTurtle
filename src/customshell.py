@@ -6,13 +6,14 @@ from code import InteractiveInterpreter
 
 class MyInterpreter(wxinterpreter.Interpreter):
     def __init__(self,*args,**kwargs):
+
         assert kwargs.has_key("process")
         self.process=kwargs["process"]
         del kwargs["process"]
 
         wxinterpreter.Interpreter.__init__(self,*args,**kwargs)
 
-    def runsource(self, source): #???
+    def runsource(self, source):
         """Compile and run source code in the interpreter."""
         stdin, stdout, stderr = sys.stdin, sys.stdout, sys.stderr
         sys.stdin, sys.stdout, sys.stderr = \
@@ -20,6 +21,7 @@ class MyInterpreter(wxinterpreter.Interpreter):
 
         #more = InteractiveInterpreter.runsource(self, source)
         self.process.input_queue.put(source)
+        #more=self.process.output_queue.get()
 
         # If sys.std* is still what we set it to, then restore it.
         # But, if the executed source changed sys.std*, assume it was
