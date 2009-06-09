@@ -49,10 +49,6 @@ class ApplicationWindow(wx.Frame):
         self.Show()
 
         self.shell.setFocus()
-        """
-        Note that this is a special setFocus function
-        of the shell
-        """
 
 
 

@@ -11,6 +11,7 @@ class MyInterpreter(wxinterpreter.Interpreter):
         self.process=kwargs["process"]
         del kwargs["process"]
 
+
         wxinterpreter.Interpreter.__init__(self,*args,**kwargs)
 
     def runsource(self, source):
@@ -21,7 +22,7 @@ class MyInterpreter(wxinterpreter.Interpreter):
 
         #more = InteractiveInterpreter.runsource(self, source)
         self.process.input_queue.put(source)
-        #more=self.process.output_queue.get()
+        more=self.process.runsource_return_queue.get()
 
         # If sys.std* is still what we set it to, then restore it.
         # But, if the executed source changed sys.std*, assume it was
@@ -32,7 +33,7 @@ class MyInterpreter(wxinterpreter.Interpreter):
             sys.stdout = stdout
         if sys.stderr == self.stderr:
             sys.stderr = stderr
-        return None#more
+        return more
 
 class CustomShell(wxshell.Shell):
     def __init__(self,parent,process,*args,**kwargs):

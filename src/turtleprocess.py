@@ -1,3 +1,4 @@
+import sys
 import multiprocessing
 import code
 import copy
@@ -11,11 +12,12 @@ from vector import Vector
 import wx.py.interpreter
 
 class MyConsole(code.InteractiveConsole):
-    def __init__(self,read=None,write=None,*args,**kwargs):
+    def __init__(self,read=None,write=None,runsource_return_queue=None,*args,**kwargs):
         code.InteractiveConsole.__init__(self,*args,**kwargs)
         self.read=read
         self.write=write
-        if read==None or write==None:
+        self.runsource_return_queue=runsource_return_queue
+        if read is None or write is None:
             raise NotImplementedError
 
     def raw_input(self,prompt):
@@ -24,6 +26,56 @@ class MyConsole(code.InteractiveConsole):
 
     def write(self,output):
         return self.write(output)
+
+    def interact(self, banner=None):
+        """Closely emulate the interactive Python console.
+
+        The optional banner argument specify the banner to print
+        before the first interaction; by default it prints a banner
+        similar to the one printed by the real Python interpreter,
+        followed by the current class name in parentheses (so as not
+        to confuse this with the real interpreter -- since it's so
+        close!).
+
+        """
+        try:
+            sys.ps1
+        except AttributeError:
+            sys.ps1 = ">>> "
+        try:
+            sys.ps2
+        except AttributeError:
+            sys.ps2 = "... "
+        cprt = 'Type "help", "copyright", "credits" or "license" for more information.'
+        if banner is None:
+            self.write("Python %s on %s\n%s\n(%s)\n" %
+                       (sys.version, sys.platform, cprt,
+                        self.__class__.__name__))
+        else:
+            self.write("%s\n" % str(banner))
+        more = 0
+        while 1:
+            try:
+                if more:
+                    prompt = sys.ps2
+                else:
+                    prompt = sys.ps1
+                try:
+                    line = self.raw_input(prompt)
+                    # Can be None if sys.stdin was redefined
+                    encoding = getattr(sys.stdin, "encoding", None)
+                    if encoding and not isinstance(line, unicode):
+                        line = line.decode(encoding)
+                except EOFError:
+                    self.write("\n")
+                    break
+                else:
+                    more = self.push(line)
+                    self.runsource_return_queue.put(more)
+            except KeyboardInterrupt:
+                self.write("\nKeyboardInterrupt\n")
+                self.resetbuffer()
+                more = 0
 
 class TurtleProcess(multiprocessing.Process):
 
@@ -34,6 +86,10 @@ class TurtleProcess(multiprocessing.Process):
 
         self.input_queue=multiprocessing.Queue()
         self.output_queue=multiprocessing.Queue()
+        self.runsource_return_queue=multiprocessing.Queue()
+
+
+
         self.turtle_queue=multiprocessing.Queue()
 
         """
@@ -111,7 +167,9 @@ class TurtleProcess(multiprocessing.Process):
         """
 
 
-        console=MyConsole(read=self.input_queue.get,write=self.output_queue.put,locals=locals_for_console)
+        console=MyConsole(read=self.input_queue.get,write=self.output_queue.put,
+                          runsource_return_queue=self.runsource_return_queue,
+                          locals=locals_for_console)
         #console=wx.py.interpreter.Interpreter
         console.interact()
         """
