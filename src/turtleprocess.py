@@ -14,7 +14,7 @@ import wx.py.interpreter
 class MyConsole(code.InteractiveConsole):
     def __init__(self,read=None,write=None,runsource_return_queue=None,*args,**kwargs):
         code.InteractiveConsole.__init__(self,*args,**kwargs)
-        self.read=read
+        self.readfunc=read
         self.write=write
         self.runsource_return_queue=runsource_return_queue
         if read is None or write is None:
@@ -22,10 +22,16 @@ class MyConsole(code.InteractiveConsole):
 
     def raw_input(self,prompt):
         self.write(prompt)
-        return self.read()
+        return self.readfunc()
 
     def write(self,output):
-        return self.write(output)
+        print(output); sys.stdout.flush()
+
+        return self.writefunc(output)
+
+    def showsyntaxerror(self,*args,**kwargs):
+        print("Showing syntax error"); sys.stdout.flush()
+        return code.InteractiveConsole.showsyntaxerror(self,*args,**kwargs)
 
     def interact(self, banner=None):
         """Closely emulate the interactive Python console.
@@ -70,6 +76,7 @@ class MyConsole(code.InteractiveConsole):
                     self.write("\n")
                     break
                 else:
+                    print(line.__repr__()); sys.stdout.flush()
                     more = self.push(line)
                     self.runsource_return_queue.put(more)
             except KeyboardInterrupt:
