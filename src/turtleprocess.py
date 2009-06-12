@@ -33,6 +33,50 @@ class MyConsole(code.InteractiveConsole):
         print("Showing syntax error"); sys.stdout.flush()
         return code.InteractiveConsole.showsyntaxerror(self,*args,**kwargs)
 
+    def runsource(self, source, filename="<input>", symbol="single"):
+        """Compile and run some source in the interpreter.
+
+        Arguments are as for compile_command().
+
+        One several things can happen:
+
+        1) The input is incorrect; compile_command() raised an
+        exception (SyntaxError or OverflowError).  A syntax traceback
+        will be printed by calling the showsyntaxerror() method.
+
+        2) The input is incomplete, and more input is required;
+        compile_command() returned None.  Nothing happens.
+
+        3) The input is complete; compile_command() returned a code
+        object.  The code is executed by calling self.runcode() (which
+        also handles run-time exceptions, except for SystemExit).
+
+        The return value is True in case 2, False in the other cases (unless
+        an exception is raised).  The return value can be used to
+        decide whether to use sys.ps1 or sys.ps2 to prompt the next
+        line.
+
+        """
+        try:
+            code = self.compile(source, filename, symbol)
+        except (OverflowError, SyntaxError, ValueError):
+            # Case 1
+            self.showsyntaxerror(filename)
+
+            self.runsource_return_queue.put(False)
+            return False
+
+        if code is None:
+            # Case 2
+
+            self.runsource_return_queue.put(True)
+            return True
+
+        # Case 3
+        self.runsource_return_queue.put(False)
+        self.runcode(code)
+        return False
+
     def interact(self, banner=None):
         """Closely emulate the interactive Python console.
 
@@ -78,7 +122,6 @@ class MyConsole(code.InteractiveConsole):
                 else:
                     print(line.__repr__()); sys.stdout.flush()
                     more = self.push(line)
-                    self.runsource_return_queue.put(more)
             except KeyboardInterrupt:
                 self.write("\nKeyboardInterrupt\n")
                 self.resetbuffer()
