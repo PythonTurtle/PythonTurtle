@@ -4,6 +4,7 @@ import code
 import copy
 import math
 import time
+import traceback
 
 from turtle import *
 from vector import Vector
@@ -15,7 +16,7 @@ class MyConsole(code.InteractiveConsole):
     def __init__(self,read=None,write=None,runsource_return_queue=None,*args,**kwargs):
         code.InteractiveConsole.__init__(self,*args,**kwargs)
         self.readfunc=read
-        self.write=write
+        self.writefunc=write
         self.runsource_return_queue=runsource_return_queue
         if read is None or write is None:
             raise NotImplementedError
@@ -25,13 +26,47 @@ class MyConsole(code.InteractiveConsole):
         return self.readfunc()
 
     def write(self,output):
-        print(output); sys.stdout.flush()
-
+        self.log(output)
         return self.writefunc(output)
 
+    def log(self,output):
+        print(output); sys.stdout.flush()
+
+    def showsyntaxerror(self, filename=None):
+        """Display the syntax error that just occurred.
+
+        This doesn't display a stack trace because there isn't one.
+
+        If a filename is given, it is stuffed in the exception instead
+        of what was there before (because Python's parser always uses
+        "<string>" when reading from a string).
+
+        The output is written by self.write(), below.
+
+        """
+        type, value, sys.last_traceback = sys.exc_info()
+        sys.last_type = type
+        sys.last_value = value
+        if filename and type is SyntaxError:
+            # Work hard to stuff the correct filename in the exception
+            try:
+                msg, (dummy_filename, lineno, offset, line) = value
+            except:
+                # Not the format we expect; leave it alone
+                pass
+            else:
+                # Stuff in the right filename
+                value = SyntaxError(msg, (filename, lineno, offset, line))
+                sys.last_value = value
+        list = traceback.format_exception_only(type, value)
+
+        map(self.write, list)
+
+    """
     def showsyntaxerror(self,*args,**kwargs):
         print("Showing syntax error"); sys.stdout.flush()
         return code.InteractiveConsole.showsyntaxerror(self,*args,**kwargs)
+    """
 
     def runsource(self, source, filename="<input>", symbol="single"):
         """Compile and run some source in the interpreter.
@@ -120,7 +155,7 @@ class MyConsole(code.InteractiveConsole):
                     self.write("\n")
                     break
                 else:
-                    print(line.__repr__()); sys.stdout.flush()
+                    #self.log(line.__repr__())
                     more = self.push(line)
             except KeyboardInterrupt:
                 self.write("\nKeyboardInterrupt\n")
@@ -207,6 +242,7 @@ class TurtleProcess(multiprocessing.Process):
             self.send_report()
 
 
+        console_crap=[]
         locals_for_console=locals() # Maybe make sure there's no junk?
         #locals_for_console.update({"go":go})
 
@@ -220,7 +256,7 @@ class TurtleProcess(multiprocessing.Process):
         console=MyConsole(read=self.input_queue.get,write=self.output_queue.put,
                           runsource_return_queue=self.runsource_return_queue,
                           locals=locals_for_console)
-        #console=wx.py.interpreter.Interpreter
+        console_crap.append(console)
         console.interact()
         """
         while True:
