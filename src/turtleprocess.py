@@ -32,6 +32,23 @@ class MyConsole(code.InteractiveConsole):
     def log(self,output):
         print(output); sys.stdout.flush()
 
+    def push(self, command):
+        """Push a line to the interpreter.
+
+        The line should not have a trailing newline; it may have
+        internal newlines.  The line is appended to a buffer and the
+        interpreter's runsource() method is called with the
+        concatenated contents of the buffer as source.  If this
+        indicates that the command was executed or invalid, the buffer
+        is reset; otherwise, the command is incomplete, and the buffer
+        is left as it was after the line was appended.  The return
+        value is 1 if more input is required, 0 if the line was dealt
+        with in some way (this is the same as runsource()).
+
+        """
+        more = self.runsource(command, self.filename)
+        return more
+
     def showsyntaxerror(self, filename=None):
         """Display the syntax error that just occurred.
 

@@ -43,10 +43,8 @@ class MyInterpreter(wxinterpreter.Interpreter):
                         command=command, more=more, source=source)
         return more
         """
-        print("Command is: ",command)
         self.process.input_queue.put(command)#+"\n")
         more=self.more=self.process.runsource_return_queue.get()
-        print(more)
         return more
 
 
