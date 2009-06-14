@@ -8,25 +8,33 @@ import traceback
 
 from turtle import *
 from vector import Vector
-
+from wx.py.pseudo import PseudoFileIn, PseudoFileOut, PseudoFileErr
 
 import wx.py.interpreter
 
 class MyConsole(code.InteractiveConsole):
-    def __init__(self,read=None,write=None,runsource_return_queue=None,*args,**kwargs):
+    def __init__(self,read=None,write=None,runsource_return_queue=None,
+                 runcode_finished_queue=None,*args,**kwargs):
         code.InteractiveConsole.__init__(self,*args,**kwargs)
         self.readfunc=read
         self.writefunc=write
+
+        self.stdin=PseudoFileIn(read)
+        self.stdout=PseudoFileOut(write)
+        self.stderr=PseudoFileErr(write)
+
+
         self.runsource_return_queue=runsource_return_queue
+        self.runcode_finished_queue=runcode_finished_queue
         if read is None or write is None:
             raise NotImplementedError
 
-    def raw_input(self,prompt):
-        self.write(prompt)
+    def raw_input(self,prompt=None):
+        if prompt: self.write(prompt)
         return self.readfunc()
 
     def write(self,output):
-        self.log(output)
+        #self.log(output)
         return self.writefunc(output)
 
     def log(self,output):
@@ -116,17 +124,30 @@ class MyConsole(code.InteractiveConsole):
             self.showsyntaxerror(filename)
 
             self.runsource_return_queue.put(False)
+            self.runcode_finished_queue.put(None)
             return False
 
         if code is None:
             # Case 2
 
             self.runsource_return_queue.put(True)
+            self.runcode_finished_queue.put(None)
             return True
 
         # Case 3
         self.runsource_return_queue.put(False)
-        self.runcode(code)
+
+        stdin, stdout, stderr = sys.stdin, sys.stdout, sys.stderr
+        sys.stdin, sys.stdout, sys.stderr = self.stdin, self.stdout, self.stderr
+
+        try:
+            self.runcode(code)
+        finally:
+            if sys.stdin==self.stdin: sys.stdin=stdin
+            if sys.stdout==self.stdout: sys.stdout=stdout
+            if sys.stderr==self.stderr: sys.stderr=stderr
+
+        self.runcode_finished_queue.put(None)
         return False
 
     def interact(self, banner=None):
@@ -163,7 +184,7 @@ class MyConsole(code.InteractiveConsole):
                 else:
                     prompt = sys.ps1
                 try:
-                    line = self.raw_input(prompt)
+                    line = self.raw_input()#prompt)
                     # Can be None if sys.stdin was redefined
                     encoding = getattr(sys.stdin, "encoding", None)
                     if encoding and not isinstance(line, unicode):
@@ -189,6 +210,7 @@ class TurtleProcess(multiprocessing.Process):
         self.input_queue=multiprocessing.Queue()
         self.output_queue=multiprocessing.Queue()
         self.runsource_return_queue=multiprocessing.Queue()
+        self.runcode_finished_queue=multiprocessing.Queue()
 
 
 
@@ -214,7 +236,7 @@ class TurtleProcess(multiprocessing.Process):
             distance=copy.copy(abs(distance))
             distance_gone=0
             distance_per_frame=self.FRAME_TIME*self.turtle.SPEED
-            steps=math.ceil(distance/float(distance_per_frame))
+            steps=int(math.ceil(distance/float(distance_per_frame)))
             angle=from_my_angle(turtle.orientation)
             unit_vector=Vector((math.sin(angle),math.cos(angle)))*sign
             step=distance_per_frame*unit_vector
@@ -237,7 +259,7 @@ class TurtleProcess(multiprocessing.Process):
             angle=copy.copy(abs(angle))
             angle_gone=0
             angle_per_frame=self.FRAME_TIME*self.turtle.ANGULAR_SPEED
-            steps=math.ceil(angle/float(angle_per_frame))
+            steps=int(math.ceil(angle/float(angle_per_frame)))
             step=angle_per_frame*sign
             for i in range(steps-1):
                 turtle.orientation+=step
@@ -272,9 +294,10 @@ class TurtleProcess(multiprocessing.Process):
 
         console=MyConsole(read=self.input_queue.get,write=self.output_queue.put,
                           runsource_return_queue=self.runsource_return_queue,
+                          runcode_finished_queue=self.runcode_finished_queue,
                           locals=locals_for_console)
         console_crap.append(console)
-        console.interact()
+        console.interact(banner="")
         """
         while True:
             input=self.input_queue.get()
