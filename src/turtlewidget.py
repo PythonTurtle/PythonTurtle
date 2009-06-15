@@ -15,7 +15,7 @@ import time
 
 from turtle import *
 
-import dumpqueue
+import misc.dumpqueue as dumpqueue
 
 
 

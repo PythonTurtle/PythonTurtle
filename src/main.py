@@ -4,7 +4,6 @@ import shelltoprocess
 import turtlewidget
 import vector
 import turtleprocess
-import dumpqueue
 
 class ApplicationWindow(wx.Frame):
     """
