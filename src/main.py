@@ -1,6 +1,6 @@
 import wx
 
-import customshell
+import shelltoprocess
 import turtlewidget
 import vector
 import turtleprocess
@@ -35,7 +35,7 @@ class ApplicationWindow(wx.Frame):
                                  'turtle':turtle_widget.turtle})
         """
 
-        shell=self.shell=customshell.CustomShell(self.splitter,
+        shell=self.shell=shelltoprocess.Shell(self.splitter,
                                                  process=turtle_process)
 
         splitter.SplitHorizontally(turtle_widget,shell,splitter.GetSize()[1]-250)
