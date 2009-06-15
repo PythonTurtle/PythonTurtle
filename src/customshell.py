@@ -1,5 +1,5 @@
 import wx
-import wx.py.shell as wxshell
+import shelltoprocess.shell as wxshell
 import wx.py.interpreter as wxinterpreter
 import sys
 from code import InteractiveInterpreter
