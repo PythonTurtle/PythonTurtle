@@ -6,6 +6,8 @@ import math
 import time
 import traceback
 
+import shelltoprocess
+
 from turtle import *
 from vector import Vector
 
@@ -18,14 +20,8 @@ class TurtleProcess(multiprocessing.Process):
 
         self.Daemon=True
 
-        self.input_queue=multiprocessing.Queue()
-        self.output_queue=multiprocessing.Queue()
-        self.runsource_return_queue=multiprocessing.Queue()
-        self.runcode_finished_queue=multiprocessing.Queue()
-
-
-
         self.turtle_queue=multiprocessing.Queue()
+        self.queue_pack=shelltoprocess.make_queue_pack()
 
         """
         Constants:
@@ -103,15 +99,19 @@ class TurtleProcess(multiprocessing.Process):
         """
 
 
-        console=shelltoprocess.Console(read=self.input_queue.get,write=self.output_queue.put,
-                          runsource_return_queue=self.runsource_return_queue,
-                          runcode_finished_queue=self.runcode_finished_queue,
-                          locals=locals_for_console)
+        console = self.console = \
+            shelltoprocess.Console(queue_pack=self.queue_pack,locals=locals_for_console)
+
         console_crap.append(console)
-        console.interact(banner="")
-        """
-        while True:
-            input=self.input_queue.get()
-            exec(input)
-        """
-        pass
+        console.interact()
+
+
+
+
+
+
+
+
+
+
+

@@ -2,12 +2,15 @@ import wx
 import forkedpyshell
 import wx.py.interpreter as wxinterpreter
 
-class MyInterpreter(wxinterpreter.Interpreter):
+class Interpreter(wxinterpreter.Interpreter):
     def __init__(self,*args,**kwargs):
 
-        assert kwargs.has_key("process")
-        self.process=kwargs["process"]
-        del kwargs["process"]
+        assert kwargs.has_key("queue_pack")
+        queue_pack=kwargs["queue_pack"]
+        del kwargs["queue_pack"]
+
+        self.input_queue, self.output_queue, \
+            self.runcode_finished_queue, self.runsource_return_queue = queue_pack
 
 
         wxinterpreter.Interpreter.__init__(self,*args,**kwargs)
@@ -41,8 +44,8 @@ class MyInterpreter(wxinterpreter.Interpreter):
                         command=command, more=more, source=source)
         return more
         """
-        self.process.input_queue.put(command)#+"\n")
-        more=self.more=self.process.runsource_return_queue.get()
+        self.input_queue.put(command)#+"\n")
+        more=self.more=self.runsource_return_queue.get()
         return more
 
 
@@ -71,6 +74,8 @@ class MyInterpreter(wxinterpreter.Interpreter):
     """
 
 class Shell(forkedpyshell.Shell):
-    def __init__(self,parent,process,*args,**kwargs):
-        forkedpyshell.Shell.__init__(self,parent,*args,process=process,
-                               InterpClass=MyInterpreter,**kwargs)
+    def __init__(self,parent,*args,**kwargs):
+        forkedpyshell.Shell.__init__(self,parent,*args,
+                               InterpClass=Interpreter,
+                               process_shell=True,
+                               **kwargs)

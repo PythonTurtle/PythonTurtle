@@ -1,24 +1,26 @@
 import sys
 import code
+import traceback
 from wx.py.pseudo import PseudoFileIn, PseudoFileOut, PseudoFileErr
+
+import multiprocessing
 
 
 class Console(code.InteractiveConsole):
-    def __init__(self,read=None,write=None,runsource_return_queue=None,
-                 runcode_finished_queue=None,*args,**kwargs):
+    def __init__(self,queue_pack,*args,**kwargs):
         code.InteractiveConsole.__init__(self,*args,**kwargs)
-        self.readfunc=read
-        self.writefunc=write
 
-        self.stdin=PseudoFileIn(read)
-        self.stdout=PseudoFileOut(write)
-        self.stderr=PseudoFileErr(write)
+        self.input_queue, self.output_queue, \
+            self.runcode_finished_queue, self.runsource_return_queue = queue_pack
+
+        self.readfunc=self.input_queue.get
+        self.writefunc=self.output_queue.put
+
+        self.stdin=PseudoFileIn(self.readfunc)
+        self.stdout=PseudoFileOut(self.writefunc)
+        self.stderr=PseudoFileErr(self.writefunc)
 
 
-        self.runsource_return_queue=runsource_return_queue
-        self.runcode_finished_queue=runcode_finished_queue
-        if read is None or write is None:
-            raise NotImplementedError
 
     def raw_input(self,prompt=None):
         if prompt: self.write(prompt)
@@ -161,12 +163,14 @@ class Console(code.InteractiveConsole):
         except AttributeError:
             sys.ps2 = "... "
         cprt = 'Type "help", "copyright", "credits" or "license" for more information.'
+        """
         if banner is None:
             self.write("Python %s on %s\n%s\n(%s)\n" %
                        (sys.version, sys.platform, cprt,
                         self.__class__.__name__))
         else:
             self.write("%s\n" % str(banner))
+        """
         more = 0
         while 1:
             try:

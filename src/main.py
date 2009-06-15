@@ -4,6 +4,7 @@ import shelltoprocess
 import turtlewidget
 import vector
 import turtleprocess
+import multiprocessing
 
 class ApplicationWindow(wx.Frame):
     """
@@ -19,23 +20,8 @@ class ApplicationWindow(wx.Frame):
         splitter=self.splitter = wx.SplitterWindow(self, style=wx.SP_LIVE_UPDATE)
         turtle_widget=self.turtle_widget=turtlewidget.TurtleWidget(self.splitter,turtle_queue)
 
-        """
-        locals_for_shell=locals()
-        locals_for_shell.update({'i': turtle_process.input_queue,
-                                 'o': turtle_process.output_queue,
-                                 'dump_queue': dumpqueue.dump_queue})
-        """
-        """
-        locals_for_shell.update({'go':turtle_widget.go,'rotate':turtle_widget.rotate,
-                                 'visible':turtle_widget.visible,'invisible':turtle_widget.invisible,
-                                 'pen_up':turtle_widget.pen_up,'pen_down':turtle_widget.pen_down,
-                                 'width':turtle_widget.width,
-
-                                 'turtle':turtle_widget.turtle})
-        """
-
         shell=self.shell=shelltoprocess.Shell(self.splitter,
-                                                 process=turtle_process)
+                                              queue_pack=turtle_process.queue_pack)
 
         splitter.SplitHorizontally(turtle_widget,shell,splitter.GetSize()[1]-250)
         splitter.SetSashGravity(1)
@@ -52,6 +38,7 @@ class ApplicationWindow(wx.Frame):
 
 
 if __name__=="__main__":
+    multiprocessing.freeze_support()
     app = wx.PySimpleApp()
     my_app_win=ApplicationWindow(None,-1,"PythonTurtle",size=(600,600))
     app.MainLoop()

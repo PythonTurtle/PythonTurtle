@@ -244,7 +244,9 @@ class Shell(editwindow.EditWindow):
 
         self.idle_block=False
 
-        self.process_shell=kwds.has_key("process")
+        self.process_shell=kwds.has_key("process_shell")
+        if self.process_shell: del kwds["process_shell"]
+
         self.waiting_for_process=False
 
 
@@ -377,7 +379,7 @@ class Shell(editwindow.EditWindow):
 
             try:
                 while True:
-                    output=self.interp.process.output_queue.get(block=False)
+                    output=self.interp.output_queue.get(block=False)
                     self.write(output)
             except Queue.Empty:
                 pass
@@ -388,7 +390,7 @@ class Shell(editwindow.EditWindow):
             """
             if self.waiting_for_process:
                 try:
-                    finished=self.interp.process.runcode_finished_queue.get(block=False)
+                    finished=self.interp.runcode_finished_queue.get(block=False)
                     self.waiting_for_process=False
                     self.prompt()
                 except Queue.Empty:
