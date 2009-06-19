@@ -4,7 +4,10 @@ import code
 import copy
 import math
 import time
+import smartsleep
 import traceback
+
+#time.sleep=lambda x:x
 
 import shelltoprocess
 
@@ -51,17 +54,17 @@ class TurtleProcess(multiprocessing.Process):
             unit_vector=Vector((math.sin(angle),math.cos(angle)))*sign
             step=distance_per_frame*unit_vector
             for i in range(steps-1):
-                turtle.pos+=step
-                time.sleep(self.FRAME_TIME)
-                self.send_report()
-                distance_gone+=distance_per_frame
+                with smartsleep.Sleeper(self.FRAME_TIME):
+                    turtle.pos+=step
+                    self.send_report()
+                    distance_gone+=distance_per_frame
 
             last_distance=distance-distance_gone
             last_sleep=last_distance/float(self.turtle.SPEED)
-            last_step=unit_vector*last_distance
-            turtle.pos+=last_step
-            time.sleep(last_sleep)
-            self.send_report()
+            with smartsleep.Sleeper(last_sleep):
+                last_step=unit_vector*last_distance
+                turtle.pos+=last_step
+                self.send_report()
 
         def turn(angle):
             if angle==0: return
@@ -72,17 +75,17 @@ class TurtleProcess(multiprocessing.Process):
             steps=int(math.ceil(angle/float(angle_per_frame)))
             step=angle_per_frame*sign
             for i in range(steps-1):
-                turtle.orientation+=step
-                time.sleep(self.FRAME_TIME)
-                self.send_report()
-                angle_gone+=angle_per_frame
+                with smartsleep.Sleeper(self.FRAME_TIME):
+                    turtle.orientation+=step
+                    self.send_report()
+                    angle_gone+=angle_per_frame
 
             last_angle=angle-angle_gone
             last_sleep=last_angle/float(self.turtle.ANGULAR_SPEED)
-            last_step=last_angle*sign
-            turtle.orientation+=last_step
-            time.sleep(last_sleep)
-            self.send_report()
+            with smartsleep.Sleeper(last_sleep):
+                last_step=last_angle*sign
+                turtle.orientation+=last_step
+                self.send_report()
 
         def color(color):
             #if not valid_color(color):
@@ -106,7 +109,11 @@ class TurtleProcess(multiprocessing.Process):
             shelltoprocess.Console(queue_pack=self.queue_pack,locals=locals_for_console)
 
         console_thing.append(console)
+
+        #import cProfile; cProfile.runctx("console.interact()", globals(), locals())
         console.interact()
+        sys.stdout.flush()
+
 
 
 
