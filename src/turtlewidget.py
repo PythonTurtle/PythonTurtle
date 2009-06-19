@@ -49,6 +49,7 @@ class TurtleWidget(wx.Panel):
 
             self.turtle=turtle_report
         del dc
+        if turtle_reports!=[]: self.Refresh()
 
 
         turtle=self.turtle
@@ -73,13 +74,13 @@ class TurtleWidget(wx.Panel):
 
     def on_idle(self,e=None):
 
-        if self.idle_block==True:
-            return
+        if self.idle_block==True: return
 
-        self.Refresh()
+        if self.turtle_queue.qsize()>0: self.Refresh()
 
         wx.CallLater(30,self._clear_idle_block_and_do) # Should make the delay customizable?
         self.idle_block=True
+
 
     def _clear_idle_block_and_do(self):
         self.idle_block=False

@@ -13,6 +13,8 @@ from vector import Vector
 
 import shelltoprocess
 
+def log(text): print(text); sys.stdout.flush()
+
 class TurtleProcess(multiprocessing.Process):
 
     def __init__(self,*args,**kwargs):
@@ -33,6 +35,7 @@ class TurtleProcess(multiprocessing.Process):
 
     def send_report(self):
         self.turtle_queue.put(self.turtle)
+        #log("Turtle report sent")
 
     def run(self):
         turtle=self.turtle=Turtle()
@@ -88,7 +91,7 @@ class TurtleProcess(multiprocessing.Process):
             self.send_report()
 
 
-        console_crap=[]
+        console_thing=[]
         locals_for_console=locals() # Maybe make sure there's no junk?
         #locals_for_console.update({"go":go})
 
@@ -102,11 +105,8 @@ class TurtleProcess(multiprocessing.Process):
         console = self.console = \
             shelltoprocess.Console(queue_pack=self.queue_pack,locals=locals_for_console)
 
-        console_crap.append(console)
+        console_thing.append(console)
         console.interact()
-
-
-
 
 
 

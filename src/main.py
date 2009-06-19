@@ -6,6 +6,9 @@ import vector
 import turtleprocess
 import multiprocessing
 
+import psyco; psyco.full()
+
+
 class ApplicationWindow(wx.Frame):
     """
     """
@@ -41,4 +44,5 @@ if __name__=="__main__":
     multiprocessing.freeze_support()
     app = wx.PySimpleApp()
     my_app_win=ApplicationWindow(None,-1,"PythonTurtle",size=(600,600))
+    #import cProfile; cProfile.run("app.MainLoop()")
     app.MainLoop()
