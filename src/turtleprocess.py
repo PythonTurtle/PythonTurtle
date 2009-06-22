@@ -24,7 +24,8 @@ class TurtleProcess(multiprocessing.Process):
     def __init__(self,*args,**kwargs):
         multiprocessing.Process.__init__(self,*args,**kwargs)
 
-        self.Daemon=True
+        self.daemon=True
+
 
         self.turtle_queue=multiprocessing.Queue()
         self.queue_pack=shelltoprocess.make_queue_pack()
@@ -42,6 +43,8 @@ class TurtleProcess(multiprocessing.Process):
         #log("Turtle report sent")
 
     def run(self):
+
+
         turtle=self.turtle=Turtle()
 
         def go(distance):
