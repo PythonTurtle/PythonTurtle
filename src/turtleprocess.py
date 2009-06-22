@@ -6,6 +6,7 @@ import math
 import time
 import smartsleep
 import traceback
+import misc.angles as angles
 
 #time.sleep=lambda x:x
 
@@ -16,7 +17,7 @@ from vector import Vector
 
 import shelltoprocess
 
-def log(text): print(text); sys.stdout.flush()
+
 
 class TurtleProcess(multiprocessing.Process):
 
@@ -92,6 +93,18 @@ class TurtleProcess(multiprocessing.Process):
             #    raise StandardError(color+" is not a valid color.")
             turtle.color=color
             self.send_report()
+
+        def width(width):
+            assert 0<width
+            turtle.width=width
+            self.send_report()
+
+        def sin(angle):
+            return math.sin(angles.deg_to_rad(angle))
+
+        def cos(angle):
+            return math.cos(angles.deg_to_rad(angle))
+
 
 
         console_thing=[]

@@ -1,5 +1,8 @@
 import time
 
+import sys
+def log(text): print(text); sys.stdout.flush()
+
 class Sleeper(object):
     def __init__(self,interval):
         self.interval=interval
@@ -12,8 +15,10 @@ class Sleeper(object):
         time_now=time.time()
         interval_gone=time_now-self.starting_time
         if interval_gone>=self.interval:
-            log("didn't sleep")
+            #log("didn't sleep")
             return
         else:
-            log("slept")
+            #log("slept")
             time.sleep(self.interval-interval_gone)
+
+

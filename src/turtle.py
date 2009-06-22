@@ -1,12 +1,9 @@
 from vector import Vector
+from misc.angles import *
 import wx
-import math
 
 BITMAP_SIZE=Vector((2000,1200))
 origin=BITMAP_SIZE/2.0
-
-deg_to_rad=lambda deg: (deg*math.pi)/180
-rad_to_deg=lambda rad: (rad/math.pi)*180
 
 to_my_angle=lambda angle: rad_to_deg(-angle)-180
 from_my_angle=lambda angle: deg_to_rad(-angle+180)
