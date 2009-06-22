@@ -178,6 +178,7 @@ class TurtleProcess(multiprocessing.Process):
             return math.cos(angles.deg_to_rad(angle))
 
 
+
         locals_for_console={"go": go, "turn": turn, "color": color,
                             "width": width, "visible": visible,
                             "invisible": invisible, "pen_down": pen_down,

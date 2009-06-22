@@ -5,6 +5,7 @@ import turtlewidget
 import vector
 import turtleprocess
 import multiprocessing
+from misc.stringsaver import s2i,i2s
 
 import psyco; psyco.full()
 
@@ -19,6 +20,8 @@ class ApplicationWindow(wx.Frame):
         turtle_process=self.turtle_process=turtleprocess.TurtleProcess()
         turtle_process.start()
         turtle_queue=self.turtle_queue=turtle_process.turtle_queue
+
+        self.init_menu_bar()
 
         splitter=self.splitter = wx.SplitterWindow(self, style=wx.SP_LIVE_UPDATE)
         turtle_widget=self.turtle_widget=turtlewidget.TurtleWidget(self.splitter,turtle_queue)
@@ -38,6 +41,25 @@ class ApplicationWindow(wx.Frame):
 
         self.shell.setFocus()
 
+    def init_menu_bar(self):
+
+        menu_bar = self.menu_bar = wx.MenuBar()
+
+        file = wx.Menu()
+        file.Append(s2i("Menu bar: Exit"), 'E&xit')
+
+        help = wx.Menu()
+        help.Append(s2i("Menu bar: Help"), '&Help')
+        help.AppendSeparator()
+        help.Append(s2i("Menu bar: About"), "&About...")
+
+        menu_bar.Append(file, '&File')
+        menu_bar.Append(help, '&Help')
+
+
+        #self.Bind(wx.EVT_MENU, self.OnQuit, id=ID_QUIT)
+
+        self.SetMenuBar(menu_bar)
 
 
 if __name__=="__main__":
