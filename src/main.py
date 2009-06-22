@@ -1,4 +1,5 @@
 import wx
+import wx.lib.buttons
 
 import shelltoprocess
 import turtlewidget
@@ -26,18 +27,47 @@ class ApplicationWindow(wx.Frame):
         splitter=self.splitter = wx.SplitterWindow(self, style=wx.SP_LIVE_UPDATE)
         turtle_widget=self.turtle_widget=turtlewidget.TurtleWidget(self.splitter,turtle_queue)
 
-        shell=self.shell=shelltoprocess.Shell(self.splitter,
+
+        bottom_sizer_panel = self.bottom_sizer_panel = wx.Panel(splitter)
+
+        shell=self.shell=shelltoprocess.Shell(bottom_sizer_panel,
                                               queue_pack=turtle_process.queue_pack)
 
-        splitter.SplitHorizontally(turtle_widget,shell,splitter.GetSize()[1]-250)
+        help_button = self.help_button = \
+            wx.lib.buttons.GenBitmapToggleButton(bottom_sizer_panel, -1, None)
+
+        self.Bind(wx.EVT_BUTTON, self.on_toggle_help, help_button)
+        bitmap_1 = wx.EmptyBitmap(100,100)
+        #mask = wx.Mask(bmp, wx.BLUE)
+        #bmp.SetMask(mask)
+        help_button.SetBitmapLabel(bitmap_1)
+        #bmp = images.Bulb2.GetBitmap()
+        #mask = wx.Mask(bmp, wx.BLUE)
+        #bmp.SetMask(mask)
+        #b.SetBitmapSelected(bmp)
+        help_button.SetInitialSize()
+
+        bottom_sizer = self.bottom_sizer = \
+            wx.BoxSizer(wx.HORIZONTAL)
+
+        bottom_sizer.Add(shell, 1, wx.EXPAND)
+        bottom_sizer.Add(help_button, 0)
+
+        bottom_sizer_panel.SetSizer(bottom_sizer)
+
+        splitter.SplitHorizontally(turtle_widget,bottom_sizer_panel,splitter.GetSize()[1]-250)
         splitter.SetSashGravity(1)
 
-        sizer=self.sizer=wx.BoxSizer(wx.VERTICAL)
+        sizer=self.sizer=wx.BoxSizer(wx.HORIZONTAL)
         sizer.Add(splitter,1,wx.EXPAND)
         self.SetSizer(sizer)
 
+
         self.Maximize()
+        self.Centre()
         self.Show()
+
+        #self.SetAutoLayout(1)
 
         self.shell.setFocus()
 
@@ -60,6 +90,9 @@ class ApplicationWindow(wx.Frame):
         #self.Bind(wx.EVT_MENU, self.OnQuit, id=ID_QUIT)
 
         self.SetMenuBar(menu_bar)
+
+    def on_toggle_help(self, event=None):
+        pass
 
 
 if __name__=="__main__":
