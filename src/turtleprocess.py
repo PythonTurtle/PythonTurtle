@@ -48,6 +48,10 @@ class TurtleProcess(multiprocessing.Process):
         turtle=self.turtle=Turtle()
 
         def go(distance):
+            """
+            Makes the turtle walk the specified distance. Use a negative number
+            to walk backwards.
+            """
             if distance==0: return
             sign=1 if distance>0 else -1
             distance=copy.copy(abs(distance))
@@ -71,6 +75,10 @@ class TurtleProcess(multiprocessing.Process):
                 self.send_report()
 
         def turn(angle):
+            """
+            Makes the turtle turn. Specify angle in degrees. A positive
+            number turns clockwise, a negative number turns counter-clockwise.
+            """
             if angle==0: return
             sign=1 if angle>0 else -1
             angle=copy.copy(abs(angle))
@@ -92,27 +100,91 @@ class TurtleProcess(multiprocessing.Process):
                 self.send_report()
 
         def color(color):
+            """
+            Sets the color of the turtle's pen. Specify a color as a string.
+
+            Examples:
+            color("white")
+            color("green")
+            color("#00FFCC")
+            """
             #if not valid_color(color):
             #    raise StandardError(color+" is not a valid color.")
             turtle.color=color
             self.send_report()
 
         def width(width):
+            """
+            Sets the width of the turtle's pen. Width must be a positive number.
+            """
             assert 0<width
             turtle.width=width
             self.send_report()
 
+        def visible(visible=True):
+            """
+            By default, makes the turtle visible. You may specify a boolean
+            value, e.g. visible(False) will make the turtle invisible.
+            """
+            turtle.visible=visible
+            self.send_report()
+
+        def invisible():
+            """
+            Makes the turtle invisible.
+            """
+            turtle.visible=False
+            self.send_report()
+
+        def pen_down(pen_down=True):
+            """
+            By default, puts the pen in the "down" position, making the turtle
+            leave a trail when walking. You may specify a boolean value, e.g.
+            pen_down(False) will put the pen in the "up" position.
+            """
+            turtle.pen_down=pen_down
+            self.send_report()
+
+        def pen_up():
+            """
+            Puts the pen in the "up" position, making the turtle not leave a
+            trail when walking.
+            """
+            turtle.pen_down=False
+            self.send_report()
+
+        def is_visible():
+            """
+            Returns whether the turtle is visible.
+            """
+            return turtle.visible
+
+        def is_pen_down():
+            """
+            Returns whether the pen is in the "down" position.
+            """
+            return turtle.pen_down
+
         def sin(angle):
+            """
+            Calculates sin, with the angle specified in degrees.
+            """
             return math.sin(angles.deg_to_rad(angle))
 
         def cos(angle):
+            """
+            Calculates cos, with the angle specified in degrees.
+            """
             return math.cos(angles.deg_to_rad(angle))
 
 
+        locals_for_console={"go": go, "turn": turn, "color": color,
+                            "width": width, "visible": visible,
+                            "invisible": invisible, "pen_down": pen_down,
+                            "pen_up": pen_up, "is_visible": is_visible,
+                            "is_pen_down": is_pen_down, "sin": sin, "cos": cos,
+                            "turtle": turtle}
 
-        console_thing=[]
-        locals_for_console=locals() # Maybe make sure there's no junk?
-        #locals_for_console.update({"go":go})
 
         """
         import wx; app=wx.App();
@@ -124,17 +196,8 @@ class TurtleProcess(multiprocessing.Process):
         console = self.console = \
             shelltoprocess.Console(queue_pack=self.queue_pack,locals=locals_for_console)
 
-        console_thing.append(console)
-
         #import cProfile; cProfile.runctx("console.interact()", globals(), locals())
         console.interact()
         sys.stdout.flush()
-
-
-
-
-
-
-
 
 

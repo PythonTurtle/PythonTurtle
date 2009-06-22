@@ -490,6 +490,10 @@ Platform: %s""" % \
         # Return (Enter) needs to be ignored in this handler.
         if key in [wx.WXK_RETURN, wx.WXK_NUMPAD_ENTER]:
             pass
+        else:
+            # Allow the normal event handling to take place.
+            event.Skip()
+        """
         elif key in self.autoCompleteKeys:
             # Usually the dot (period) key activates auto completion.
             # Get the command between the prompt and the cursor.  Add
@@ -514,6 +518,7 @@ Platform: %s""" % \
         else:
             # Allow the normal event handling to take place.
             event.Skip()
+        """
 
 
     def OnKeyDown(self, event):
@@ -539,7 +544,7 @@ Platform: %s""" % \
 
         if controlDown and shiftDown and key in (ord('F'), ord('f')):
             li = self.GetCurrentLine()
-            m = seodulelf.MarkerGet(li)
+            m = self.MarkerGet(li)
             if m & 1<<0:
                 startP = self.PositionFromLine(li)
                 self.MarkerDelete(li, 0)
@@ -595,7 +600,7 @@ Platform: %s""" % \
 
         # Complete Text (from already typed words)
         elif shiftDown and key in [wx.WXK_RETURN, wx.WXK_NUMPAD_ENTER]:
-            self.OnShowCompHistory()
+            pass #self.OnShowCompHistory()
 
         # Ctrl+Return (Ctrl+Enter) is used to insert a line break.
         elif controlDown and key in [wx.WXK_RETURN, wx.WXK_NUMPAD_ENTER]:
@@ -679,7 +684,7 @@ Platform: %s""" % \
 
         # manually invoke AutoComplete and Calltips
         elif controlDown and key == wx.WXK_SPACE:
-            self.OnCallTipAutoCompleteManually(shiftDown)
+            pass #self.OnCallTipAutoCompleteManually(shiftDown)
 
         # Paste from the clipboard, run commands.
         elif controlDown and shiftDown and key in (ord('V'), ord('v')):
