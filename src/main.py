@@ -106,10 +106,16 @@ class ApplicationWindow(wx.Frame):
             wx.Panel(parent=self)
 
         help_notebook = self.help_notebook = \
-            misc.notebookctrl.NotebookCtrl(parent=help_screen)
+            misc.notebookctrl.NotebookCtrl(parent=help_screen, id=-1)
 
-        help_closer_panel
+        help_closer_panel = wx.Panel(parent=help_screen)
         help_screen_sizer = wx.BoxSizer(wx.VERTICAL)
+        help_screen_sizer.Add(help_notebook, 1, wx.EXPAND)
+        help_screen_sizer.Add(help_closer_panel, 0, wx.EXPAND)
+        help_screen.SetSizer(help_screen_sizer)
+
+        #help_closer_button = wx.lib.buttons
+
 
 
 
