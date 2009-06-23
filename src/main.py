@@ -55,7 +55,9 @@ class ApplicationWindow(wx.Frame):
 
         bottom_sizer_panel.SetSizer(bottom_sizer)
 
-        splitter.SplitHorizontally(turtle_widget,bottom_sizer_panel,splitter.GetSize()[1]-250)
+        desired_shell_height=210
+
+        splitter.SplitHorizontally(turtle_widget,bottom_sizer_panel,-desired_shell_height)
         splitter.SetSashGravity(1)
 
         sizer=self.sizer=wx.BoxSizer(wx.HORIZONTAL)
@@ -63,9 +65,14 @@ class ApplicationWindow(wx.Frame):
         self.SetSizer(sizer)
 
 
-        self.Maximize()
+
+
         self.Centre()
+        self.Maximize()
         self.Show()
+
+        self.Layout()
+        splitter.SetSashPosition(-desired_shell_height)
 
         #self.SetAutoLayout(1)
 
