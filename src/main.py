@@ -7,6 +7,7 @@ import vector
 import turtleprocess
 import multiprocessing
 from misc.stringsaver import s2i,i2s
+import misc.notebookctrl
 
 import psyco; psyco.full()
 
@@ -17,6 +18,8 @@ class ApplicationWindow(wx.Frame):
     def __init__(self,*args,**keywords):
         wx.Frame.__init__(self,*args,**keywords)
         self.SetDoubleBuffered(True)
+
+        self.init_help_screen()
 
         turtle_process=self.turtle_process=turtleprocess.TurtleProcess()
         turtle_process.start()
@@ -97,6 +100,20 @@ class ApplicationWindow(wx.Frame):
         #self.Bind(wx.EVT_MENU, self.OnQuit, id=ID_QUIT)
 
         self.SetMenuBar(menu_bar)
+
+    def init_help_screen(self):
+        help_screen = self.help_screen = \
+            wx.Panel(parent=self)
+
+        help_notebook = self.help_notebook = \
+            misc.notebookctrl.NotebookCtrl(parent=help_screen)
+
+        help_closer_panel
+        help_screen_sizer = wx.BoxSizer(wx.VERTICAL)
+
+
+
+
 
     def on_toggle_help(self, event=None):
         pass
