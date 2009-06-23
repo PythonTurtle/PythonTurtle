@@ -102,11 +102,12 @@ class ApplicationWindow(wx.Frame):
         self.SetMenuBar(menu_bar)
 
     def init_help_screen(self):
+
         help_screen = self.help_screen = \
-            wx.Panel(parent=self)
+            wx.Panel(parent=self, size=(-1,-1))
 
         help_notebook = self.help_notebook = \
-            misc.notebookctrl.NotebookCtrl(parent=help_screen, id=-1)
+            misc.notebookctrl.NotebookCtrl(parent=help_screen, id=-1, style=misc.notebookctrl.NC_TOP)
 
         help_closer_panel = wx.Panel(parent=help_screen)
         help_screen_sizer = wx.BoxSizer(wx.VERTICAL)
@@ -114,7 +115,13 @@ class ApplicationWindow(wx.Frame):
         help_screen_sizer.Add(help_closer_panel, 0, wx.EXPAND)
         help_screen.SetSizer(help_screen_sizer)
 
-        #help_closer_button = wx.lib.buttons
+        closer_button_bitmap=wx.EmptyBitmap(500,30)
+
+        help_closer_button = \
+            wx.lib.buttons.GenBitmapButton(help_closer_panel, -1,
+                                           closer_button_bitmap)
+
+
 
 
 
