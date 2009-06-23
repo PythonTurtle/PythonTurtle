@@ -39,7 +39,7 @@ class ApplicationWindow(wx.Frame):
 
         help_button_bitmap=wx.EmptyBitmap(100,100)
         help_button = self.help_button = \
-            wx.lib.buttons.GenBitmapButton(bottom_sizer_panel, -1, None)
+            wx.lib.buttons.GenBitmapButton(bottom_sizer_panel, -1, help_button_bitmap)
 
         self.Bind(wx.EVT_BUTTON, self.show_help, help_button)
 
