@@ -18,6 +18,8 @@ class ApplicationWindow(wx.Frame):
         wx.Frame.__init__(self,*args,**keywords)
         self.SetDoubleBuffered(True)
 
+        #self.notebook=wx.Notebook()
+
         turtle_process=self.turtle_process=turtleprocess.TurtleProcess()
         turtle_process.start()
         turtle_queue=self.turtle_queue=turtle_process.turtle_queue
