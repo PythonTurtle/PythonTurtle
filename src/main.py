@@ -65,6 +65,9 @@ class ApplicationWindow(wx.Frame):
 
         sizer=self.sizer=wx.BoxSizer(wx.HORIZONTAL)
         sizer.Add(splitter,1,wx.EXPAND)
+        sizer.Add(self.help_screen, 1, wx.EXPAND)
+        sizer.Hide(self.help_screen)
+        sizer.Layout()
         self.SetSizer(sizer)
 
 
