@@ -37,9 +37,16 @@ class ApplicationWindow(wx.Frame):
         shell=self.shell=shelltoprocess.Shell(bottom_sizer_panel,
                                               queue_pack=turtle_process.queue_pack)
 
+        help_button_panel = self.help_button_panel = \
+            wx.Panel(parent=bottom_sizer_panel)
+
         help_button_bitmap=wx.EmptyBitmap(100,100)
         help_button = self.help_button = \
-            wx.lib.buttons.GenBitmapButton(bottom_sizer_panel, -1, help_button_bitmap)
+            wx.lib.buttons.GenBitmapButton(help_button_panel, -1, help_button_bitmap)
+        help_button_sizer = self.help_button_sizer = \
+            wx.BoxSizer(wx.VERTICAL)
+        help_button_sizer.Add(help_button, 1, wx.EXPAND)
+        help_button_panel.SetSizer(help_button_sizer)
 
         self.Bind(wx.EVT_BUTTON, self.show_help, help_button)
 
@@ -47,7 +54,7 @@ class ApplicationWindow(wx.Frame):
             wx.BoxSizer(wx.HORIZONTAL)
 
         bottom_sizer.Add(shell, 1, wx.EXPAND)
-        bottom_sizer.Add(help_button, 0)
+        bottom_sizer.Add(help_button_panel, 0, wx.EXPAND)
 
         bottom_sizer_panel.SetSizer(bottom_sizer)
 
@@ -127,6 +134,11 @@ class ApplicationWindow(wx.Frame):
         help_closer_button = self.help_closer_button = \
             wx.lib.buttons.GenBitmapButton(help_closer_panel, -1,
                                            closer_button_bitmap)
+        help_closer_sizer = self.help_closer_sizer = \
+            wx.BoxSizer(wx.HORIZONTAL)
+        help_closer_sizer.Add(help_closer_button, 1, wx.EXPAND)
+        help_closer_panel.SetSizer(help_closer_sizer)
+
 
         self.Bind(wx.EVT_BUTTON, self.hide_help, help_closer_button)
 
