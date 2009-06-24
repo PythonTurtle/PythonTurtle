@@ -136,19 +136,21 @@ class ApplicationWindow(wx.Frame):
 
 
 
-    def is_help_shown(self):
-        return self.help_screen.IsShown()
 
     def show_help(self, event=None):
-        #assert self.is_help_shown() is False
-        self.help_screen.Show(True)
+        self.help_shown=True
+        self.sizer.Show(self.help_screen)
+        self.sizer.Hide(self.splitter)
+        self.sizer.Layout()
 
     def hide_help(self, event=None):
-        #assert self.is_help_shown()
-        self.help_screen.Show(False)
+        self.help_shown=False
+        self.sizer.Hide(self.help_screen)
+        self.sizer.Show(self.splitter)
+        self.sizer.Layout()
 
     def toggle_help(self, event=None):
-        if self.is_help_shown():
+        if self.help_shown:
             self.hide_help()
         else:
             self.show_help()
