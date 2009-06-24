@@ -1,5 +1,6 @@
 import wx
 import wx.lib.buttons
+import wx.lib.scrolledpanel
 
 import shelltoprocess
 import turtlewidget
@@ -36,19 +37,11 @@ class ApplicationWindow(wx.Frame):
         shell=self.shell=shelltoprocess.Shell(bottom_sizer_panel,
                                               queue_pack=turtle_process.queue_pack)
 
+        help_button_bitmap=wx.EmptyBitmap(100,100)
         help_button = self.help_button = \
-            wx.lib.buttons.GenBitmapToggleButton(bottom_sizer_panel, -1, None)
+            wx.lib.buttons.GenBitmapButton(bottom_sizer_panel, -1, help_button_bitmap)
 
-        self.Bind(wx.EVT_BUTTON, self.on_toggle_help, help_button)
-        bitmap_1 = wx.EmptyBitmap(100,100)
-        #mask = wx.Mask(bmp, wx.BLUE)
-        #bmp.SetMask(mask)
-        help_button.SetBitmapLabel(bitmap_1)
-        #bmp = images.Bulb2.GetBitmap()
-        #mask = wx.Mask(bmp, wx.BLUE)
-        #bmp.SetMask(mask)
-        #b.SetBitmapSelected(bmp)
-        help_button.SetInitialSize()
+        self.Bind(wx.EVT_BUTTON, self.show_help, help_button)
 
         bottom_sizer = self.bottom_sizer = \
             wx.BoxSizer(wx.HORIZONTAL)
@@ -110,7 +103,18 @@ class ApplicationWindow(wx.Frame):
             wx.Panel(parent=self, size=(-1,-1))
 
         help_notebook = self.help_notebook = \
-            misc.notebookctrl.NotebookCtrl(parent=help_screen, id=-1, style=misc.notebookctrl.NC_TOP)
+            misc.notebookctrl.NotebookCtrl(parent=help_screen, id=-1, style=misc.notebookctrl.NC_BOTTOM)
+
+        # A dict that maps captions to help images.
+        self.help_images_dict={"Very Basic": "help_dummy.png",
+                               "Basic": "help_dummy.png"}
+
+
+        help_pages=[HelpPage(parent=help_notebook, bitmap=wx.Bitmap(bitmap_file), caption=caption) \
+                    for (caption, bitmap_file) in self.help_images_dict.iteritems()]
+
+        for page in help_pages:
+            help_notebook.AddPage(page, text=page.caption)
 
         help_closer_panel = wx.Panel(parent=help_screen)
         help_screen_sizer = wx.BoxSizer(wx.VERTICAL)
@@ -120,10 +124,11 @@ class ApplicationWindow(wx.Frame):
 
         closer_button_bitmap=wx.EmptyBitmap(500,30)
 
-        help_closer_button = \
+        help_closer_button = self.help_closer_button = \
             wx.lib.buttons.GenBitmapButton(help_closer_panel, -1,
                                            closer_button_bitmap)
 
+        self.Bind(wx.EVT_BUTTON, self.hide_help, help_closer_button)
 
 
 
@@ -131,8 +136,34 @@ class ApplicationWindow(wx.Frame):
 
 
 
-    def on_toggle_help(self, event=None):
-        pass
+    def is_help_shown(self):
+        return self.help_screen.IsShown()
+
+    def show_help(self, event=None):
+        #assert self.is_help_shown() is False
+        self.help_screen.Show(True)
+
+    def hide_help(self, event=None):
+        #assert self.is_help_shown()
+        self.help_screen.Show(False)
+
+    def toggle_help(self, event=None):
+        if self.is_help_shown():
+            self.hide_help()
+        else:
+            self.show_help()
+
+class HelpPage(wx.lib.scrolledpanel.ScrolledPanel):
+    def __init__(self, parent, bitmap, caption):
+        wx.lib.scrolledpanel.ScrolledPanel.__init__(self, parent=parent, id=-1)
+        self.SetupScrolling()
+        self.sizer=wx.BoxSizer(wx.VERTICAL)
+        self.static_bitmap=wx.StaticBitmap(self, -1, bitmap)
+        self.sizer.Add(self.static_bitmap, 1, wx.EXPAND)
+        self.SetSizer(self.sizer)
+        self.SetVirtualSize(self.static_bitmap.GetSize())
+        self.caption=caption
+
 
 
 if __name__=="__main__":
