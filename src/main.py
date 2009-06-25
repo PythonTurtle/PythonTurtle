@@ -27,6 +27,7 @@ class ApplicationWindow(wx.Frame):
         turtle_queue=self.turtle_queue=turtle_process.turtle_queue
 
         self.init_menu_bar()
+        self.init_about_dialog_info()
 
         splitter=self.splitter = wx.SplitterWindow(self, style=wx.SP_LIVE_UPDATE)
         turtle_widget=self.turtle_widget=turtlewidget.TurtleWidget(self.splitter,turtle_queue)
@@ -66,8 +67,7 @@ class ApplicationWindow(wx.Frame):
         sizer=self.sizer=wx.BoxSizer(wx.HORIZONTAL)
         sizer.Add(splitter,1,wx.EXPAND)
         sizer.Add(self.help_screen, 1, wx.EXPAND)
-        sizer.Hide(self.help_screen)
-        sizer.Layout()
+        self.hide_help()
         self.SetSizer(sizer)
 
 
@@ -90,11 +90,14 @@ class ApplicationWindow(wx.Frame):
 
         file = wx.Menu()
         file.Append(s2i("Menu bar: Exit"), 'E&xit')
+        self.Bind(wx.EVT_MENU, self.on_exit, id=s2i("Menu bar: Exit"))
 
         help = wx.Menu()
         help.Append(s2i("Menu bar: Help"), '&Help')
+        self.Bind(wx.EVT_MENU, self.toggle_help, id=s2i("Menu bar: Help"))
         help.AppendSeparator()
         help.Append(s2i("Menu bar: About"), "&About...")
+        self.Bind(wx.EVT_MENU, self.on_about, id=s2i("Menu bar: About"))
 
         menu_bar.Append(file, '&File')
         menu_bar.Append(help, '&Help')
@@ -114,15 +117,18 @@ class ApplicationWindow(wx.Frame):
 
         #theme=misc.notebookctrl.ThemeStyle()
         #theme.EnableAquaTheme()
-        help_notebook.ApplyTabTheme()#theme)
+        #help_notebook.ApplyTabTheme(theme)
 
         # A dict that maps captions to help images.
-        self.help_images_dict={"Very Basic": "help_dummy.png",
-                               "Basic": "help_dummy.png"}
+        self.help_images_list=[["Level 1", "help_dummy.png"],
+                               ["Level 2", "help_dummy.png"],
+                               ["Level 3", "help_dummy.png"],
+                               ["Level 4", "help_dummy.png"],
+                               ["Level 5", "help_dummy.png"]]
 
 
         help_pages=[HelpPage(parent=help_notebook, bitmap=wx.Bitmap(bitmap_file), caption=caption) \
-                    for (caption, bitmap_file) in self.help_images_dict.iteritems()]
+                    for [caption, bitmap_file] in self.help_images_list]
 
         for page in help_pages:
             help_notebook.AddPage(page, text=page.caption)
@@ -170,6 +176,30 @@ class ApplicationWindow(wx.Frame):
             self.hide_help()
         else:
             self.show_help()
+
+    def on_exit(self, event=None):
+        return self.Close()
+
+    def init_about_dialog_info(self):
+        info = self.about_dialog_info = \
+            wx.AboutDialogInfo()
+        description="""\
+        An educational environment for learning Python, suitable for beginners and children.
+        Inspired by LOGO.
+
+        Runs on Python 2.6, using wxPython, Psyco and py2exe.
+        """
+        info.SetCopyright("MIT License, (C) 2009 Ram Rachum (\"cool-RR\")")
+        info.SetDescription(description)
+        info.SetName("PythonTurtle")
+        info.SetWebSite("http://pythonturtle.com")
+
+
+    def on_about(self, event=None):
+        about_dialog=wx.AboutBox(self.about_dialog_info)
+
+
+        pass
 
 class HelpPage(wx.lib.scrolledpanel.ScrolledPanel):
     def __init__(self, parent, bitmap, caption):
