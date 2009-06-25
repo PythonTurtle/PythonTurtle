@@ -110,7 +110,11 @@ class ApplicationWindow(wx.Frame):
             wx.Panel(parent=self, size=(-1,-1))
 
         help_notebook = self.help_notebook = \
-            misc.notebookctrl.NotebookCtrl(parent=help_screen, id=-1, style=misc.notebookctrl.NC_BOTTOM)
+            misc.notebookctrl.NotebookCtrl(parent=help_screen, id=-1, style=misc.notebookctrl.NC_TOP)
+
+        #theme=misc.notebookctrl.ThemeStyle()
+        #theme.EnableAquaTheme()
+        help_notebook.ApplyTabTheme()#theme)
 
         # A dict that maps captions to help images.
         self.help_images_dict={"Very Basic": "help_dummy.png",
