@@ -103,8 +103,6 @@ class ApplicationWindow(wx.Frame):
         menu_bar.Append(help, '&Help')
 
 
-        #self.Bind(wx.EVT_MENU, self.OnQuit, id=ID_QUIT)
-
         self.SetMenuBar(menu_bar)
 
     def init_help_screen(self):
@@ -199,7 +197,6 @@ class ApplicationWindow(wx.Frame):
         about_dialog=wx.AboutBox(self.about_dialog_info)
 
 
-        pass
 
 class HelpPage(wx.lib.scrolledpanel.ScrolledPanel):
     def __init__(self, parent, bitmap, caption):
