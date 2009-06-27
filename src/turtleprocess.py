@@ -117,7 +117,7 @@ class TurtleProcess(multiprocessing.Process):
             """
             Sets the width of the turtle's pen. Width must be a positive number.
             """
-            assert 0<width
+            #assert 0<width
             turtle.width=width
             self.send_report()
 
