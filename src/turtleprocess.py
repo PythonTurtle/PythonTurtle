@@ -177,6 +177,16 @@ class TurtleProcess(multiprocessing.Process):
             """
             return math.cos(angles.deg_to_rad(angle))
 
+        def clear():
+            """
+            Clears the screen, making it all black again.
+            """
+            turtle.clear=True
+            self.send_report()
+            time.sleep(0.1)
+            turtle.clear=False
+            self.send_report()
+
 
 
         locals_for_console={"go": go, "turn": turn, "color": color,
@@ -184,7 +194,7 @@ class TurtleProcess(multiprocessing.Process):
                             "invisible": invisible, "pen_down": pen_down,
                             "pen_up": pen_up, "is_visible": is_visible,
                             "is_pen_down": is_pen_down, "sin": sin, "cos": cos,
-                            "turtle": turtle}
+                            "turtle": turtle, "clear": clear}
 
 
         """

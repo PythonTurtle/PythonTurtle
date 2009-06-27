@@ -19,6 +19,7 @@ class Turtle(object):
         self.width=3
         self.visible=True
         self.pen_down=True
+        self.clear=False
 
         self.SPEED=400.0 # Pixels per second
         self.ANGULAR_SPEED=360.0 # Degrees per second

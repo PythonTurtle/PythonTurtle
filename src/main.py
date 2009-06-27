@@ -117,7 +117,6 @@ class ApplicationWindow(wx.Frame):
         #theme.EnableAquaTheme()
         #help_notebook.ApplyTabTheme(theme)
 
-        # A dict that maps captions to help images.
         self.help_images_list=[["Level 1", "help_dummy.png"],
                                ["Level 2", "help_dummy.png"],
                                ["Level 3", "help_dummy.png"],

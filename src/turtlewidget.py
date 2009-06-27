@@ -43,9 +43,13 @@ class TurtleWidget(wx.Panel):
         turtle_reports=dumpqueue.dump_queue(self.turtle_queue)
         dc=wx.GCDC(wx.MemoryDC(self.bitmap))
         for turtle_report in turtle_reports:
-            if self.turtle.pen_down==True:
+            if self.turtle.pen_down is True:
                 dc.SetPen(self.turtle.give_pen())
                 dc.DrawLinePoint(from_my_pos(self.turtle.pos),from_my_pos(turtle_report.pos))
+            if turtle_report.clear is True:
+                brush=wx.Brush("black")
+                dc.SetBackground(brush)
+                dc.Clear()
 
             self.turtle=turtle_report
         del dc
