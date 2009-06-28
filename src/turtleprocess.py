@@ -45,7 +45,7 @@ class TurtleProcess(multiprocessing.Process):
     def run(self):
 
 
-        turtle=self.turtle=Turtle()
+        self.turtle=Turtle()
 
         def go(distance):
             """
@@ -58,12 +58,12 @@ class TurtleProcess(multiprocessing.Process):
             distance_gone=0
             distance_per_frame=self.FRAME_TIME*self.turtle.SPEED
             steps=int(math.ceil(distance/float(distance_per_frame)))
-            angle=from_my_angle(turtle.orientation)
+            angle=from_my_angle(self.turtle.orientation)
             unit_vector=Vector((math.sin(angle),math.cos(angle)))*sign
             step=distance_per_frame*unit_vector
             for i in range(steps-1):
                 with smartsleep.Sleeper(self.FRAME_TIME):
-                    turtle.pos+=step
+                    self.turtle.pos+=step
                     self.send_report()
                     distance_gone+=distance_per_frame
 
@@ -71,7 +71,7 @@ class TurtleProcess(multiprocessing.Process):
             last_sleep=last_distance/float(self.turtle.SPEED)
             with smartsleep.Sleeper(last_sleep):
                 last_step=unit_vector*last_distance
-                turtle.pos+=last_step
+                self.turtle.pos+=last_step
                 self.send_report()
 
         def turn(angle):
@@ -88,7 +88,7 @@ class TurtleProcess(multiprocessing.Process):
             step=angle_per_frame*sign
             for i in range(steps-1):
                 with smartsleep.Sleeper(self.FRAME_TIME):
-                    turtle.orientation+=step
+                    self.turtle.orientation+=step
                     self.send_report()
                     angle_gone+=angle_per_frame
 
@@ -96,7 +96,7 @@ class TurtleProcess(multiprocessing.Process):
             last_sleep=last_angle/float(self.turtle.ANGULAR_SPEED)
             with smartsleep.Sleeper(last_sleep):
                 last_step=last_angle*sign
-                turtle.orientation+=last_step
+                self.turtle.orientation+=last_step
                 self.send_report()
 
         def color(color):
@@ -110,7 +110,7 @@ class TurtleProcess(multiprocessing.Process):
             """
             #if not valid_color(color):
             #    raise StandardError(color+" is not a valid color.")
-            turtle.color=color
+            self.turtle.color=color
             self.send_report()
 
         def width(width):
@@ -118,7 +118,7 @@ class TurtleProcess(multiprocessing.Process):
             Sets the width of the turtle's pen. Width must be a positive number.
             """
             #assert 0<width
-            turtle.width=width
+            self.turtle.width=width
             self.send_report()
 
         def visible(visible=True):
@@ -126,14 +126,14 @@ class TurtleProcess(multiprocessing.Process):
             By default, makes the turtle visible. You may specify a boolean
             value, e.g. visible(False) will make the turtle invisible.
             """
-            turtle.visible=visible
+            self.turtle.visible=visible
             self.send_report()
 
         def invisible():
             """
             Makes the turtle invisible.
             """
-            turtle.visible=False
+            self.turtle.visible=False
             self.send_report()
 
         def pen_down(pen_down=True):
@@ -142,7 +142,7 @@ class TurtleProcess(multiprocessing.Process):
             leave a trail when walking. You may specify a boolean value, e.g.
             pen_down(False) will put the pen in the "up" position.
             """
-            turtle.pen_down=pen_down
+            self.turtle.pen_down=pen_down
             self.send_report()
 
         def pen_up():
@@ -150,20 +150,20 @@ class TurtleProcess(multiprocessing.Process):
             Puts the pen in the "up" position, making the turtle not leave a
             trail when walking.
             """
-            turtle.pen_down=False
+            self.turtle.pen_down=False
             self.send_report()
 
         def is_visible():
             """
             Returns whether the turtle is visible.
             """
-            return turtle.visible
+            return self.turtle.visible
 
         def is_pen_down():
             """
             Returns whether the pen is in the "down" position.
             """
-            return turtle.pen_down
+            return self.turtle.pen_down
 
         def sin(angle):
             """
@@ -181,20 +181,25 @@ class TurtleProcess(multiprocessing.Process):
             """
             Clears the screen, making it all black again.
             """
-            turtle.clear=True
+            self.turtle.clear=True
             self.send_report()
             time.sleep(0.1)
-            turtle.clear=False
+            self.turtle.clear=False
             self.send_report()
 
-
+        def reset():
+            """
+            Resets all the turtle's properties and clears the screen.
+            """
+            self.turtle = Turtle()
+            clear()
 
         locals_for_console={"go": go, "turn": turn, "color": color,
                             "width": width, "visible": visible,
                             "invisible": invisible, "pen_down": pen_down,
                             "pen_up": pen_up, "is_visible": is_visible,
                             "is_pen_down": is_pen_down, "sin": sin, "cos": cos,
-                            "turtle": turtle, "clear": clear}
+                            "turtle": self.turtle, "clear": clear, "reset": reset}
 
 
         """
