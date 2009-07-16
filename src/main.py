@@ -117,7 +117,7 @@ class ApplicationWindow(wx.Frame):
         #theme.EnableAquaTheme()
         #help_notebook.ApplyTabTheme(theme)
 
-        self.help_images_list=[["Level 1", "help_dummy.png"],
+        self.help_images_list=[["Level 1", "help1.png"],
                                ["Level 2", "help_dummy.png"],
                                ["Level 3", "help_dummy.png"],
                                ["Level 4", "help_dummy.png"],
