@@ -118,7 +118,7 @@ class ApplicationWindow(wx.Frame):
         #help_notebook.ApplyTabTheme(theme)
 
         self.help_images_list=[["Level 1", "help1.png"],
-                               ["Level 2", "help_dummy.png"],
+                               ["Level 2", "help2.png"],
                                ["Level 3", "help_dummy.png"],
                                ["Level 4", "help_dummy.png"],
                                ["Level 5", "help_dummy.png"]]
@@ -207,6 +207,20 @@ class HelpPage(wx.lib.scrolledpanel.ScrolledPanel):
         self.SetSizer(self.sizer)
         self.SetVirtualSize(self.static_bitmap.GetSize())
         self.caption=caption
+        self.Bind(wx.EVT_MOUSE_EVENTS, self.on_mouse_event)
+        #self.Bind(wx.EVT_IDLE, self.on_mouse_event)
+
+        """ For setting focus, for scrolling
+        self.texty=wx.TextCtrl(parent=self, id=-1)
+        self.sizer.Add(self.texty, 1, wx.EXPAND)
+        """
+
+    def on_mouse_event(self, event):
+        raise 3
+        if event.LeftddClick():
+            self.SetFocus()
+        #event.Skip()
+
 
 
 
