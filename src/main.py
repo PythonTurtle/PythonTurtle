@@ -207,7 +207,7 @@ class HelpPage(wx.lib.scrolledpanel.ScrolledPanel):
         self.SetSizer(self.sizer)
         self.SetVirtualSize(self.static_bitmap.GetSize())
         self.caption=caption
-        self.Bind(wx.EVT_MOUSE_EVENTS, self.on_mouse_event)
+        #self.Bind(wx.EVT_MOUSE_EVENTS, self.on_mouse_event)
         #self.Bind(wx.EVT_IDLE, self.on_mouse_event)
 
         """ For setting focus, for scrolling
