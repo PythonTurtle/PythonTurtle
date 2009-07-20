@@ -41,7 +41,7 @@ class ApplicationWindow(wx.Frame):
         help_button_panel = self.help_button_panel = \
             wx.Panel(parent=bottom_sizer_panel)
 
-        help_button_bitmap=wx.EmptyBitmap(100,100)
+        help_button_bitmap=wx.Bitmap("teach_me.png")
         help_button = self.help_button = \
             wx.lib.buttons.GenBitmapButton(help_button_panel, -1, help_button_bitmap)
         help_button_sizer = self.help_button_sizer = \
