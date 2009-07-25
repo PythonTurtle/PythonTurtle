@@ -20,6 +20,12 @@ class MyFrame(wx.Frame):
         #text_control=wx.TextCtrl(scrolled_panel, -1)
         #sizer.Add(text_control, wx.EXPAND, 0)
 
+        scrolled_panel.SetFocus()
+
+        def on_set_focus(event=None):
+            scrolled_panel.SetFocus()
+        scrolled_panel.Bind(wx.EVT_SET_FOCUS, on_set_focus)
+
         scrolled_panel.SetSizer(sizer)
 
         self.Show()

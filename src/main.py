@@ -1,6 +1,7 @@
 import wx
 import wx.lib.buttons
 import wx.lib.scrolledpanel
+from focusablescrolledpanel import FocusableScrolledPanel
 
 import shelltoprocess
 import turtlewidget
@@ -196,8 +197,9 @@ class ApplicationWindow(wx.Frame):
         about_dialog=wx.AboutBox(self.about_dialog_info)
 
 
-
-class HelpPage(wx.lib.scrolledpanel.ScrolledPanel):
+#thing=FocusableScrolledPanel
+thing=wx.lib.scrolledpanel.ScrolledPanel
+class HelpPage(thing):
     def __init__(self, parent, bitmap, caption):
         wx.lib.scrolledpanel.ScrolledPanel.__init__(self, parent=parent, id=-1)
         self.SetupScrolling()
@@ -210,10 +212,10 @@ class HelpPage(wx.lib.scrolledpanel.ScrolledPanel):
         #self.Bind(wx.EVT_MOUSE_EVENTS, self.on_mouse_event)
         #self.Bind(wx.EVT_IDLE, self.on_mouse_event)
 
-        """ For setting focus, for scrolling
+        #""" For setting focus, for scrolling
         self.texty=wx.TextCtrl(parent=self, id=-1)
         self.sizer.Add(self.texty, 1, wx.EXPAND)
-        """
+        #"""
 
     def on_mouse_event(self, event):
         raise 3
