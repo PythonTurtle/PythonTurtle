@@ -47,7 +47,7 @@ class ApplicationWindow(wx.Frame):
             wx.lib.buttons.GenBitmapButton(help_button_panel, -1, help_button_bitmap)
         help_button_sizer = self.help_button_sizer = \
             wx.BoxSizer(wx.VERTICAL)
-        help_button_sizer.Add(help_button, 1, wx.EXPAND)
+        help_button_sizer.Add(help_button, 1, wx.EXPAND | wx.ALL, 5)
         help_button_panel.SetSizer(help_button_sizer)
 
         self.Bind(wx.EVT_BUTTON, self.show_help, help_button)
@@ -137,14 +137,14 @@ class ApplicationWindow(wx.Frame):
         help_screen_sizer.Add(help_closer_panel, 0, wx.EXPAND)
         help_screen.SetSizer(help_screen_sizer)
 
-        closer_button_bitmap=wx.EmptyBitmap(500,30)
+        closer_button_bitmap=wx.Bitmap("lets_code.png")
 
         help_closer_button = self.help_closer_button = \
             wx.lib.buttons.GenBitmapButton(help_closer_panel, -1,
                                            closer_button_bitmap)
         help_closer_sizer = self.help_closer_sizer = \
             wx.BoxSizer(wx.HORIZONTAL)
-        help_closer_sizer.Add(help_closer_button, 1, wx.EXPAND)
+        help_closer_sizer.Add(help_closer_button, 1, wx.EXPAND | wx.ALL, 5)
         help_closer_panel.SetSizer(help_closer_sizer)
 
 
