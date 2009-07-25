@@ -21,6 +21,8 @@ class ApplicationWindow(wx.Frame):
         wx.Frame.__init__(self,*args,**keywords)
         self.SetDoubleBuffered(True)
 
+        self.SetIcon(wx.Icon("icon.ico", wx.BITMAP_TYPE_ICO))
+
         self.init_help_screen()
 
         turtle_process=self.turtle_process=turtleprocess.TurtleProcess()
