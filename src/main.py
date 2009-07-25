@@ -120,9 +120,7 @@ class ApplicationWindow(wx.Frame):
 
         self.help_images_list=[["Level 1", "help1.png"],
                                ["Level 2", "help2.png"],
-                               ["Level 3", "help_dummy.png"],
-                               ["Level 4", "help_dummy.png"],
-                               ["Level 5", "help_dummy.png"]]
+                               ["Level 3", "help3.png"]]
 
 
         help_pages=[HelpPage(parent=help_notebook, bitmap=wx.Bitmap(bitmap_file), caption=caption) \
@@ -149,9 +147,6 @@ class ApplicationWindow(wx.Frame):
 
 
         self.Bind(wx.EVT_BUTTON, self.hide_help, help_closer_button)
-
-
-
 
 
 
@@ -213,8 +208,8 @@ class HelpPage(thing):
         #self.Bind(wx.EVT_IDLE, self.on_mouse_event)
 
         #""" For setting focus, for scrolling
-        self.texty=wx.TextCtrl(parent=self, id=-1)
-        self.sizer.Add(self.texty, 1, wx.EXPAND)
+        #self.texty=wx.TextCtrl(parent=self, id=-1)
+        #self.sizer.Add(self.texty, 1, wx.EXPAND)
         #"""
 
     def on_mouse_event(self, event):
