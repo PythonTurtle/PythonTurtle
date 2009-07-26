@@ -1,6 +1,8 @@
 import wx, wx.lib.scrolledpanel
 import random
 
+#wx.Notebook.get
+
 class FocusableScrolledPanel(wx.lib.scrolledpanel.ScrolledPanel):
     def __init__(self, *args, **kwargs):
         wx.lib.scrolledpanel.ScrolledPanel.__init__(self, *args, **kwargs)

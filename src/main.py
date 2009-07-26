@@ -1,4 +1,5 @@
 import wx
+import wx.aui
 import wx.lib.buttons
 import wx.lib.scrolledpanel
 from focusablescrolledpanel import FocusableScrolledPanel
@@ -114,7 +115,13 @@ class ApplicationWindow(wx.Frame):
             wx.Panel(parent=self, size=(-1,-1))
 
         help_notebook = self.help_notebook = \
-            misc.notebookctrl.NotebookCtrl(parent=help_screen, id=-1, style=misc.notebookctrl.NC_TOP)
+            wx.aui.AuiNotebook(parent=help_screen, style=wx.aui.AUI_NB_TOP)
+        #    misc.notebookctrl.NotebookCtrl(parent=help_screen, id=-1, style=misc.notebookctrl.NC_TOP)
+
+        def kill_focus(event=None):
+            help_notebook.GetPage(help_notebook.GetSelection()).SetFocus()
+        help_notebook.Bind(wx.EVT_SET_FOCUS, kill_focus)
+
 
         #theme=misc.notebookctrl.ThemeStyle()
         #theme.EnableAquaTheme()
@@ -129,7 +136,9 @@ class ApplicationWindow(wx.Frame):
                     for [caption, bitmap_file] in self.help_images_list]
 
         for page in help_pages:
-            help_notebook.AddPage(page, text=page.caption)
+            help_notebook.AddPage(page, caption=page.caption)
+
+        help_pages[0].SetFocus()
 
         help_closer_panel = wx.Panel(parent=help_screen)
         help_screen_sizer = wx.BoxSizer(wx.VERTICAL)
@@ -158,6 +167,7 @@ class ApplicationWindow(wx.Frame):
         self.help_shown=True
         self.sizer.Show(self.help_screen)
         self.sizer.Hide(self.splitter)
+        self.help_notebook.SetFocus()
         self.sizer.Layout()
 
     def hide_help(self, event=None):
