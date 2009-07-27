@@ -120,8 +120,26 @@ class ApplicationWindow(wx.Frame):
 
         def kill_focus(event=None):
             help_notebook.GetPage(help_notebook.GetSelection()).SetFocus()
+
         help_notebook.Bind(wx.EVT_SET_FOCUS, kill_focus)
 
+        def careful_kill_focus(event=None):
+            #print("careful_kill")
+            selected_page = help_notebook.GetPage(help_notebook.GetSelection())
+            if self.FindFocus() != selected_page:
+                selected_page.SetFocus()
+
+        help_notebook.Bind(wx.EVT_CHILD_FOCUS, careful_kill_focus)
+
+
+        """
+        def on_idle(event=None):
+            help_notebook
+            if self.FindFocus() in [help_notebook, help_notebook]:
+                kill_focus()
+
+        help_notebook.Bind(wx.EVT_IDLE, on_idle)
+        """
 
         #theme=misc.notebookctrl.ThemeStyle()
         #theme.EnableAquaTheme()
