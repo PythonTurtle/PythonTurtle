@@ -74,9 +74,6 @@ class ApplicationWindow(wx.Frame):
         self.hide_help()
         self.SetSizer(sizer)
 
-
-
-
         self.Centre()
         self.Maximize()
         self.Show()
@@ -210,7 +207,10 @@ class ApplicationWindow(wx.Frame):
         An educational environment for learning Python, suitable for beginners and children.
         Inspired by LOGO.
 
-        Runs on Python 2.6, using wxPython, Psyco and py2exe.
+        Runs on Python 2.6, using wxPython, Psyco and py2exe. Thanks go to the developers
+        responsible for these projects, as well as to the helpful folks at the user groups
+        of these projects, and at StackOverflow.com, who have helped solved many problems
+        that came up in the making of this program.
         """
         info.SetCopyright("MIT License, (C) 2009 Ram Rachum (\"cool-RR\")")
         info.SetDescription(description)
