@@ -144,7 +144,8 @@ class ApplicationWindow(wx.Frame):
 
         self.help_images_list=[["Level 1", "help1.png"],
                                ["Level 2", "help2.png"],
-                               ["Level 3", "help3.png"]]
+                               ["Level 3", "help3.png"],
+                               ["Level 4", "help4.png"]]
 
 
         help_pages=[HelpPage(parent=help_notebook, bitmap=wx.Bitmap(bitmap_file), caption=caption) \
