@@ -14,8 +14,9 @@ import misc.notebookctrl
 
 import homedirectory; homedirectory.do()
 
-import psyco; psyco.full()
+import almostimportstdlib
 
+import psyco; psyco.full()
 
 class ApplicationWindow(wx.Frame):
     """
