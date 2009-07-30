@@ -27,15 +27,15 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
 
 [Files]
-Source: "src\dist\main.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "src\dist\pythonturtle.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "src\dist\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\PythonTurtle"; Filename: "{app}\main.exe"
+Name: "{group}\PythonTurtle"; Filename: "{app}\pythonturtle.exe"
 Name: "{group}\{cm:UninstallProgram,PythonTurtle}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\PythonTurtle"; Filename: "{app}\main.exe"; Tasks: desktopicon
+Name: "{commondesktop}\PythonTurtle"; Filename: "{app}\pythonturtle.exe"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\main.exe"; Description: "{cm:LaunchProgram,PythonTurtle}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\pythonturtle.exe"; Description: "{cm:LaunchProgram,PythonTurtle}"; Flags: nowait postinstall skipifsilent
 
