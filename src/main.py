@@ -2,7 +2,7 @@ import wx
 import wx.aui
 import wx.lib.buttons
 import wx.lib.scrolledpanel
-from focusablescrolledpanel import FocusableScrolledPanel
+from customscrolledpanel import CustomScrolledPanel
 
 import shelltoprocess
 import turtlewidget
@@ -223,11 +223,11 @@ class ApplicationWindow(wx.Frame):
         about_dialog=wx.AboutBox(self.about_dialog_info)
 
 
-#thing=FocusableScrolledPanel
-thing=wx.lib.scrolledpanel.ScrolledPanel
+thing=CustomScrolledPanel
+#thing=wx.lib.scrolledpanel.ScrolledPanel
 class HelpPage(thing):
     def __init__(self, parent, bitmap, caption):
-        wx.lib.scrolledpanel.ScrolledPanel.__init__(self, parent=parent, id=-1)
+        thing.__init__(self, parent=parent, id=-1)
         self.SetupScrolling()
         self.sizer=wx.BoxSizer(wx.VERTICAL)
         self.static_bitmap=wx.StaticBitmap(self, -1, bitmap)
