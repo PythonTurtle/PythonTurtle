@@ -12,6 +12,8 @@ import multiprocessing
 from misc.stringsaver import s2i,i2s
 import misc.notebookctrl
 
+import homedirectory; homedirectory.do()
+
 import psyco; psyco.full()
 
 
