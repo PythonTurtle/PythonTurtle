@@ -1,4 +1,10 @@
-"""Shell is an interactive text control in which a user types in
+"""
+Forked by cool-RR as part of the PythonTurtle project.
+
+
+Original documentation:
+
+Shell is an interactive text control in which a user types in
 commands to be sent to the interpreter.  This particular shell is
 based on wxPython's wxStyledTextCtrl.
 

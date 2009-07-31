@@ -77,6 +77,7 @@ class ApplicationWindow(wx.Frame):
         self.hide_help()
         self.SetSizer(sizer)
 
+
         self.Centre()
         self.Maximize()
         self.Show()
@@ -97,7 +98,7 @@ class ApplicationWindow(wx.Frame):
         self.Bind(wx.EVT_MENU, self.on_exit, id=s2i("Menu bar: Exit"))
 
         help = wx.Menu()
-        help.Append(s2i("Menu bar: Help"), '&Help')
+        help.Append(s2i("Menu bar: Help"), '&Help\tF1')
         self.Bind(wx.EVT_MENU, self.toggle_help, id=s2i("Menu bar: Help"))
         help.AppendSeparator()
         help.Append(s2i("Menu bar: About"), "&About...")
@@ -177,8 +178,6 @@ class ApplicationWindow(wx.Frame):
 
 
         self.Bind(wx.EVT_BUTTON, self.hide_help, help_closer_button)
-
-
 
 
 
