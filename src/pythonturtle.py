@@ -97,15 +97,16 @@ class ApplicationWindow(wx.Frame):
         file.Append(s2i("Menu bar: Exit"), 'E&xit')
         self.Bind(wx.EVT_MENU, self.on_exit, id=s2i("Menu bar: Exit"))
 
-        help = wx.Menu()
-        help.Append(s2i("Menu bar: Help"), '&Help\tF1')
+        help_menu = wx.Menu()
+        self.help_menu_button = \
+            help_menu.Append(s2i("Menu bar: Help"), '&Help\tF1', kind=wx.ITEM_CHECK)
         self.Bind(wx.EVT_MENU, self.toggle_help, id=s2i("Menu bar: Help"))
-        help.AppendSeparator()
-        help.Append(s2i("Menu bar: About"), "&About...")
+        help_menu.AppendSeparator()
+        help_menu.Append(s2i("Menu bar: About"), "&About...")
         self.Bind(wx.EVT_MENU, self.on_about, id=s2i("Menu bar: About"))
 
         menu_bar.Append(file, '&File')
-        menu_bar.Append(help, '&Help')
+        menu_bar.Append(help_menu, '&Help')
 
 
         self.SetMenuBar(menu_bar)
@@ -183,6 +184,7 @@ class ApplicationWindow(wx.Frame):
 
     def show_help(self, event=None):
         self.help_shown=True
+        self.help_menu_button.Check()
         self.sizer.Show(self.help_screen)
         self.sizer.Hide(self.splitter)
         self.help_notebook.SetFocus()
@@ -190,6 +192,7 @@ class ApplicationWindow(wx.Frame):
 
     def hide_help(self, event=None):
         self.help_shown=False
+        self.help_menu_button.Check(False)
         self.sizer.Hide(self.help_screen)
         self.sizer.Show(self.splitter)
         self.shell.setFocus()
