@@ -1,3 +1,8 @@
+"""
+To understand this module,
+please refer to the containing pacakge's documentation.
+"""
+
 if False:
     import AutoComplete
     import AutoCompleteWindow
