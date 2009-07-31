@@ -6,6 +6,7 @@ import math
 import time
 import smartsleep
 import traceback
+import random
 import misc.angles as angles
 
 #time.sleep=lambda x:x
@@ -17,6 +18,9 @@ from vector import Vector
 
 import shelltoprocess
 
+def log(x):
+    print(x)
+    sys.stdout.flush()
 
 
 class TurtleProcess(multiprocessing.Process):
@@ -39,8 +43,9 @@ class TurtleProcess(multiprocessing.Process):
 
 
     def send_report(self):
+        #self.turtle.fingerprint = random.randint(0,10000)
         self.turtle_queue.put(self.turtle)
-        #log("Turtle report sent")
+        #log(self.turtle.__dict__)
 
     def run(self):
 
@@ -117,8 +122,8 @@ class TurtleProcess(multiprocessing.Process):
             """
             Sets the width of the turtle's pen. Width must be a positive number.
             """
-            #assert 0<width
-            self.turtle.width=width
+            #assert 0 < width
+            self.turtle.width = width
             self.send_report()
 
         def visible(visible=True):
@@ -126,7 +131,7 @@ class TurtleProcess(multiprocessing.Process):
             By default, makes the turtle visible. You may specify a boolean
             value, e.g. visible(False) will make the turtle invisible.
             """
-            self.turtle.visible=visible
+            self.turtle.visible = visible
             self.send_report()
 
         def invisible():
@@ -142,7 +147,7 @@ class TurtleProcess(multiprocessing.Process):
             leave a trail when walking. You may specify a boolean value, e.g.
             pen_down(False) will put the pen in the "up" position.
             """
-            self.turtle.pen_down=pen_down
+            self.turtle.pen_down = pen_down
             self.send_report()
 
         def pen_up():
@@ -150,7 +155,7 @@ class TurtleProcess(multiprocessing.Process):
             Puts the pen in the "up" position, making the turtle not leave a
             trail when walking.
             """
-            self.turtle.pen_down=False
+            self.turtle.pen_down = False
             self.send_report()
 
         def is_visible():
@@ -167,13 +172,13 @@ class TurtleProcess(multiprocessing.Process):
 
         def sin(angle):
             """
-            Calculates sin, with the angle specified in degrees.
+            Calculates sine, with the angle specified in degrees.
             """
             return math.sin(angles.deg_to_rad(angle))
 
         def cos(angle):
             """
-            Calculates cos, with the angle specified in degrees.
+            Calculates cosine, with the angle specified in degrees.
             """
             return math.cos(angles.deg_to_rad(angle))
 
@@ -187,6 +192,24 @@ class TurtleProcess(multiprocessing.Process):
             self.turtle.clear=False
             self.send_report()
 
+        """
+        Had trouble implementing `home`.
+        I couldn't control when the turtle would actually draw a line home.
+
+        def home():
+            #\"""
+            Places the turtle at the center of the screen, facing upwards.
+            #\"""
+            old_pen_down = self.turtle.pen_down
+            pen_up() # Sends a report as well
+            self.send_report()
+            self.turtle.pos = Vector((0, 0))
+            self.turtle.orientation = 180
+            self.send_report()
+            time.sleep(3)
+            pen_down(old_pen_down)
+        """
+
         def reset():
             """
             Resets all the turtle's properties and clears the screen.
@@ -199,7 +222,8 @@ class TurtleProcess(multiprocessing.Process):
                             "invisible": invisible, "pen_down": pen_down,
                             "pen_up": pen_up, "is_visible": is_visible,
                             "is_pen_down": is_pen_down, "sin": sin, "cos": cos,
-                            "turtle": self.turtle, "clear": clear, "reset": reset}
+                            "turtle": self.turtle, "clear": clear,
+                            "reset": reset}
 
 
         """
