@@ -192,6 +192,7 @@ class ApplicationWindow(wx.Frame):
         self.help_shown=False
         self.sizer.Hide(self.help_screen)
         self.sizer.Show(self.splitter)
+        self.shell.setFocus()
         self.sizer.Layout()
 
     def toggle_help(self, event=None):
