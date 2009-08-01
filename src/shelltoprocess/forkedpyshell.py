@@ -254,6 +254,10 @@ class Shell(editwindow.EditWindow):
         if self.process_shell: del kwds["process_shell"]
 
         self.waiting_for_process=False
+        self.buffer_when_waiting_for_process=[]
+        """
+        A buffer where key-down events will be stored for when the process has finished
+        """
 
 
 
@@ -396,9 +400,17 @@ class Shell(editwindow.EditWindow):
             """
             if self.waiting_for_process:
                 try:
-                    finished=self.interp.runcode_finished_queue.get(block=False)
+                    finished = self.interp.runcode_finished_queue.get(block=False)
                     self.waiting_for_process=False
                     self.prompt()
+                    for key in self.buffer_when_waiting_for_process:
+                        my = wx.KeyEvent()
+                        my.SetEventType(wx.wxEVT_KEY_DOWN)
+                        #key = event.GetUnicodeKey()
+                        print key
+                        my.SetUnicodeKey(key)
+                        self.write(chr(key))#wx.PostEvent(self, my)
+                    self.buffer_when_waiting_for_process=[]
                 except Queue.Empty:
                     pass
 
@@ -531,6 +543,7 @@ Platform: %s""" % \
         """Key down event handler."""
 
         if self.waiting_for_process:
+            self.buffer_when_waiting_for_process.append(event.GetUnicodeKey())
             return
 
         key = event.GetKeyCode()
