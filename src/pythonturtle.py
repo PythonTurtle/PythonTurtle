@@ -207,6 +207,7 @@ that came up in the making of this program."""
         info.SetCopyright("MIT License, (C) 2009 Ram Rachum (\"cool-RR\")")
         info.SetDescription(description)
         info.SetName("PythonTurtle")
+        info.SetVersion("0.1.2009.8.2.1")
         info.SetWebSite("http://pythonturtle.com")
 
 
