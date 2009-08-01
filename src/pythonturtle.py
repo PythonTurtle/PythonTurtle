@@ -48,9 +48,9 @@ class ApplicationWindow(wx.Frame):
         self.help_open_button_panel = \
             wx.Panel(parent=self.bottom_sizer_panel)
 
-        help_button_bitmap = wx.Bitmap("teach_me.png")
+        help_open_button_bitmap = wx.Bitmap("teach_me.png")
         self.help_open_button = \
-            wx.lib.buttons.GenBitmapButton(self.help_open_button_panel, -1, help_button_bitmap)
+            wx.lib.buttons.GenBitmapButton(self.help_open_button_panel, -1, help_open_button_bitmap)
         self.help_open_button_sizer = \
             wx.BoxSizer(wx.VERTICAL)
         self.help_open_button_sizer.Add(self.help_open_button, 1, wx.EXPAND | wx.ALL, 5)
@@ -72,12 +72,11 @@ class ApplicationWindow(wx.Frame):
                                         -desired_shell_height)
         self.splitter.SetSashGravity(1)
 
-        sizer=self.sizer=wx.BoxSizer(wx.HORIZONTAL)
-        sizer.Add(self.splitter,1,wx.EXPAND)
-        sizer.Add(self.help_screen, 1, wx.EXPAND)
+        self.sizer=wx.BoxSizer(wx.HORIZONTAL)
+        self.sizer.Add(self.splitter, 1, wx.EXPAND)
+        self.sizer.Add(self.help_screen, 1, wx.EXPAND)
         self.hide_help()
-        self.SetSizer(sizer)
-
+        self.SetSizer(self.sizer)
 
         self.Centre()
         self.Maximize()
@@ -85,8 +84,6 @@ class ApplicationWindow(wx.Frame):
 
         self.Layout()
         self.splitter.SetSashPosition(-desired_shell_height)
-
-        #self.SetAutoLayout(1)
 
         self.shell.setFocus()
 
@@ -121,6 +118,9 @@ class ApplicationWindow(wx.Frame):
         self.SetMenuBar(self.menu_bar)
 
     def init_help_screen(self):
+        """
+        Initializes the help screen.
+        """
         self.help_screen = wx.Panel(parent=self, size=(-1,-1))
 
         self.help_notebook = \
@@ -136,41 +136,33 @@ class ApplicationWindow(wx.Frame):
         self.help_notebook.Bind(wx.EVT_SET_FOCUS, give_focus_to_selected_page)
         self.help_notebook.Bind(wx.EVT_CHILD_FOCUS, give_focus_to_selected_page)
 
-
-
         self.help_images_list=[["Level 1", "help1.png"],
                                ["Level 2", "help2.png"],
                                ["Level 3", "help3.png"],
                                ["Level 4", "help4.png"]]
 
 
-        help_pages=[HelpPage(parent=self.help_notebook, bitmap=wx.Bitmap(bitmap_file), caption=caption) \
+        self.help_pages=[HelpPage(parent=self.help_notebook, bitmap=wx.Bitmap(bitmap_file), caption=caption) \
                     for [caption, bitmap_file] in self.help_images_list]
 
-        for page in help_pages:
+        for page in self.help_pages:
             self.help_notebook.AddPage(page, caption=page.caption)
 
-        help_pages[0].SetFocus()
+        self.help_close_button_panel = wx.Panel(parent=self.help_screen)
+        self.help_screen_sizer = wx.BoxSizer(wx.VERTICAL)
+        self.help_screen_sizer.Add(self.help_notebook, 1, wx.EXPAND)
+        self.help_screen_sizer.Add(self.help_close_button_panel, 0, wx.EXPAND)
+        self.help_screen.SetSizer(self.help_screen_sizer)
 
-        help_closer_panel = wx.Panel(parent=self.help_screen)
-        help_screen_sizer = wx.BoxSizer(wx.VERTICAL)
-        help_screen_sizer.Add(self.help_notebook, 1, wx.EXPAND)
-        help_screen_sizer.Add(help_closer_panel, 0, wx.EXPAND)
-        self.help_screen.SetSizer(help_screen_sizer)
+        help_close_button_bitmap=wx.Bitmap("lets_code.png")
+        self.help_close_button = \
+            wx.lib.buttons.GenBitmapButton(self.help_close_button_panel, -1,
+                                           help_close_button_bitmap)
+        self.help_close_button_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.help_close_button_sizer.Add(self.help_close_button, 1, wx.EXPAND | wx.ALL, 5)
+        self.help_close_button_panel.SetSizer(self.help_close_button_sizer)
 
-        closer_button_bitmap=wx.Bitmap("lets_code.png")
-
-        help_closer_button = self.help_closer_button = \
-            wx.lib.buttons.GenBitmapButton(help_closer_panel, -1,
-                                           closer_button_bitmap)
-        help_closer_sizer = self.help_closer_sizer = \
-            wx.BoxSizer(wx.HORIZONTAL)
-        help_closer_sizer.Add(help_closer_button, 1, wx.EXPAND | wx.ALL, 5)
-        help_closer_panel.SetSizer(help_closer_sizer)
-
-
-        self.Bind(wx.EVT_BUTTON, self.hide_help, help_closer_button)
-
+        self.Bind(wx.EVT_BUTTON, self.hide_help, self.help_close_button)
 
 
     def show_help(self, event=None):
@@ -217,14 +209,12 @@ class ApplicationWindow(wx.Frame):
 
 
     def on_about(self, event=None):
-        about_dialog=wx.AboutBox(self.about_dialog_info)
+        about_dialog = wx.AboutBox(self.about_dialog_info)
 
 
-thing=CustomScrolledPanel
-#thing=wx.lib.scrolledpanel.ScrolledPanel
-class HelpPage(thing):
+class HelpPage(CustomScrolledPanel):
     def __init__(self, parent, bitmap, caption):
-        thing.__init__(self, parent=parent, id=-1)
+        CustomScrolledPanel.__init__(self, parent=parent, id=-1)
         self.SetupScrolling()
         self.sizer=wx.BoxSizer(wx.VERTICAL)
         self.static_bitmap=wx.StaticBitmap(self, -1, bitmap)
@@ -232,21 +222,6 @@ class HelpPage(thing):
         self.SetSizer(self.sizer)
         self.SetVirtualSize(self.static_bitmap.GetSize())
         self.caption=caption
-        #self.Bind(wx.EVT_MOUSE_EVENTS, self.on_mouse_event)
-        #self.Bind(wx.EVT_IDLE, self.on_mouse_event)
-
-        #""" For setting focus, for scrolling
-        #self.texty=wx.TextCtrl(parent=self, id=-1)
-        #self.sizer.Add(self.texty, 1, wx.EXPAND)
-        #"""
-
-    def on_mouse_event(self, event):
-        raise 3
-        if event.LeftddClick():
-            self.SetFocus()
-        #event.Skip()
-
-
 
 
 if __name__=="__main__":
