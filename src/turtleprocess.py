@@ -1,30 +1,28 @@
 import sys
 import multiprocessing
-import code
 import copy
 import math
 import time
+
 import smartsleep
-import traceback
-import random
 import misc.angles as angles
-
-#time.sleep=lambda x:x
-
 import shelltoprocess
-
 from turtle import *
 from vector import Vector
-
-import shelltoprocess
 
 def log(x):
     print(x)
     sys.stdout.flush()
 
-
 class TurtleProcess(multiprocessing.Process):
-
+    """
+    A TurtleProcess is a subclass of multiprocessing.Process.
+    It is the process from which the user of PythonTurtle works;
+    It defines all the turtle commands (i.e. go, turn, width, etc.).
+    Then it runs a shelltoprocess.Console which connects to the shell
+    in the main application window, allowing the user to control
+    this process.
+    """
     def __init__(self,*args,**kwargs):
         multiprocessing.Process.__init__(self,*args,**kwargs)
 
@@ -43,12 +41,17 @@ class TurtleProcess(multiprocessing.Process):
 
 
     def send_report(self):
+        """
+        Sends a "turtle report" to the TurtleWidget.
+        By sending turtle reports every time the turtle does anything,
+        the TurtleWidget can always know where the turtle is going
+        and draw graphics accordingly.
+        """
         #self.turtle.fingerprint = random.randint(0,10000)
         self.turtle_queue.put(self.turtle)
         #log(self.turtle.__dict__)
 
     def run(self):
-
 
         self.turtle=Turtle()
 
@@ -227,17 +230,17 @@ class TurtleProcess(multiprocessing.Process):
 
 
         """
+        A little thing I tried doing for checking if a color is
+        valid before setting it to the turtle. Didn't work.
         import wx; app=wx.App();
         def valid_color(color):
             return not wx.Pen(color).GetColour()==wx.Pen("malformed").GetColour()
         """
 
 
-        console = self.console = \
+        self.console = \
             shelltoprocess.Console(queue_pack=self.queue_pack,locals=locals_for_console)
 
         #import cProfile; cProfile.runctx("console.interact()", globals(), locals())
-        console.interact()
+        self.console.interact()
         sys.stdout.flush()
-
-

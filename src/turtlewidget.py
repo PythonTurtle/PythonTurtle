@@ -1,45 +1,46 @@
 """
-todo: GCDC needed?
+TurtleWidget is defined in this module, see its documentation.
 """
+
+import time
+import Queue
+import math
 
 import wx
 
-import Queue
-
-from math import *
-import math
-
 from vector import Vector
-
-import time
-
 from turtle import *
-
 import misc.dumpqueue as dumpqueue
 
 
 
 class TurtleWidget(wx.Panel):
+    """
+    A wxPython widget to display the turtle and all the drawings that
+    it made.
+    """
     def __init__(self,parent,turtle_queue,*args,**kwargs):
         wx.Panel.__init__(self,parent,style=wx.SUNKEN_BORDER,*args,**kwargs)
 
-        BACKGROUND_COLOR=self.BACKGROUND_COLOR=wx.Colour(212,208,200)
-        TURTLE_IMAGE=self.TURTLE_IMAGE=wx.Bitmap("turtle.png")
+        self.BACKGROUND_COLOR = wx.Colour(212,208,200)
+        self.TURTLE_IMAGE = wx.Bitmap("turtle.png")
 
-        turtle=self.turtle=Turtle()
+        self.turtle = Turtle()
         #bitmap=self.bitmap=wx.EmptyBitmapRGBA(2000,1200,BACKGROUND_COLOR[0],BACKGROUND_COLOR[1],BACKGROUND_COLOR[2],255) # todo: Change to something smarter?
-        bitmap=self.bitmap=wx.EmptyBitmap(*BITMAP_SIZE)
+        self.bitmap = wx.EmptyBitmap(*BITMAP_SIZE)
         self.Bind(wx.EVT_PAINT, self.on_paint)
         self.Bind(wx.EVT_SIZE,self.on_size)
         self.Bind(wx.EVT_IDLE,self.on_idle)
 
-        self.turtle_queue=turtle_queue
+        self.turtle_queue = turtle_queue
 
-        self.idle_block=False
-
-
+        self.idle_block = False
 
     def on_paint(self,e=None):
+        """
+        Paint event handler. Reads the turtle reports and draws graphics
+        accordingly.
+        """
         turtle_reports=dumpqueue.dump_queue(self.turtle_queue)
         dc=wx.GCDC(wx.MemoryDC(self.bitmap))
         for turtle_report in turtle_reports:
@@ -54,31 +55,30 @@ class TurtleWidget(wx.Panel):
 
             self.turtle = turtle_report
         del dc
-        if turtle_reports!=[]: self.Refresh()
+        if len(turtle_reports) > 0: self.Refresh()
 
-
-        turtle=self.turtle
-        bitmap=self.bitmap
 
         dc=wx.PaintDC(self)
-        widget_size=Vector(self.GetSize())
-        top_left_corner=(-BITMAP_SIZE+widget_size)/2.0
+        widget_size = Vector(self.GetSize())
+        top_left_corner = (-BITMAP_SIZE+widget_size) / 2.0
 
         # Draw the bitmap:
-        dc.DrawBitmap(bitmap,*top_left_corner)
+        dc.DrawBitmap(self.bitmap, *top_left_corner)
 
         # Draw the turtle:
-        if turtle.visible:
-            new_pos=top_left_corner+from_my_pos(turtle.pos)#-Vector(self.TURTLE_IMAGE.GetSize())/2.0
-            #dc.Rotate(from_my_angle(turtle.orientation))
-            #dc.DrawBitmap(self.TURTLE_IMAGE,*new_pos)
-            draw_bitmap_to_dc_rotated(dc,self.TURTLE_IMAGE,from_my_angle(turtle.orientation),new_pos)
+        if self.turtle.visible:
+            new_pos = top_left_corner + from_my_pos(self.turtle.pos)
+            draw_bitmap_to_dc_rotated(dc, self.TURTLE_IMAGE, from_my_angle(self.turtle.orientation), new_pos)
         dc.Destroy()
 
 
 
     def on_idle(self,e=None):
-
+        """
+        Idle event handler. Checks whether there are any
+        pending turtle reports, and if there are tells the widget
+        to process them.
+        """
         if self.idle_block==True: return
 
         if self.turtle_queue.qsize()>0: self.Refresh()
@@ -98,26 +98,12 @@ class TurtleWidget(wx.Panel):
 
 
 
-
 def draw_bitmap_to_dc_rotated( dc, bitmap, angle , point):
-    '''
-    Rotate a bitmap and write it to the supplied device context.
-    '''
     """
-    assert isinstance(dc,wx.PaintDC)
-    img = bitmap.ConvertToImage()
-    img_centre = wx.Point( img.GetWidth()/2.0, img.GetHeight()/2.0 )
-
-    my_dc=wx.GCDC(dc)
-    my_dc.GetGraphicsContext().Rotate(angle)
-    my_dc.DrawBitmapPoint(img.ConvertToBitmap(),point,useMask=True)
-    del my_dc
+    Rotate a bitmap and write it to the supplied device context.
     """
     img = bitmap.ConvertToImage()
     img_centre = wx.Point( img.GetWidth()/2.0, img.GetHeight()/2.0 )
     img = img.Rotate( angle, img_centre , interpolating=True)
     new_point=Vector(point)-Vector(img.GetSize())/2
     dc.DrawBitmapPoint( img.ConvertToBitmap(), new_point,useMask=True )
-
-
-
