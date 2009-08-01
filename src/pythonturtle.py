@@ -1,20 +1,21 @@
+"""
+Main module which defines ApplicationWindow,
+the main window of PythonTurtle.
+"""
 import wx
 import wx.aui
 import wx.lib.buttons
 import wx.lib.scrolledpanel
-from customscrolledpanel import CustomScrolledPanel
 
+from customscrolledpanel import CustomScrolledPanel
 import shelltoprocess
 import turtlewidget
-import vector
 import turtleprocess
 import multiprocessing
-
 import homedirectory; homedirectory.do()
-
-import almostimportstdlib
-
+import almostimportstdlib # Intentionally unused; see module's doc.
 import psyco; psyco.full()
+
 
 class ApplicationWindow(wx.Frame):
     """
@@ -193,15 +194,16 @@ class ApplicationWindow(wx.Frame):
     def init_about_dialog_info(self):
         info = self.about_dialog_info = \
             wx.AboutDialogInfo()
-        description="""\
-        An educational environment for learning Python, suitable for beginners and children.
-        Inspired by LOGO.
 
-        Runs on Python 2.6, using wxPython, Psyco and py2exe. Thanks go to the developers
-        responsible for these projects, as well as to the helpful folks at the user groups
-        of these projects, and at StackOverflow.com, who have helped solved many problems
-        that came up in the making of this program.
-        """
+        description="""\
+An educational environment for learning Python, suitable for beginners and children.
+Inspired by LOGO.
+
+Runs on Python 2.6, using wxPython, Psyco and py2exe. Thanks go to the developers
+responsible for these projects, as well as to the helpful folks at the user groups
+of these projects, and at StackOverflow.com, who have helped solved many problems
+that came up in the making of this program."""
+
         info.SetCopyright("MIT License, (C) 2009 Ram Rachum (\"cool-RR\")")
         info.SetDescription(description)
         info.SetName("PythonTurtle")
@@ -221,12 +223,15 @@ class HelpPage(CustomScrolledPanel):
         self.sizer.Add(self.static_bitmap, 1, wx.EXPAND)
         self.SetSizer(self.sizer)
         self.SetVirtualSize(self.static_bitmap.GetSize())
-        self.caption=caption
+        self.caption = caption
 
 
-if __name__=="__main__":
+def run():
     multiprocessing.freeze_support()
     app = wx.PySimpleApp()
-    my_app_win=ApplicationWindow(None,-1,"PythonTurtle",size=(600,600))
+    my_app_win = ApplicationWindow(None,-1,"PythonTurtle",size=(600,600))
     #import cProfile; cProfile.run("app.MainLoop()")
     app.MainLoop()
+
+if __name__=="__main__":
+    run()
