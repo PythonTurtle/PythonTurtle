@@ -18,11 +18,11 @@ import psyco; psyco.full()
 
 class ApplicationWindow(wx.Frame):
     """
+    The main window of PythonTurtle.
     """
     def __init__(self,*args,**keywords):
         wx.Frame.__init__(self,*args,**keywords)
         self.SetDoubleBuffered(True)
-
         self.SetIcon(wx.Icon("icon.ico", wx.BITMAP_TYPE_ICO))
 
         self.init_help_screen()
@@ -115,33 +115,27 @@ class ApplicationWindow(wx.Frame):
         self.SetMenuBar(self.menu_bar)
 
     def init_help_screen(self):
+        self.help_screen = wx.Panel(parent=self, size=(-1,-1))
 
-        help_screen = self.help_screen = \
-            wx.Panel(parent=self, size=(-1,-1))
+        self.help_notebook = \
+            wx.aui.AuiNotebook(parent=self.help_screen, style=wx.aui.AUI_NB_TOP)
 
-        help_notebook = self.help_notebook = \
-            wx.aui.AuiNotebook(parent=help_screen, style=wx.aui.AUI_NB_TOP)
-        #    misc.notebookctrl.NotebookCtrl(parent=help_screen, id=-1, style=misc.notebookctrl.NC_TOP)
 
-        def kill_focus(event=None):
-            help_notebook.GetPage(help_notebook.GetSelection()).SetFocus()
-
-        help_notebook.Bind(wx.EVT_SET_FOCUS, kill_focus)
-
-        def careful_kill_focus(event=None):
-            #print("careful_kill")
-            selected_page = help_notebook.GetPage(help_notebook.GetSelection())
+        def give_focus_to_selected_page(event=None):
+            selected_page_number = self.help_notebook.GetSelection()
+            selected_page = self.help_notebook.GetPage(selected_page_number)
             if self.FindFocus() != selected_page:
                 selected_page.SetFocus()
 
-        help_notebook.Bind(wx.EVT_CHILD_FOCUS, careful_kill_focus)
+        self.help_notebook.Bind(wx.EVT_SET_FOCUS, give_focus_to_selected_page)
+        self.help_notebook.Bind(wx.EVT_CHILD_FOCUS, give_focus_to_selected_page)
 
 
         """
         def on_idle(event=None):
             help_notebook
             if self.FindFocus() in [help_notebook, help_notebook]:
-                kill_focus()
+                give_focus_to_selected_page()
 
         help_notebook.Bind(wx.EVT_IDLE, on_idle)
         """
@@ -156,19 +150,19 @@ class ApplicationWindow(wx.Frame):
                                ["Level 4", "help4.png"]]
 
 
-        help_pages=[HelpPage(parent=help_notebook, bitmap=wx.Bitmap(bitmap_file), caption=caption) \
+        help_pages=[HelpPage(parent=self.help_notebook, bitmap=wx.Bitmap(bitmap_file), caption=caption) \
                     for [caption, bitmap_file] in self.help_images_list]
 
         for page in help_pages:
-            help_notebook.AddPage(page, caption=page.caption)
+            self.help_notebook.AddPage(page, caption=page.caption)
 
         help_pages[0].SetFocus()
 
-        help_closer_panel = wx.Panel(parent=help_screen)
+        help_closer_panel = wx.Panel(parent=self.help_screen)
         help_screen_sizer = wx.BoxSizer(wx.VERTICAL)
-        help_screen_sizer.Add(help_notebook, 1, wx.EXPAND)
+        help_screen_sizer.Add(self.help_notebook, 1, wx.EXPAND)
         help_screen_sizer.Add(help_closer_panel, 0, wx.EXPAND)
-        help_screen.SetSizer(help_screen_sizer)
+        self.help_screen.SetSizer(help_screen_sizer)
 
         closer_button_bitmap=wx.Bitmap("lets_code.png")
 
