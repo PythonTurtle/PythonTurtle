@@ -27,40 +27,41 @@ class ApplicationWindow(wx.Frame):
 
         self.init_help_screen()
 
-        turtle_process=self.turtle_process=turtleprocess.TurtleProcess()
-        turtle_process.start()
-        turtle_queue=self.turtle_queue=turtle_process.turtle_queue
+        self.turtle_process = turtleprocess.TurtleProcess()
+        self.turtle_process.start()
+        self.turtle_queue = turtle_process.turtle_queue
 
         self.init_menu_bar()
+
         self.init_about_dialog_info()
 
-        splitter=self.splitter = wx.SplitterWindow(self, style=wx.SP_LIVE_UPDATE)
-        turtle_widget=self.turtle_widget=turtlewidget.TurtleWidget(self.splitter,turtle_queue)
+        self.splitter = wx.SplitterWindow(self, style=wx.SP_LIVE_UPDATE)
+        self.turtle_widget = turtlewidget.TurtleWidget(self.splitter,
+                                                       self.turtle_queue)
 
+        self.bottom_sizer_panel = wx.Panel(splitter)
 
-        bottom_sizer_panel = self.bottom_sizer_panel = wx.Panel(splitter)
+        self.shell = \
+            shelltoprocess.Shell(self.bottom_sizer_panel,
+                                 queue_pack=self.turtle_process.queue_pack)
 
-        shell=self.shell=shelltoprocess.Shell(bottom_sizer_panel,
-                                              queue_pack=turtle_process.queue_pack)
+        self.help_open_button_panel = \
+            wx.Panel(parent=self.bottom_sizer_panel)
 
-        help_button_panel = self.help_button_panel = \
-            wx.Panel(parent=bottom_sizer_panel)
-
-        help_button_bitmap=wx.Bitmap("teach_me.png")
-        help_button = self.help_button = \
-            wx.lib.buttons.GenBitmapButton(help_button_panel, -1, help_button_bitmap)
-        help_button_sizer = self.help_button_sizer = \
+        help_button_bitmap = wx.Bitmap("teach_me.png")
+        self.help_open_button = \
+            wx.lib.buttons.GenBitmapButton(self.help_open_button_panel, -1, help_button_bitmap)
+        self.help_open_button_sizer = \
             wx.BoxSizer(wx.VERTICAL)
-        help_button_sizer.Add(help_button, 1, wx.EXPAND | wx.ALL, 5)
-        help_button_panel.SetSizer(help_button_sizer)
+        self.help_open_button_sizer.Add(self.help_open_button, 1, wx.EXPAND | wx.ALL, 5)
+        self.help_open_button_panel.SetSizer(self.help_open_button_sizer)
 
-        self.Bind(wx.EVT_BUTTON, self.show_help, help_button)
+        self.Bind(wx.EVT_BUTTON, self.show_help, self.help_open_button)
 
-        bottom_sizer = self.bottom_sizer = \
-            wx.BoxSizer(wx.HORIZONTAL)
+        self.bottom_sizer = wx.BoxSizer(wx.HORIZONTAL)
 
-        bottom_sizer.Add(shell, 1, wx.EXPAND)
-        bottom_sizer.Add(help_button_panel, 0, wx.EXPAND)
+        self.bottom_sizer.Add(self.shell, 1, wx.EXPAND)
+        self.bottom_sizer.Add(self.help_open_button_panel, 0, wx.EXPAND))
 
         bottom_sizer_panel.SetSizer(bottom_sizer)
 
@@ -88,6 +89,9 @@ class ApplicationWindow(wx.Frame):
         self.shell.setFocus()
 
     def init_menu_bar(self):
+        """
+        Initialize the menu bar.
+        """
 
         self.menu_bar = wx.MenuBar()
 
@@ -131,18 +135,6 @@ class ApplicationWindow(wx.Frame):
         self.help_notebook.Bind(wx.EVT_CHILD_FOCUS, give_focus_to_selected_page)
 
 
-        """
-        def on_idle(event=None):
-            help_notebook
-            if self.FindFocus() in [help_notebook, help_notebook]:
-                give_focus_to_selected_page()
-
-        help_notebook.Bind(wx.EVT_IDLE, on_idle)
-        """
-
-        #theme=misc.notebookctrl.ThemeStyle()
-        #theme.EnableAquaTheme()
-        #help_notebook.ApplyTabTheme(theme)
 
         self.help_images_list=[["Level 1", "help1.png"],
                                ["Level 2", "help2.png"],
