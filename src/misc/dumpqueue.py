@@ -1,4 +1,6 @@
-import multiprocessing
+"""
+See documentation for dump_queue defined here.
+"""
 import Queue
 
 

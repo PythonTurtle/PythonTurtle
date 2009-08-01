@@ -9,8 +9,6 @@ import turtlewidget
 import vector
 import turtleprocess
 import multiprocessing
-from misc.stringsaver import s2i,i2s
-import misc.notebookctrl
 
 import homedirectory; homedirectory.do()
 
@@ -91,25 +89,30 @@ class ApplicationWindow(wx.Frame):
 
     def init_menu_bar(self):
 
-        menu_bar = self.menu_bar = wx.MenuBar()
+        self.menu_bar = wx.MenuBar()
 
-        file = wx.Menu()
-        file.Append(s2i("Menu bar: Exit"), 'E&xit')
-        self.Bind(wx.EVT_MENU, self.on_exit, id=s2i("Menu bar: Exit"))
-
-        help_menu = wx.Menu()
-        self.help_menu_button = \
-            help_menu.Append(s2i("Menu bar: Help"), '&Help\tF1', kind=wx.ITEM_CHECK)
-        self.Bind(wx.EVT_MENU, self.toggle_help, id=s2i("Menu bar: Help"))
-        help_menu.AppendSeparator()
-        help_menu.Append(s2i("Menu bar: About"), "&About...")
-        self.Bind(wx.EVT_MENU, self.on_about, id=s2i("Menu bar: About"))
-
-        menu_bar.Append(file, '&File')
-        menu_bar.Append(help_menu, '&Help')
+        self.file_menu = wx.Menu()
+        self.exit_menu_item = wx.MenuItem(self.file_menu, -1, 'E&xit')
+        self.file_menu.AppendItem(self.exit_menu_item)
+        self.Bind(wx.EVT_MENU, self.on_exit, source=self.exit_menu_item)
 
 
-        self.SetMenuBar(menu_bar)
+        self.help_menu = wx.Menu()
+
+        self.help_menu_item = wx.MenuItem(self.help_menu, -1, '&Help\tF1', kind=wx.ITEM_CHECK)
+        self.help_menu.AppendItem(self.help_menu_item)
+        self.Bind(wx.EVT_MENU, self.toggle_help, source=self.help_menu_item)
+
+        self.help_menu.AppendSeparator()
+
+        self.about_menu_item = wx.MenuItem(self.help_menu, -1, "&About...")
+        self.help_menu.AppendItem(self.about_menu_item)
+        self.Bind(wx.EVT_MENU, self.on_about, source=self.about_menu_item)
+
+        self.menu_bar.Append(self.file_menu, '&File')
+        self.menu_bar.Append(self.help_menu, '&Help')
+
+        self.SetMenuBar(self.menu_bar)
 
     def init_help_screen(self):
 
@@ -184,7 +187,7 @@ class ApplicationWindow(wx.Frame):
 
     def show_help(self, event=None):
         self.help_shown=True
-        self.help_menu_button.Check()
+        self.help_menu_item.Check()
         self.sizer.Show(self.help_screen)
         self.sizer.Hide(self.splitter)
         self.help_notebook.SetFocus()
@@ -192,7 +195,7 @@ class ApplicationWindow(wx.Frame):
 
     def hide_help(self, event=None):
         self.help_shown=False
-        self.help_menu_button.Check(False)
+        self.help_menu_item.Check(False)
         self.sizer.Hide(self.help_screen)
         self.sizer.Show(self.splitter)
         self.shell.setFocus()

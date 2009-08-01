@@ -1,3 +1,7 @@
+"""
+Lambda functions for converting angles between radians
+and degrees
+"""
 import math
 
 deg_to_rad=lambda deg: (deg*math.pi)/180

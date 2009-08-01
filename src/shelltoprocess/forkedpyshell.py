@@ -1,5 +1,5 @@
 """
-Forked by cool-RR as part of the PythonTurtle project.
+Forked by cool-RR as part of the shelltoprocess package.
 
 
 Original documentation:
