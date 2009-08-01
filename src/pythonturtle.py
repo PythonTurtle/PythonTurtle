@@ -29,7 +29,7 @@ class ApplicationWindow(wx.Frame):
 
         self.turtle_process = turtleprocess.TurtleProcess()
         self.turtle_process.start()
-        self.turtle_queue = turtle_process.turtle_queue
+        self.turtle_queue = self.turtle_process.turtle_queue
 
         self.init_menu_bar()
 
@@ -39,7 +39,7 @@ class ApplicationWindow(wx.Frame):
         self.turtle_widget = turtlewidget.TurtleWidget(self.splitter,
                                                        self.turtle_queue)
 
-        self.bottom_sizer_panel = wx.Panel(splitter)
+        self.bottom_sizer_panel = wx.Panel(self.splitter)
 
         self.shell = \
             shelltoprocess.Shell(self.bottom_sizer_panel,
@@ -61,17 +61,19 @@ class ApplicationWindow(wx.Frame):
         self.bottom_sizer = wx.BoxSizer(wx.HORIZONTAL)
 
         self.bottom_sizer.Add(self.shell, 1, wx.EXPAND)
-        self.bottom_sizer.Add(self.help_open_button_panel, 0, wx.EXPAND))
+        self.bottom_sizer.Add(self.help_open_button_panel, 0, wx.EXPAND)
 
-        bottom_sizer_panel.SetSizer(bottom_sizer)
+        self.bottom_sizer_panel.SetSizer(self.bottom_sizer)
 
         desired_shell_height=210
 
-        splitter.SplitHorizontally(turtle_widget,bottom_sizer_panel,-desired_shell_height)
-        splitter.SetSashGravity(1)
+        self.splitter.SplitHorizontally(self.turtle_widget,
+                                        self.bottom_sizer_panel,
+                                        -desired_shell_height)
+        self.splitter.SetSashGravity(1)
 
         sizer=self.sizer=wx.BoxSizer(wx.HORIZONTAL)
-        sizer.Add(splitter,1,wx.EXPAND)
+        sizer.Add(self.splitter,1,wx.EXPAND)
         sizer.Add(self.help_screen, 1, wx.EXPAND)
         self.hide_help()
         self.SetSizer(sizer)
@@ -82,7 +84,7 @@ class ApplicationWindow(wx.Frame):
         self.Show()
 
         self.Layout()
-        splitter.SetSashPosition(-desired_shell_height)
+        self.splitter.SetSashPosition(-desired_shell_height)
 
         #self.SetAutoLayout(1)
 
