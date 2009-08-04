@@ -14,7 +14,12 @@ import turtleprocess
 import multiprocessing
 import homedirectory; homedirectory.do()
 import almostimportstdlib # Intentionally unused; see module's doc.
-import psyco; psyco.full()
+
+try:
+    import psyco
+    psyco.full()
+except ImportError:
+    pass
 
 
 class ApplicationWindow(wx.Frame):
