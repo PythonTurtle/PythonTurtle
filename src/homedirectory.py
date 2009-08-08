@@ -8,6 +8,7 @@ add it to sys.path.
 import os
 import sys
 
+
 def _are_we_frozen():
     """Returns whether we are frozen via py2exe.
     This will affect how we find out where we are located."""

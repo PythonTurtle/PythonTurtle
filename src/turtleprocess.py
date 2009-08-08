@@ -7,7 +7,7 @@ import time
 import smartsleep
 import misc.angles as angles
 import shelltoprocess
-from turtle import *
+from my_turtle import *
 from vector import Vector
 
 def log(x):

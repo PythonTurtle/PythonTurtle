@@ -9,9 +9,9 @@ import math
 import wx
 
 from vector import Vector
-from turtle import *
+from my_turtle import *
 import misc.dumpqueue as dumpqueue
-
+from misc.fromresourcefolder import from_resource_folder
 
 
 class TurtleWidget(wx.Panel):
@@ -23,7 +23,7 @@ class TurtleWidget(wx.Panel):
         wx.Panel.__init__(self,parent,style=wx.SUNKEN_BORDER,*args,**kwargs)
 
         self.BACKGROUND_COLOR = wx.Colour(212,208,200)
-        self.TURTLE_IMAGE = wx.Bitmap("turtle.png")
+        self.TURTLE_IMAGE = wx.Bitmap(from_resource_folder("turtle.png"))
 
         self.turtle = Turtle()
         #bitmap=self.bitmap=wx.EmptyBitmapRGBA(2000,1200,BACKGROUND_COLOR[0],BACKGROUND_COLOR[1],BACKGROUND_COLOR[2],255) # todo: Change to something smarter?

@@ -13,7 +13,9 @@ import turtlewidget
 import turtleprocess
 import multiprocessing
 import homedirectory; homedirectory.do()
+from misc.fromresourcefolder import from_resource_folder
 import almostimportstdlib # Intentionally unused; see module's doc.
+
 
 try:
     import psyco
@@ -29,7 +31,7 @@ class ApplicationWindow(wx.Frame):
     def __init__(self,*args,**keywords):
         wx.Frame.__init__(self,*args,**keywords)
         self.SetDoubleBuffered(True)
-        self.SetIcon(wx.Icon("icon.ico", wx.BITMAP_TYPE_ICO))
+        self.SetIcon(wx.Icon(from_resource_folder("icon.ico"), wx.BITMAP_TYPE_ICO))
 
         self.init_help_screen()
 
@@ -54,7 +56,7 @@ class ApplicationWindow(wx.Frame):
         self.help_open_button_panel = \
             wx.Panel(parent=self.bottom_sizer_panel)
 
-        help_open_button_bitmap = wx.Bitmap("teach_me.png")
+        help_open_button_bitmap = wx.Bitmap(from_resource_folder("teach_me.png"))
         self.help_open_button = \
             wx.lib.buttons.GenBitmapButton(self.help_open_button_panel, -1, help_open_button_bitmap)
         self.help_open_button_sizer = \
@@ -142,10 +144,10 @@ class ApplicationWindow(wx.Frame):
         self.help_notebook.Bind(wx.EVT_SET_FOCUS, give_focus_to_selected_page)
         self.help_notebook.Bind(wx.EVT_CHILD_FOCUS, give_focus_to_selected_page)
 
-        self.help_images_list=[["Level 1", "help1.png"],
-                               ["Level 2", "help2.png"],
-                               ["Level 3", "help3.png"],
-                               ["Level 4", "help4.png"]]
+        self.help_images_list=[["Level 1", from_resource_folder("help1.png")],
+                               ["Level 2", from_resource_folder("help2.png")],
+                               ["Level 3", from_resource_folder("help3.png")],
+                               ["Level 4", from_resource_folder("help4.png")]]
 
 
         self.help_pages=[HelpPage(parent=self.help_notebook, bitmap=wx.Bitmap(bitmap_file), caption=caption) \
@@ -160,7 +162,7 @@ class ApplicationWindow(wx.Frame):
         self.help_screen_sizer.Add(self.help_close_button_panel, 0, wx.EXPAND)
         self.help_screen.SetSizer(self.help_screen_sizer)
 
-        help_close_button_bitmap=wx.Bitmap("lets_code.png")
+        help_close_button_bitmap=wx.Bitmap(from_resource_folder("lets_code.png"))
         self.help_close_button = \
             wx.lib.buttons.GenBitmapButton(self.help_close_button_panel, -1,
                                            help_close_button_bitmap)
