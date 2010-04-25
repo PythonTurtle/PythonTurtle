@@ -82,6 +82,22 @@ class TurtleProcess(multiprocessing.Process):
                 self.turtle.pos+=last_step
                 self.send_report()
 
+        def speed(newspeed):
+            """
+            Set the turtle's travel speed. Specify newspeed in pixels per second.
+            """
+            if newspeed<1:
+                raise Exception("newspeed must be a number greater than one.")
+            self.turtle.SPEED=newspeed
+
+        def turnspeed(newspeed):
+            """
+            Set the turtle's angular speed. Specify newspeed in degrees per second. 
+            """
+            if newspeed<1:
+                raise Exception("newspeed must be a number greater than one.")
+            self.turtle.ANGULAR_SPEED = newspeed
+
         def turn(angle):
             """
             Makes the turtle turn. Specify angle in degrees. A positive
@@ -106,6 +122,12 @@ class TurtleProcess(multiprocessing.Process):
                 last_step=last_angle*sign
                 self.turtle.orientation+=last_step
                 self.send_report()
+
+        def left(angle):
+            """
+            Turns the turtle anticlockwise by angle. See turn().
+            """
+            turn(-angle)
 
         def color(color):
             """
@@ -221,11 +243,13 @@ class TurtleProcess(multiprocessing.Process):
             clear()
 
         locals_for_console={"go": go, "turn": turn, "color": color,
+                            "fd": go, "left": left, "right": turn,
                             "width": width, "visible": visible,
                             "invisible": invisible, "pen_down": pen_down,
                             "pen_up": pen_up, "is_visible": is_visible,
                             "is_pen_down": is_pen_down, "sin": sin, "cos": cos,
                             "turtle": self.turtle, "clear": clear,
+                            "speed": speed, "turnspeed":turnspeed,
                             "reset": reset}
 
 
