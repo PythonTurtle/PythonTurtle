@@ -86,8 +86,6 @@ class TurtleProcess(multiprocessing.Process):
             """
             Set the turtle's travel speed. Specify newspeed in pixels per second.
             """
-            if newspeed<1:
-                raise Exception("newspeed must be a number greater than one.")
             self.turtle.SPEED=newspeed
 
         def turnspeed(newspeed):
