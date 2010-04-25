@@ -219,20 +219,23 @@ class TurtleProcess(multiprocessing.Process):
         Had trouble implementing `home`.
         I couldn't control when the turtle would actually draw a line home.
 
+        I don't understand what wasn't working here?... -Spacerat
+        """
         def home():
-            #\"""
+            """
             Places the turtle at the center of the screen, facing upwards.
-            #\"""
-            old_pen_down = self.turtle.pen_down
-            pen_up() # Sends a report as well
+            """
+
+          # old_pen_down = self.turtle.pen_down
+          # pen_up() # Sends a report as well
             self.send_report()
             self.turtle.pos = Vector((0, 0))
             self.turtle.orientation = 180
             self.send_report()
-            time.sleep(3)
-            pen_down(old_pen_down)
-        """
+          # time.sleep(3)
+          # pen_down(old_pen_down)
 
+        
         def reset():
             """
             Resets all the turtle's properties and clears the screen.
@@ -247,6 +250,7 @@ class TurtleProcess(multiprocessing.Process):
                             "pen_up": pen_up, "is_visible": is_visible,
                             "is_pen_down": is_pen_down, "sin": sin, "cos": cos,
                             "turtle": self.turtle, "clear": clear,
+                            "home": home,
                             "speed": speed, "turnspeed":turnspeed,
                             "reset": reset}
 
