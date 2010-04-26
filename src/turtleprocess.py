@@ -277,6 +277,9 @@ class TurtleProcess(multiprocessing.Process):
                             "speed": speed, "turnspeed":turnspeed,
                             "reset": reset}
 
+        def commands():
+            return "commands, "+", ".join(locals_for_console)
+        locals_for_console['commands']=commands
 
         self.console = \
             shelltoprocess.Console(queue_pack=self.queue_pack,locals=locals_for_console)
