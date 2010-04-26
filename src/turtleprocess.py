@@ -236,7 +236,16 @@ class TurtleProcess(multiprocessing.Process):
           # time.sleep(3)
           # pen_down(old_pen_down)
 
-        
+
+        def set_pos(x,y):
+            """
+            Instantly set the position of the turtle to the given x/y coordinates,
+            drawing a line there if the pen is down.
+            """
+            self.send_report()
+            self.turtle.pos=Vector((x,y))
+            self.send_report()
+            
         def reset():
             """
             Resets all the turtle's properties and clears the screen.
@@ -264,7 +273,7 @@ class TurtleProcess(multiprocessing.Process):
                             "pen_up": pen_up, "is_visible": is_visible,
                             "is_pen_down": is_pen_down, "sin": sin, "cos": cos,
                             "turtle": self.turtle, "clear": clear,
-                            "home": home,
+                            "home": home, "set_pos": set_pos,
                             "speed": speed, "turnspeed":turnspeed,
                             "reset": reset}
 
