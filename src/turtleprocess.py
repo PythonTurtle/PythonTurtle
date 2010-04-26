@@ -3,6 +3,7 @@ import multiprocessing
 import copy
 import math
 import time
+import wx
 
 import smartsleep
 import misc.angles as angles
@@ -136,8 +137,8 @@ class TurtleProcess(multiprocessing.Process):
             color("green")
             color("#00FFCC")
             """
-            #if not valid_color(color):
-            #    raise StandardError(color+" is not a valid color.")
+            if not valid_color(color):
+                raise StandardError(color+" is not a valid color.")
             self.turtle.color=color
             self.send_report()
 
@@ -219,7 +220,7 @@ class TurtleProcess(multiprocessing.Process):
         Had trouble implementing `home`.
         I couldn't control when the turtle would actually draw a line home.
 
-        I don't understand what wasn't working here?... -Spacerat
+        I don't understand what wasn't working here?... ~Spacerat
         """
         def home():
             """
@@ -243,6 +244,19 @@ class TurtleProcess(multiprocessing.Process):
             self.turtle = Turtle()
             clear()
 
+        """
+        This seems to work. I'm not sure how good of an idea
+        constantly recreating wxApp is though ~ Spacerat.
+        """
+        def valid_color(color):
+            """
+            Return True of the given colour creates a vaild wxColour.
+            """
+            a=wx.App()
+            p = wx.Pen(color)
+            a.Destroy()
+            return p.Colour.IsOk()
+        
         locals_for_console={"go": go, "turn": turn, "color": color,
                             "fd": go, "left": left, "right": turn,
                             "width": width, "visible": visible,
@@ -253,15 +267,6 @@ class TurtleProcess(multiprocessing.Process):
                             "home": home,
                             "speed": speed, "turnspeed":turnspeed,
                             "reset": reset}
-
-
-        """
-        A little thing I tried doing for checking if a color is
-        valid before setting it to the turtle. Didn't work.
-        import wx; app=wx.App();
-        def valid_color(color):
-            return not wx.Pen(color).GetColour()==wx.Pen("malformed").GetColour()
-        """
 
 
         self.console = \
