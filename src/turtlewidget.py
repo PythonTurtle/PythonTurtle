@@ -26,8 +26,7 @@ class TurtleWidget(wx.Panel):
         self.TURTLE_IMAGE = wx.Bitmap(from_resource_folder("turtle.png"))
 
         self.turtle = Turtle()
-        #bitmap=self.bitmap=wx.EmptyBitmapRGBA(2000,1200,BACKGROUND_COLOR[0],BACKGROUND_COLOR[1],BACKGROUND_COLOR[2],255) # todo: Change to something smarter?
-        self.bitmap = wx.EmptyBitmap(*BITMAP_SIZE)
+        self.bitmap=wx.EmptyBitmapRGBA(BITMAP_SIZE[0], BITMAP_SIZE[1], 0,0,0,255)
         self.Bind(wx.EVT_PAINT, self.on_paint)
         self.Bind(wx.EVT_SIZE,self.on_size)
         self.Bind(wx.EVT_IDLE,self.on_idle)
