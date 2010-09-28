@@ -1,0 +1,5 @@
+pythonturtle (0.1.2009.8.2.1-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Sergey Klimov <dcdarv@gmail.com>  Wed, 29 Sep 2010 02:02:19 +0300
