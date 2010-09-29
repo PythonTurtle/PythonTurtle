@@ -7,8 +7,15 @@ import time
 import smartsleep
 import misc.angles as angles
 import shelltoprocess
-from my_turtle import *
+
 from vector import Vector
+
+
+OOPMODE=False
+if OOPMODE:
+    from animals import *
+else:
+    from my_turtle import *
 
 def log(x):
     print(x)
@@ -48,12 +55,15 @@ class TurtleProcess(multiprocessing.Process):
         and draw graphics accordingly.
         """
         #self.turtle.fingerprint = random.randint(0,10000)
-        self.turtle_queue.put(self.turtle)
+        if OOPMODE:
+            self.turtle_queue.put(animal.get_animals())
+        else:
+            self.turtle_queue.put(self.turtle)
         #log(self.turtle.__dict__)
 
     def run(self):
-
-        self.turtle=Turtle()
+        if not OOPMODE:
+            self.turtle=Turtle()
 
         def go(distance):
             """
@@ -220,7 +230,11 @@ class TurtleProcess(multiprocessing.Process):
             self.turtle = Turtle()
             clear()
 
-        locals_for_console={"go": go, "turn": turn, "color": color,
+
+        if OOPMODE:
+            locals_for_console={"Frog":Frog, "send":self.send_report, "Vector":Vector}
+        else:
+            locals_for_console={"go": go, "turn": turn, "color": color,
                             "width": width, "visible": visible,
                             "invisible": invisible, "pen_down": pen_down,
                             "pen_up": pen_up, "is_visible": is_visible,
