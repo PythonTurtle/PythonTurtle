@@ -13,7 +13,7 @@ setup(name='PythonTurtle',
       package_dir = {'pythonturtle': 'src'},
       packages=['pythonturtle','pythonturtle.almostimportstdlib','pythonturtle.misc',\
                 'pythonturtle.shelltoprocess','pythonturtle.','pythonturtle.'],
-      scripts=['pythonturtle',],
+      scripts= ['pythonturtle'],
       data_files=[('share/pythonturtle',
 			glob.glob('src/resources/*.png')),
 		],
