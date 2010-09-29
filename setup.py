@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import glob
-from setuptools import setup
+from distutils.core import setup
+
 from DistUtilsExtra.command import *
 """
 py2app/py2exe build script for MyApplication.
@@ -48,7 +49,7 @@ else:
 
 
 
-base_options = dict (name='pythonturtle',
+base_options = dict (name='PythonTurtle',
       install_requires = ["wx","psyco","multiprocessing"],
       version='1.1',
       description='A learning environment for Python suitable for beginners and children, inspired by Logo.',
