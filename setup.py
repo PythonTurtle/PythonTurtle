@@ -4,7 +4,7 @@ from distutils.core import setup
 
 from DistUtilsExtra.command import *
 
-setup(name='PythonTurtle',
+setup(name='pythonturtle',
       version='1.0',
       description='A learning environment for Python suitable for beginners and children, inspired by Logo.',
       author='Ram Rachum',
@@ -17,13 +17,11 @@ setup(name='PythonTurtle',
       data_files=[('share/pythonturtle',
 			glob.glob('src/resources/*.png')),
 		],
-      long_description="""
-      PythonTurtle strives to provide the lowest-threshold way to learn (or teach) 
-      Python. Students command an interactive Python shell (similar to the IDLE 
-      development environment) and use Python functions to move a turtle displayed 
-      on the screen. An illustrated help screen introduces the student to the basics 
-      of Python programming while demonstrating how to move the turtle.
-      """,
+      long_description="""PythonTurtle strives to provide the lowest-threshold way to learn (or teach)\
+      Python. Students command an interactive Python shell (similar to the IDLE \
+      development environment) and use Python functions to move a turtle displayed \
+      on the screen. An illustrated help screen introduces the student to the basics \
+      of Python programming while demonstrating how to move the turtle.""",
       license="MIT",
       maintainer="Sergey Klimov",
       maintainer_email="dcdarv@gmail.com",
