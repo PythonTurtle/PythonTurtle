@@ -16,8 +16,7 @@ Usage (Windows):
     python setup.py py2exe
 
 Usage (Ubuntu/Debian):
-    python-mkdebian
-    debuild 
+    python setup.py --command-packages=stdeb.command bdist_deb
 """
 #import ez_setup
 #ez_setup.use_setuptools()
