@@ -11,7 +11,8 @@ import shelltoprocess
 from vector import Vector
 
 
-OOPMODE=False
+OOPMODE=True
+#OOPMODE=False
 if OOPMODE:
     from animals import *
 else:
@@ -232,7 +233,7 @@ class TurtleProcess(multiprocessing.Process):
 
 
         if OOPMODE:
-            locals_for_console={"Frog":Frog, "send":self.send_report, "Vector":Vector}
+            locals_for_console={"Frog":Frog, "animal":animal, "send":self.send_report, "Vector":Vector}
         else:
             locals_for_console={"go": go, "turn": turn, "color": color,
                             "width": width, "visible": visible,
