@@ -1,10 +1,54 @@
 #!/usr/bin/env python
 import glob
-from distutils.core import setup
-
+from setuptools import setup
 from DistUtilsExtra.command import *
+"""
+py2app/py2exe build script for MyApplication.
 
-setup(name='pythonturtle',
+Will automatically ensure that all build prerequisites are available
+via ez_setup
+
+Usage (Mac OS X):
+    python setup.py py2app
+
+Usage (Windows):
+    python setup.py py2exe
+
+Usage (Ubuntu/Debian):
+    python-mkdebian
+    debuild 
+"""
+#import ez_setup
+#ez_setup.use_setuptools()
+
+import sys
+from setuptools import setup
+
+mainscript = 'pythonturtle'
+
+if sys.platform == 'darwin':
+    extra_options = dict(
+        setup_requires=['py2app'],
+        app=[mainscript],
+        # Cross-platform applications generally expect sys.argv to
+        # be used for opening files.
+        options=dict(py2app=dict(argv_emulation=True)),
+    )
+elif sys.platform == 'win32':
+    extra_options = dict(
+        setup_requires=['py2exe'],
+        app=[mainscript],
+    )
+else:
+     extra_options = dict(
+         # Normally unix-like platforms will use "setup.py install"
+         # and install the main script as such
+         scripts=[mainscript],
+     )
+
+
+
+base_options = dict (name='pythonturtle',
       version='1.0',
       description='A learning environment for Python suitable for beginners and children, inspired by Logo.',
       author='Ram Rachum',
@@ -13,7 +57,7 @@ setup(name='pythonturtle',
       package_dir = {'pythonturtle': 'src'},
       packages=['pythonturtle','pythonturtle.almostimportstdlib','pythonturtle.misc',\
                 'pythonturtle.shelltoprocess','pythonturtle.','pythonturtle.'],
-      scripts= ['pythonturtle'],
+
       data_files=[('share/pythonturtle',
 			glob.glob('src/resources/*.png')),
 		],
@@ -39,3 +83,9 @@ setup(name='pythonturtle',
                    "build_help" :  build_help.build_help,
                    "build_icons" :  build_icons.build_icons }
      )
+
+base_options.update(extra_options)
+options = base_options 
+
+
+setup( **options)
