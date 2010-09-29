@@ -31,13 +31,21 @@ class TurtleWidget(wx.Panel):
 
         self.BACKGROUND_COLOR = wx.Colour(212,208,200)
         self.TURTLE_IMAGE = wx.Bitmap(from_resource_folder("turtle.png"))
+
         
         if OOPMODE:
             self.animals = animal.get_animals()
         else:
             self.turtle = Turtle()
+
+        self.SetBackgroundStyle(wx.BG_STYLE_CUSTOM)
+        self.bitmap = wx.EmptyBitmap(*BITMAP_SIZE)
             
-        self.bitmap=wx.EmptyBitmapRGBA(BITMAP_SIZE[0], BITMAP_SIZE[1], 0,0,0,255)
+#        self.bitmap=wx.EmptyBitmapRGBA(BITMAP_SIZE[0], BITMAP_SIZE[1], 0,0,0,255)
+
+        self.SetBackgroundStyle(wx.BG_STYLE_CUSTOM)
+
+
         self.Bind(wx.EVT_PAINT, self.on_paint)
         self.Bind(wx.EVT_SIZE,self.on_size)
         self.Bind(wx.EVT_IDLE,self.on_idle)
