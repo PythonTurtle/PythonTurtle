@@ -58,7 +58,7 @@ class TurtleProcess(multiprocessing.Process):
         """
         #self.turtle.fingerprint = random.randint(0,10000)
         if OOPMODE:
-            self.turtle_queue.put(animal.get_animals())
+            self.turtle_queue.put(Animal._get_animals())
         else:
             self.turtle_queue.put(self.turtle)
         #log(self.turtle.__dict__)
@@ -279,7 +279,8 @@ class TurtleProcess(multiprocessing.Process):
         
         
         if OOPMODE:
-            locals_for_console={"Frog":Frog, "animal":animal, "send":self.send_report, "Vector":Vector}
+            Animal._send_report = self.send_report
+            locals_for_console={"Frog":Frog, "Animal":Animal, "Vector":Vector, "system":system}
         else:
             locals_for_console={"go": go, "turn": turn, "color": color,
                             "fd": go, "left": left, "right": turn,

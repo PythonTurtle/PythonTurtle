@@ -34,7 +34,7 @@ class TurtleWidget(wx.Panel):
 
         
         if OOPMODE:
-            self.animals = animal.get_animals()
+            self.animals = Animal._get_animals()
         else:
             self.turtle = Turtle()
 
@@ -77,7 +77,7 @@ class TurtleWidget(wx.Panel):
                             oldanimal = self.animals[turtle_report.index(animal)]
                             print oldanimal.position
                             print animal.position
-                            dc.SetPen(animal.give_pen())
+                            dc.SetPen(animal._give_pen())
                             dc.DrawLinePoint(\
                                from_my_pos(oldanimal.position),from_my_pos(animal.position))
                         except IndexError, e:
@@ -89,7 +89,7 @@ class TurtleWidget(wx.Panel):
                 self.animals = turtle_report
             else:
                 if turtle_report.pen_down is True:
-                    dc.SetPen(turtle_report.give_pen())
+                    dc.SetPen(turtle_report._give_pen())
                     dc.DrawLinePoint(from_my_pos(self.turtle.pos),from_my_pos(turtle_report.pos))
                 if turtle_report.clear is True:
                     brush=wx.Brush("black")

@@ -36,23 +36,55 @@ import shelltoprocess
 
 
 
-
-class animal(object):
-    """
-    Base class for all animals
-    
-    >>>
-    
-    """
-    SPEED=400.0 # Pixels per second
-    ANGULAR_SPEED=360.0 # Degrees per second
-    
+class system(object):
     
     """
     Constants:
     """
     FPS=25
     FRAME_TIME=1/float(FPS)
+
+    @classmethod
+    def sin(cls, angle):
+        """
+        Calculates sine, with the angle specified in degrees.
+        """
+        return math.sin(angles.deg_to_rad(angle))
+    
+    @classmethod
+    def cos(cls, angle):
+        """
+        Calculates cosine, with the angle specified in degrees.
+        """
+        return math.cos(angles.deg_to_rad(angle))
+    
+    """
+    This seems to work. I'm not sure how good of an idea
+    constantly recreating wxApp is though ~ Spacerat.
+    """
+    @classmethod
+    def valid_color(cls, color):
+        """
+        Return True of the given colour creates a vaild wxColour.
+        """
+        a=wx.App()
+        p = wx.Pen(color)
+        a.Destroy()
+        return p.Colour.IsOk()
+    
+    @classmethod
+    def reset(cls):
+        Animal._reset_animals()
+
+class Animal(object):
+    """
+    Base class for all animals
+    
+    """
+    SPEED=400.0 # Pixels per second
+    ANGULAR_SPEED=360.0 # Degrees per second
+    
+    
 
     __animals = []
     
@@ -63,9 +95,11 @@ class animal(object):
              orientation,      color,      width ,     visible,      pen_down
         
         if position is None:
-            self.position = Vector(self.get_random_position())
+            self.position = Vector(self._get_random_position())
         else:
             self.position = Vector(position)
+        
+        self.initial_position = self.position
         
         self.clear = False
         
@@ -80,12 +114,17 @@ class animal(object):
     
     def __setattr__(self, item, value):
         print "setattr", item, value
-        super(animal, self).__setattr__(item, value)
-        ###FIXME!!!
-#        locals()["send"]()
-        
+        super(Animal, self).__setattr__(item, value)
+        self._send_report()
+    
     @classmethod
-    def get_random_position(cls):
+    def _reset_animals(cls):
+        for animal in cls.__animals:
+            del animal
+        cls.__animals = []
+    
+    @classmethod
+    def _get_random_position(cls):
         """
         Returns random, not busy position
         """
@@ -93,11 +132,11 @@ class animal(object):
 #        raise NonImplementedError
 
     @classmethod
-    def get_animals(cls):
+    def _get_animals(cls):
         return cls.__animals
     
     
-    def give_pen(self):
+    def _give_pen(self):
         """
         Gives a wxPython pen that corresponds to the color, width,
         and pen_downity of the Turtle instance.
@@ -117,13 +156,13 @@ class animal(object):
             sign=1 if distance>0 else -1
             distance=copy.copy(abs(distance))
             distance_gone=0
-            distance_per_frame=self.FRAME_TIME*self.SPEED
+            distance_per_frame=system.FRAME_TIME*self.SPEED
             steps=int(math.ceil(distance/float(distance_per_frame)))
             angle=from_my_angle(self.orientation)
             unit_vector=Vector((math.sin(angle),math.cos(angle)))*sign
             step=distance_per_frame*unit_vector
             for i in range(steps-1):
-                with smartsleep.Sleeper(self.FRAME_TIME):
+                with smartsleep.Sleeper(system.FRAME_TIME):
                     self.position+=step
                 
                     distance_gone+=distance_per_frame
@@ -143,11 +182,11 @@ class animal(object):
         sign=1 if angle>0 else -1
         angle=copy.copy(abs(angle))
         angle_gone=0
-        angle_per_frame=self.FRAME_TIME*self.ANGULAR_SPEED
+        angle_per_frame=system.FRAME_TIME*self.ANGULAR_SPEED
         steps=int(math.ceil(angle/float(angle_per_frame)))
         step=angle_per_frame*sign
         for i in range(steps-1):
-            with smartsleep.Sleeper(self.FRAME_TIME):
+            with smartsleep.Sleeper(system.FRAME_TIME):
                 self.orientation+=step
                 angle_gone+=angle_per_frame
     
@@ -156,7 +195,43 @@ class animal(object):
         with smartsleep.Sleeper(last_sleep):
             last_step=last_angle*sign
             self.orientation+=last_step
+    
+    def left(self, angle):
+        """
+        Turns the turtle anticlockwise by angle. See turn().
+        """
+        self.turn(-angle)
             
+    def turnspeed(self, newspeed):
+        """
+        Set the turtle's angular speed. Specify newspeed in degrees per second. 
+        """
+        if newspeed<1:
+            raise Exception("newspeed must be a number greater than one.")
+        self.ANGULAR_SPEED = newspeed
+            
+    def set_color(self, color):
+        """
+        Sets the color of the turtle's pen. Specify a color as a string.
+
+        Examples:
+        set_color("white")
+        set_color("green")
+        set_color("#00FFCC")
+        """
+        if not system.valid_color(color):
+            raise StandardError(color+" is not a valid color.")
+        self.color=color
+            
+    def home(self):
+        """
+        Places the turtle at the center of the screen, facing upwards.
+        """
+        pen_was = self.pen_down
+        self.pen_down = False
+        self.position = self.initial_position
+        self.orientation = 180
+        self.pen_down = pen_was
 
     def bevisible(self, visible=True):
         """
@@ -184,7 +259,7 @@ class animal(object):
         Puts the pen in the "up" position, making the turtle not leave a
         trail when walking.
         """
-        self.turtle.pen_down = False
+        self.pen_down = False
     
     def is_visible(self):
         """
@@ -198,44 +273,14 @@ class animal(object):
         """
         return self.pen_down
     
-    def sin(self, angle):
-        """
-        Calculates sine, with the angle specified in degrees.
-        """
-        return math.sin(angles.deg_to_rad(angle))
-    
-    def cos(self, angle):
-        """
-        Calculates cosine, with the angle specified in degrees.
-        """
-        return math.cos(angles.deg_to_rad(angle))
-    
-    
-    
-    """
-    Had trouble implementing `home`.
-    I couldn't control when the turtle would actually draw a line home.
-    
-    def home():
-        #\"""
-        Places the turtle at the center of the screen, facing upwards.
-        #\"""
-        old_pen_down = self.turtle.pen_down
-        pen_up() # Sends a report as well
-        self.send_report()
-        self.turtle.pos = Vector((0, 0))
-        self.turtle.orientation = 180
-        self.send_report()
-        time.sleep(3)
-        pen_down(old_pen_down)
-    """
-
 
     
-class Frog(animal):
+    
+    
+class Frog(Animal):
     """
     >>> t = Turtle()
-    >>> animal.get_animals() # doctest: +ELLIPSIS
+    >>> Animal._get_animals() # doctest: +ELLIPSIS
     [<__main__.Turtle object at ...>]
     """
     pass
