@@ -1,6 +1,9 @@
 #!/usr/bin/env python
-
+import glob
 from distutils.core import setup
+
+from DistUtilsExtra.command import *
+
 setup(name='PythonTurtle',
       version='1.0',
       description='A learning environment for Python suitable for beginners and children, inspired by Logo.',
@@ -8,9 +11,12 @@ setup(name='PythonTurtle',
       author_email='cool-rr@cool-rr.com',
       url='http://pythonturtle.org/',
       package_dir = {'pythonturtle': 'src'},
-      package_data={'pythonturtle': ['resources/*.png']},
       packages=['pythonturtle','pythonturtle.almostimportstdlib','pythonturtle.misc',\
                 'pythonturtle.shelltoprocess','pythonturtle.','pythonturtle.'],
+      scripts=['pythonturtle',],
+      data_files=[('share/pythonturtle',
+			glob.glob('src/resources/*.png')),
+		],
       long_description="""
       PythonTurtle strives to provide the lowest-threshold way to learn (or teach) 
       Python. Students command an interactive Python shell (similar to the IDLE 
@@ -30,4 +36,8 @@ setup(name='PythonTurtle',
           'Operating System :: POSIX',
           'Programming Language :: Python',
           ],
+      cmdclass = { "build" : build_extra.build_extra,
+                   "build_i18n" :  build_i18n.build_i18n,
+                   "build_help" :  build_help.build_help,
+                   "build_icons" :  build_icons.build_icons }
      )

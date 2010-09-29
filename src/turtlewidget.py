@@ -39,9 +39,9 @@ class TurtleWidget(wx.Panel):
             self.turtle = Turtle()
 
         self.SetBackgroundStyle(wx.BG_STYLE_CUSTOM)
-        self.bitmap = wx.EmptyBitmap(*BITMAP_SIZE)
+        #self.bitmap = wx.EmptyBitmap(*BITMAP_SIZE)
             
-#        self.bitmap=wx.EmptyBitmapRGBA(BITMAP_SIZE[0], BITMAP_SIZE[1], 0,0,0,255)
+        self.bitmap=wx.EmptyBitmapRGBA(BITMAP_SIZE[0], BITMAP_SIZE[1], 0,0,0,255)
 
         self.SetBackgroundStyle(wx.BG_STYLE_CUSTOM)
 
