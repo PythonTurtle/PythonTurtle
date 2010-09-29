@@ -18,7 +18,7 @@ setup(name='PythonTurtle',
       on the screen. An illustrated help screen introduces the student to the basics 
       of Python programming while demonstrating how to move the turtle.
       """,
-      license="gpl",
+      license="MIT",
       maintainer="Sergey Klimov",
       maintainer_email="dcdarv@gmail.com",
       classifiers=[
