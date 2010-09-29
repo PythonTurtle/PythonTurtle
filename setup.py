@@ -49,7 +49,8 @@ else:
 
 
 base_options = dict (name='pythonturtle',
-      version='1.0',
+      install_requires = ["wx","psyco","multiprocessing"],
+      version='1.1',
       description='A learning environment for Python suitable for beginners and children, inspired by Logo.',
       author='Ram Rachum',
       author_email='cool-rr@cool-rr.com',
@@ -62,10 +63,10 @@ base_options = dict (name='pythonturtle',
 			glob.glob('src/resources/*.png')),
 		],
       long_description="""PythonTurtle strives to provide the lowest-threshold way to learn (or teach)\
-      Python. Students command an interactive Python shell (similar to the IDLE \
-      development environment) and use Python functions to move a turtle displayed \
-      on the screen. An illustrated help screen introduces the student to the basics \
-      of Python programming while demonstrating how to move the turtle.""",
+Python. Students command an interactive Python shell (similar to the IDLE \
+development environment) and use Python functions to move a turtle displayed \
+on the screen. An illustrated help screen introduces the student to the basics \
+of Python programming while demonstrating how to move the turtle.""",
       license="MIT",
       maintainer="Sergey Klimov",
       maintainer_email="dcdarv@gmail.com",
