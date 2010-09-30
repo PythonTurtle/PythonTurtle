@@ -24,7 +24,7 @@ Usage (Ubuntu/Debian):
 import sys
 from setuptools import setup
 
-mainscript = 'pythonturtle'
+mainscript = 'src/pythonturtle'
 
 if sys.platform == 'darwin':
     extra_options = dict(
@@ -49,7 +49,7 @@ else:
 
 
 base_options = dict (name='PythonTurtle',
-      install_requires = ["wx","psyco","multiprocessing"],
+      install_requires = ["python-wxversion","python-psyco"],
       version='1.1',
       description='A learning environment for Python suitable for beginners and children, inspired by Logo.',
       author='Ram Rachum',
@@ -59,8 +59,8 @@ base_options = dict (name='PythonTurtle',
       packages=['pythonturtle','pythonturtle.almostimportstdlib','pythonturtle.misc',\
                 'pythonturtle.shelltoprocess','pythonturtle.','pythonturtle.'],
 
-      data_files=[('share/pythonturtle',
-			glob.glob('src/resources/*.png')),
+      data_files=[('share/pythonturtle',glob.glob('data/*.png')),
+                  ('share/pythonturtle',glob.glob('data/*.ico')),
 		],
       long_description="""PythonTurtle strives to provide the lowest-threshold way to learn (or teach)\
 Python. Students command an interactive Python shell (similar to the IDLE \
