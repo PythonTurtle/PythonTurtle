@@ -5,12 +5,14 @@ import wx
 
 from vector import Vector
 from misc.angles import deg_to_rad, rad_to_deg
+from misc.fromresourcefolder import from_resource_folder
 
 
 # Size of the turtle canvas. We assume no user will have a screen
 # so big that the canvas will be bigger than this.
 BITMAP_SIZE = Vector((2000,1200))
 
+PLAYFIELD_SIZE=Vector((200,200))
 # Center of the canvas.
 origin = BITMAP_SIZE / 2.0
 
@@ -72,9 +74,6 @@ class system(object):
         a.Destroy()
         return p.Colour.IsOk()
     
-    @classmethod
-    def reset(cls):
-        Animal._reset_animals()
 
 class Animal(object):
     """
@@ -84,7 +83,9 @@ class Animal(object):
     SPEED=400.0 # Pixels per second
     ANGULAR_SPEED=360.0 # Degrees per second
     
-    
+#    image = "abstract_animal"
+    #fixme!
+    image = "turtle"
 
     __animals = []
     
@@ -113,24 +114,31 @@ class Animal(object):
             return False
     
     def __setattr__(self, item, value):
-        print "setattr", item, value
         super(Animal, self).__setattr__(item, value)
         self._send_report()
     
-    @classmethod
-    def _reset_animals(cls):
-        for animal in cls.__animals:
-            del animal
-        cls.__animals = []
-    
+ 
     @classmethod
     def _get_random_position(cls):
         """
         Returns random, not busy position
         """
-        return (0,0)
+        while True:
+            size = PLAYFIELD_SIZE/2
+            pos = Vector.random(-size, size)
+            if not cls.is_interliaced(pos):
+                break
+        return pos
 #        raise NonImplementedError
-
+    @classmethod
+    def is_interliaced(cls, position):
+        size = Vector(cls._get_image().GetSize())/2
+        for animal in cls.__animals:
+            if position-size < animal.position < position+size:
+                print "interliaced", position
+                return True
+        return False
+    
     @classmethod
     def _get_animals(cls):
         return cls.__animals
@@ -143,35 +151,50 @@ class Animal(object):
         """
         return wx.Pen(self.color,self.width,wx.SOLID if self.pen_down else wx.TRANSPARENT)
 
+    @classmethod
+    def _get_image(cls):
+        try:
+            return wx.Bitmap(from_resource_folder(cls.image+".png"))
+        #fixme!
+        except:
+            wx.Bitmap(from_resource_folder(Animal.image))
 
+    def get_image(self):
+        ###fancy things
+        return self._get_image()
 
-
+    def set_pos(self, x,y):
+        """
+        Instantly set the position of the turtle to the given x/y coordinates,
+        drawing a line there if the pen is down.
+        """
+        self.position=Vector((x,y))
 
     def go(self, distance):
-            """
-            Makes the turtle walk the specified distance. Use a negative number
-            to walk backwards.
-            """
-            if distance==0: return
-            sign=1 if distance>0 else -1
-            distance=copy.copy(abs(distance))
-            distance_gone=0
-            distance_per_frame=system.FRAME_TIME*self.SPEED
-            steps=int(math.ceil(distance/float(distance_per_frame)))
-            angle=from_my_angle(self.orientation)
-            unit_vector=Vector((math.sin(angle),math.cos(angle)))*sign
-            step=distance_per_frame*unit_vector
-            for i in range(steps-1):
-                with smartsleep.Sleeper(system.FRAME_TIME):
-                    self.position+=step
-                
-                    distance_gone+=distance_per_frame
+        """
+        Makes the turtle walk the specified distance. Use a negative number
+        to walk backwards.
+        """
+        if distance==0: return
+        sign=1 if distance>0 else -1
+        distance=copy.copy(abs(distance))
+        distance_gone=0
+        distance_per_frame=system.FRAME_TIME*self.SPEED
+        steps=int(math.ceil(distance/float(distance_per_frame)))
+        angle=from_my_angle(self.orientation)
+        unit_vector=Vector((math.sin(angle),math.cos(angle)))*sign
+        step=distance_per_frame*unit_vector
+        for i in range(steps-1):
+            with smartsleep.Sleeper(system.FRAME_TIME):
+                self.position+=step
+            
+                distance_gone+=distance_per_frame
 
-            last_distance=distance-distance_gone
-            last_sleep=last_distance/float(self.SPEED)
-            with smartsleep.Sleeper(last_sleep):
-                last_step=unit_vector*last_distance
-                self.position+=last_step
+        last_distance=distance-distance_gone
+        last_sleep=last_distance/float(self.SPEED)
+        with smartsleep.Sleeper(last_sleep):
+            last_step=unit_vector*last_distance
+            self.position+=last_step
 
     def turn(self, angle):
         """
@@ -201,6 +224,12 @@ class Animal(object):
         Turns the turtle anticlockwise by angle. See turn().
         """
         self.turn(-angle)
+        
+    def speed(self, newspeed):
+        """
+        Set the turtle's travel speed. Specify newspeed in pixels per second.
+        """
+        self.SPEED=newspeed
             
     def turnspeed(self, newspeed):
         """
@@ -284,6 +313,10 @@ class Frog(Animal):
     [<__main__.Turtle object at ...>]
     """
     pass
+
+class Turtle(Animal):
+    image = "turtle"
+    
     
 if __name__ == "__main__":
     import doctest

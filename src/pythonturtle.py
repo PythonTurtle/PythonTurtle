@@ -37,7 +37,9 @@ class ApplicationWindow(wx.Frame):
         wx.Frame.__init__(self,*args,**keywords)
         self.SetDoubleBuffered(True)
         self.SetIcon(wx.Icon(from_resource_folder("icon.ico"), wx.BITMAP_TYPE_ICO))
-
+        
+        
+    
         self.init_help_screen()
 
         self.turtle_process = turtleprocess.TurtleProcess()
@@ -108,6 +110,20 @@ class ApplicationWindow(wx.Frame):
         self.menu_bar = wx.MenuBar()
 
         self.file_menu = wx.Menu()
+        
+        self.reset_menu_item = wx.MenuItem(self.file_menu, -1, _('Reset'))
+        self.file_menu.AppendItem(self.reset_menu_item)
+        self.Bind(wx.EVT_MENU, self.reset, source=self.reset_menu_item)
+        
+        self.reset_all_menu_item = wx.MenuItem(self.file_menu, -1, \
+                                            _('Reset, delete initial turtle'))
+        self.file_menu.AppendItem(self.reset_all_menu_item)
+        self.Bind(wx.EVT_MENU, self.reset_all, \
+                  source=self.reset_all_menu_item)
+        
+        
+        
+        
         self.exit_menu_item = wx.MenuItem(self.file_menu, -1, _('E&xit'))
         self.file_menu.AppendItem(self.exit_menu_item)
         self.Bind(wx.EVT_MENU, self.on_exit, source=self.exit_menu_item)
@@ -219,12 +235,27 @@ that came up in the making of this program.""")
         info.SetCopyright(_("MIT License, (C) 2009 Ram Rachum (\"cool-RR\")"))
         info.SetDescription(description)
         info.SetName("PythonTurtle")
-        info.SetVersion("0.1.2009.8.2.1")
+        info.SetVersion("1.4")
         info.SetWebSite("http://pythonturtle.com")
 
 
     def on_about(self, event=None):
         about_dialog = wx.AboutBox(self.about_dialog_info)
+        
+    def reset(self, event=None, object_oriented_mode=False):
+
+        self.turtle_process.terminate()
+        self.turtle_process = turtleprocess.TurtleProcess(object_oriented_mode=object_oriented_mode)
+        self.turtle_process.start()
+        self.turtle_queue = self.turtle_process.turtle_queue
+        self.turtle_widget.set_turtle_queue(self.turtle_queue)
+        self.shell.set_queue_pack(self.turtle_process.queue_pack)
+        
+        
+        
+    
+    def reset_all(self, event=None):
+        self.reset(object_oriented_mode=True)
 
 
 class HelpPage(CustomScrolledPanel):

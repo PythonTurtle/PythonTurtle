@@ -12,10 +12,13 @@ class Interpreter(wxinterpreter.Interpreter):
         queue_pack=kwargs["queue_pack"]
         del kwargs["queue_pack"]
 
-        self.input_queue, self.output_queue, \
-            self.runcode_finished_queue, self.runsource_return_queue = queue_pack
+        self.set_queue_pack(queue_pack)
 
         wxinterpreter.Interpreter.__init__(self,*args,**kwargs)
+
+    def set_queue_pack(self, queue_pack):
+        self.input_queue, self.output_queue, \
+            self.runcode_finished_queue, self.runsource_return_queue = queue_pack
 
     def push(self, command):
         self.input_queue.put(command)#+"\n")
@@ -36,3 +39,6 @@ class Shell(forkedpyshell.Shell):
                                InterpClass=Interpreter,
                                process_shell=True,
                                **kwargs)
+        
+    def set_queue_pack(self, queue_pack):
+        self.interp.set_queue_pack(queue_pack)

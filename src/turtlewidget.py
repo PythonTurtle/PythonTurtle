@@ -10,13 +10,9 @@ import wx
 
 from vector import Vector
 
-OOPMODE=True
-#OOPMODE=False
 
-if OOPMODE:
-    from animals import *
-else:
-    from my_turtle import *
+from animals import *
+
 import misc.dumpqueue as dumpqueue
 from misc.fromresourcefolder import from_resource_folder
 
@@ -30,13 +26,9 @@ class TurtleWidget(wx.Panel):
         wx.Panel.__init__(self,parent,style=wx.SUNKEN_BORDER,*args,**kwargs)
 
         self.BACKGROUND_COLOR = wx.Colour(212,208,200)
-        self.TURTLE_IMAGE = wx.Bitmap(from_resource_folder("turtle.png"))
-
+    
+        self.animals = Animal._get_animals()
         
-        if OOPMODE:
-            self.animals = Animal._get_animals()
-        else:
-            self.turtle = Turtle()
 
         self.SetBackgroundStyle(wx.BG_STYLE_CUSTOM)
         #self.bitmap = wx.EmptyBitmap(*BITMAP_SIZE)
@@ -54,6 +46,9 @@ class TurtleWidget(wx.Panel):
 
         self.idle_block = False
 
+    def set_turtle_queue(self, turtle_queue):
+        self.turtle_queue = turtle_queue
+
     def on_paint(self,e=None):
         """
         Paint event handler. Reads the turtle reports and draws graphics
@@ -63,40 +58,23 @@ class TurtleWidget(wx.Panel):
         dc=wx.GCDC(wx.MemoryDC(self.bitmap))
         for turtle_report in turtle_reports:
             
-            if OOPMODE:
-#                print "report:"
-#                for animal in turtle_report:
-#                    print(animal.__dict__)
-#                print "end of report"
-#                print "selfanimals"
-#                print self.animals
-                for animal in turtle_report:
-                    if animal.pen_down is True:
-                        try:
-                            
-                            oldanimal = self.animals[turtle_report.index(animal)]
-                            print oldanimal.position
-                            print animal.position
-                            dc.SetPen(animal._give_pen())
-                            dc.DrawLinePoint(\
-                               from_my_pos(oldanimal.position),from_my_pos(animal.position))
-                        except IndexError, e:
-                            print e
-                    if animal.clear is True:
-                        brush=wx.Brush("black")
-                        dc.SetBackground(brush)
-                        dc.Clear()
-                self.animals = turtle_report
-            else:
-                if turtle_report.pen_down is True:
-                    dc.SetPen(turtle_report._give_pen())
-                    dc.DrawLinePoint(from_my_pos(self.turtle.pos),from_my_pos(turtle_report.pos))
-                if turtle_report.clear is True:
+
+            for animal in turtle_report:
+                if animal.pen_down is True:
+                    try:
+                        
+                        oldanimal = self.animals[turtle_report.index(animal)]
+                        dc.SetPen(animal._give_pen())
+                        dc.DrawLinePoint(\
+                           from_my_pos(oldanimal.position),from_my_pos(animal.position))
+                    except IndexError, e:
+                        print e
+                if animal.clear is True:
                     brush=wx.Brush("black")
                     dc.SetBackground(brush)
                     dc.Clear()
+            self.animals = turtle_report
 
-                self.turtle = turtle_report
         del dc
         if len(turtle_reports) > 0: self.Refresh()
 
@@ -108,18 +86,12 @@ class TurtleWidget(wx.Panel):
         # Draw the bitmap:
         dc.DrawBitmap(self.bitmap, *top_left_corner)
 
-        # Draw the turtle:
-        if OOPMODE:
-            for animal in self.animals:
-                if animal.visible:
-                    new_pos = top_left_corner + from_my_pos(animal.position)
-                    draw_bitmap_to_dc_rotated(dc, self.TURTLE_IMAGE, \
-                                             from_my_angle(animal.orientation), new_pos)
-        
-        else:
-            if self.turtle.visible:
-                new_pos = top_left_corner + from_my_pos(self.turtle.pos)
-                draw_bitmap_to_dc_rotated(dc, self.TURTLE_IMAGE, from_my_angle(self.turtle.orientation), new_pos)
+        # Draw the turtles:
+        for animal in self.animals:
+            if animal.visible:
+                new_pos = top_left_corner + from_my_pos(animal.position)
+                draw_bitmap_to_dc_rotated(dc, animal.get_image(), \
+                                         from_my_angle(animal.orientation), new_pos)
         dc.Destroy()
 
 
