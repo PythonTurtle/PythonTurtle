@@ -9,7 +9,10 @@ import math
 import wx
 
 from vector import Vector
-from my_turtle import *
+
+
+from animals import *
+
 import misc.dumpqueue as dumpqueue
 from misc.fromresourcefolder import from_resource_folder
 
@@ -23,13 +26,18 @@ class TurtleWidget(wx.Panel):
         wx.Panel.__init__(self,parent,style=wx.SUNKEN_BORDER,*args,**kwargs)
 
         self.BACKGROUND_COLOR = wx.Colour(212,208,200)
-        self.TURTLE_IMAGE = wx.Bitmap(from_resource_folder("turtle.png"))
+    
+        self.animals = Animal._get_animals()
+        
+
+        self.SetBackgroundStyle(wx.BG_STYLE_CUSTOM)
+        #self.bitmap = wx.EmptyBitmap(*BITMAP_SIZE)
+            
+        self.bitmap=wx.EmptyBitmapRGBA(BITMAP_SIZE[0], BITMAP_SIZE[1], 0,0,0,255)
 
         self.SetBackgroundStyle(wx.BG_STYLE_CUSTOM)
 
-        self.turtle = Turtle()
-        #bitmap=self.bitmap=wx.EmptyBitmapRGBA(2000,1200,BACKGROUND_COLOR[0],BACKGROUND_COLOR[1],BACKGROUND_COLOR[2],255) # todo: Change to something smarter?
-        self.bitmap = wx.EmptyBitmap(*BITMAP_SIZE)
+
         self.Bind(wx.EVT_PAINT, self.on_paint)
         self.Bind(wx.EVT_SIZE,self.on_size)
         self.Bind(wx.EVT_IDLE,self.on_idle)
@@ -37,6 +45,9 @@ class TurtleWidget(wx.Panel):
         self.turtle_queue = turtle_queue
 
         self.idle_block = False
+
+    def set_turtle_queue(self, turtle_queue):
+        self.turtle_queue = turtle_queue
 
     def on_paint(self,e=None):
         """
@@ -46,16 +57,24 @@ class TurtleWidget(wx.Panel):
         turtle_reports=dumpqueue.dump_queue(self.turtle_queue)
         dc=wx.GCDC(wx.MemoryDC(self.bitmap))
         for turtle_report in turtle_reports:
-            #print(turtle_report.__dict__)
-            if turtle_report.pen_down is True:
-                dc.SetPen(turtle_report.give_pen())
-                dc.DrawLinePoint(from_my_pos(self.turtle.pos),from_my_pos(turtle_report.pos))
-            if turtle_report.clear is True:
-                brush=wx.Brush("black")
-                dc.SetBackground(brush)
-                dc.Clear()
+            
 
-            self.turtle = turtle_report
+            for animal in turtle_report:
+                if animal.pen_down is True:
+                    try:
+                        
+                        oldanimal = self.animals[turtle_report.index(animal)]
+                        dc.SetPen(animal._give_pen())
+                        dc.DrawLinePoint(\
+                           from_my_pos(oldanimal.position),from_my_pos(animal.position))
+                    except IndexError, e:
+                        print e
+                if animal.clear is True:
+                    brush=wx.Brush("black")
+                    dc.SetBackground(brush)
+                    dc.Clear()
+            self.animals = turtle_report
+
         del dc
         if len(turtle_reports) > 0: self.Refresh()
 
@@ -67,10 +86,12 @@ class TurtleWidget(wx.Panel):
         # Draw the bitmap:
         dc.DrawBitmap(self.bitmap, *top_left_corner)
 
-        # Draw the turtle:
-        if self.turtle.visible:
-            new_pos = top_left_corner + from_my_pos(self.turtle.pos)
-            draw_bitmap_to_dc_rotated(dc, self.TURTLE_IMAGE, from_my_angle(self.turtle.orientation), new_pos)
+        # Draw the turtles:
+        for animal in self.animals:
+            if animal.visible:
+                new_pos = top_left_corner + from_my_pos(animal.position)
+                draw_bitmap_to_dc_rotated(dc, animal.get_image(), \
+                                         from_my_angle(animal.orientation), new_pos)
         dc.Destroy()
 
 
