@@ -48,4 +48,4 @@ You will have `.deb` package in `deb_dist` directory
 
 ### Debian/Ubuntu
 
-   sudo dpkg -i pythonturtle-xxx.deb
+    sudo dpkg -i pythonturtle-xxx.deb
