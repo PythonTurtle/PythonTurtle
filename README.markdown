@@ -15,11 +15,11 @@ This project is licensed under the MIT license.
 
 You must have installed:
 
-  * Python (for example, http://www.activestate.com/activepython)
-  * wxPython (http://www.wxpython.org/)
-  * Distutils-extras (https://launchpad.net/python-distutils-extra)
-  * py2exe (http://www.py2exe.org/)
-  * Microsoft VC redistributable DLLs (say thanks to Billy for this hell) on `c:/Program Files/Microsoft Visual Studio 9.0/VC/redist/x86/Microsoft.VC90.CRT` or `c:\Python27\vcruntime`. Try get it here: http://www.microsoft.com/downloads/details.aspx?familyid=32bc1bee-a3f9-4c13-9c99-220b62a191ee&displaylang=en
+ - [Python](http://www.activestate.com/activepython)
+ - [wxPython](http://www.wxpython.org/)
+ - [Distutils-extras](https://launchpad.net/python-distutils-extra)
+ - [py2exe](http://www.py2exe.org/)
+ - Microsoft VC redistributable DLLs (say thanks to Billy for this hell) on `c:/Program Files/Microsoft Visual Studio 9.0/VC/redist/x86/Microsoft.VC90.CRT` or `c:\Python27\vcruntime`. Try get it [here](http://www.microsoft.com/downloads/details.aspx?familyid=32bc1bee-a3f9-4c13-9c99-220b62a191ee&displaylang=en)
 
 Get PythonTurtle source code and in it's directory run:
     python setup.py py2exe
