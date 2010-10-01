@@ -38,6 +38,21 @@ You get `.exe` and many files in `./dist` directory
 You will have `.deb` package in `deb_dist` directory
 
 
+## On Mac OS X
+
+ - Install XCode
+ - Install [macports](http://www.macports.org/)
+ - Then:
+    curl -O http://peak.telecommunity.com/dist/ez_setup.py
+    sudo python ez_setup.py -U setuptools
+    sudo easy_install -U py2app
+    sudo easy_install http://launchpad.net/python-distutils-extra/trunk/2.22/+download/python-distutils-extra-2.22.tar.gz
+    sudo port install py-psyco
+
+ - Get the code of PythonTurtle
+ - In code directory, run:
+    python setup.py py2app
+
 # Installing
 
 ## On Windows
