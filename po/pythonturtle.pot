@@ -1,0 +1,93 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-10-01 01:35+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../data/pythonturtle.desktop.in.h:1
+msgid "Educational enviroment for Python programmingЖ"
+msgstr ""
+
+#: ../data/pythonturtle.desktop.in.h:2 ../src/pythonturtle.py:276
+msgid "PythonTurtle"
+msgstr ""
+
+#: ../data/pythonturtle.desktop.in.h:3
+msgid "PythonTurtle education program"
+msgstr ""
+
+#: ../src/pythonturtle.py:114
+msgid "Reset"
+msgstr ""
+
+#: ../src/pythonturtle.py:119
+msgid "Reset, delete initial turtle"
+msgstr ""
+
+#: ../src/pythonturtle.py:127
+msgid "E&xit"
+msgstr ""
+
+#: ../src/pythonturtle.py:134
+msgid "&Help\tF1"
+msgstr ""
+
+#: ../src/pythonturtle.py:140
+msgid "&About..."
+msgstr ""
+
+#: ../src/pythonturtle.py:144
+msgid "&File"
+msgstr ""
+
+#: ../src/pythonturtle.py:145
+msgid "&Help"
+msgstr ""
+
+#: ../src/pythonturtle.py:168
+msgid "Level 1"
+msgstr ""
+
+#: ../src/pythonturtle.py:169
+msgid "Level 2"
+msgstr ""
+
+#: ../src/pythonturtle.py:170
+msgid "Level 3"
+msgstr ""
+
+#: ../src/pythonturtle.py:171
+msgid "Level 4"
+msgstr ""
+
+#: ../src/pythonturtle.py:226
+msgid ""
+"An educational environment for learning Python, suitable for beginners and "
+"children.\n"
+"Inspired by LOGO.\n"
+"\n"
+"Runs on Python 2.6, using wxPython, Psyco and py2exe. Thanks go to the "
+"developers\n"
+"responsible for these projects, as well as to the helpful folks at the user "
+"groups\n"
+"of these projects, and at StackOverflow.com, who have helped solved many "
+"problems\n"
+"that came up in the making of this program."
+msgstr ""
+
+#: ../src/pythonturtle.py:235
+msgid "MIT License, (C) 2009 Ram Rachum (\"cool-RR\")"
+msgstr ""
