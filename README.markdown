@@ -43,6 +43,11 @@ You get `.exe` and many files in `./dist` directory
 
 You will have `.deb` package in `deb_dist` directory
 
+### RPM-based distros
+
+    python setup.py bdist_rpm
+
+You will have `.rpm` packages in `dist` directory
 
 ## On Mac OS X
 
