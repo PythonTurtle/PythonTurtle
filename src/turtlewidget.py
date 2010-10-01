@@ -9,6 +9,7 @@ import math
 import wx
 
 from vector import Vector
+from animal_image import AnimalImage
 
 
 from animals import *
@@ -64,7 +65,7 @@ class TurtleWidget(wx.Panel):
                     try:
                         
                         oldanimal = self.animals[turtle_report.index(animal)]
-                        dc.SetPen(animal._give_pen())
+                        dc.SetPen(AnimalImage.get_pen(*animal.get_pen_parametres()))
                         dc.DrawLinePoint(\
                            from_my_pos(oldanimal.position),from_my_pos(animal.position))
                     except IndexError, e:
@@ -90,8 +91,9 @@ class TurtleWidget(wx.Panel):
         for animal in self.animals:
             if animal.visible:
                 new_pos = top_left_corner + from_my_pos(animal.position)
-                draw_bitmap_to_dc_rotated(dc, animal.get_image(), \
-                                         from_my_angle(animal.orientation), new_pos)
+                draw_bitmap_to_dc_rotated(dc, \
+                    AnimalImage.get_image(*animal.get_image_name_and_color()),\
+                    from_my_angle(animal.orientation), new_pos)
         dc.Destroy()
 
 

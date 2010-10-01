@@ -1,12 +1,9 @@
 """
 This is module for in-game animals
 """
-import wx
 
 from vector import Vector
 from misc.angles import deg_to_rad, rad_to_deg
-from misc.fromresourcefolder import from_resource_folder
-
 
 # Size of the turtle canvas. We assume no user will have a screen
 # so big that the canvas will be bigger than this.
@@ -86,6 +83,7 @@ class Animal(object):
 #    image = "abstract_animal"
     #fixme!
     image = "turtle"
+    image_sizes = {}
 
     __animals = []
     
@@ -132,7 +130,12 @@ class Animal(object):
 #        raise NonImplementedError
     @classmethod
     def is_interliaced(cls, position):
-        size = Vector(cls._get_image().GetSize())/2
+        try:
+            size = cls.image_sizes[cls.image]/2
+        except KeyError:
+            print "FIXME: image size not found!!!"
+            size = Vector((0,0))
+            
         for animal in cls.__animals:
             if position-size < animal.position < position+size:
                 print "interliaced", position
@@ -144,24 +147,17 @@ class Animal(object):
         return cls.__animals
     
     
-    def _give_pen(self):
+    def get_pen_parametres(self):
         """
         Gives a wxPython pen that corresponds to the color, width,
         and pen_downity of the Turtle instance.
         """
-        return wx.Pen(self.color,self.width,wx.SOLID if self.pen_down else wx.TRANSPARENT)
+        return self.color, self.width, self.pen_down
 
-    @classmethod
-    def _get_image(cls):
-        try:
-            return wx.Bitmap(from_resource_folder(cls.image+".png"))
-        #fixme!
-        except:
-            wx.Bitmap(from_resource_folder(Animal.image+".png"))
+    
 
-    def get_image(self):
-        ###fancy things
-        return self._get_image()
+    def get_image_name_and_color(self):
+        return self.image, self.color
 
     def set_pos(self, x,y):
         """
