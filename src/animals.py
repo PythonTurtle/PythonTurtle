@@ -308,7 +308,7 @@ class Frog(Animal):
     >>> Animal._get_animals() # doctest: +ELLIPSIS
     [<__main__.Turtle object at ...>]
     """
-    pass
+    image = "frog"
 
 class Turtle(Animal):
     image = "turtle"

@@ -26,6 +26,12 @@ Get PythonTurtle source code and in it's directory run:
 
 You get `.exe` and many files in `./dist` directory
 
+### Building installer for Windows
+ - Install InstallShield
+ - Open pythonturtle.ism
+ - Build project
+
+
 ## On Linux
 
 ### Debian/Ubuntu
