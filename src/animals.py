@@ -157,7 +157,7 @@ class Animal(object):
             return wx.Bitmap(from_resource_folder(cls.image+".png"))
         #fixme!
         except:
-            wx.Bitmap(from_resource_folder(Animal.image))
+            wx.Bitmap(from_resource_folder(Animal.image+".png"))
 
     def get_image(self):
         ###fancy things

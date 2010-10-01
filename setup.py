@@ -26,30 +26,12 @@ from setuptools import setup
 
 mainscript = 'src/pythonturtle'
 
-if sys.platform == 'darwin':
-    extra_options = dict(
-        setup_requires=['py2app'],
-        app=[mainscript],
-        # Cross-platform applications generally expect sys.argv to
-        # be used for opening files.
-        options=dict(py2app=dict(argv_emulation=True)),
-    )
-elif sys.platform == 'win32':
-    extra_options = dict(
-        setup_requires=['py2exe'],
-        app=[mainscript],
-    )
-else:
-     extra_options = dict(
-         # Normally unix-like platforms will use "setup.py install"
-         # and install the main script as such
-         scripts=[mainscript],
-     )
+
 
 
 
 base_options = dict (name='PythonTurtle',
-      install_requires = ["python-wxversion","python-psyco"],
+      install_requires = ["wx","psyco"],
       version='1.1',
       description='A learning environment for Python suitable for beginners and children, inspired by Logo.',
       author='Ram Rachum',
@@ -80,13 +62,53 @@ of Python programming while demonstrating how to move the turtle.""",
           'Programming Language :: Python',
           ],
       cmdclass = { "build" : build_extra.build_extra,
-                   "build_i18n" :  build_i18n.build_i18n,
-                   "build_help" :  build_help.build_help,
-                   "build_icons" :  build_icons.build_icons }
+               "build_i18n" :  build_i18n.build_i18n,
+               "build_help" :  build_help.build_help,
+               "build_icons" :  build_icons.build_icons }
+      
      )
 
+
+if sys.platform == 'darwin':
+    extra_options = dict(
+        setup_requires=['py2app'],
+        app=[mainscript],
+        # Cross-platform applications generally expect sys.argv to
+        # be used for opening files.
+        options=dict(py2app=dict(argv_emulation=True)),
+
+    )
+elif sys.platform == 'win32':
+
+    import sys
+
+    sys.path.append(r'c:/Program Files/Microsoft Visual Studio 9.0/VC/redist/x86/Microsoft.VC90.CRT')
+    sys.path.append(r'c:\Python27\vcruntime')
+    
+    import py2exe
+    extra_options = dict(
+        setup_requires=['py2exe'],
+        windows=[mainscript],
+        data_files = [('resources',glob.glob('data/*.png')),
+                      ('resources',glob.glob('data/*.ico')),
+                      ("Microsoft.VC90.CRT", glob.glob(r'c:\Python27\vcruntime\*.*'))],
+
+        cmdclass = { "build" : build_extra.build_extra,
+                   "build_help" :  build_help.build_help,
+                   "build_icons" :  build_icons.build_icons }
+    )
+else:
+     extra_options = dict(
+         # Normally unix-like platforms will use "setup.py install"
+         # and install the main script as such
+         scripts=[mainscript],
+      )
+
+
+print extra_options
 base_options.update(extra_options)
 options = base_options 
+
 
 
 setup( **options)
