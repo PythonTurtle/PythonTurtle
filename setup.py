@@ -17,6 +17,9 @@ Usage (Windows):
 
 Usage (Ubuntu/Debian):
     python setup.py --command-packages=stdeb.command bdist_deb
+
+Usage (RPM-based linux distros):
+    python setup.py bdist_rpm
 """
 #import ez_setup
 #ez_setup.use_setuptools()
