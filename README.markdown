@@ -55,15 +55,11 @@ You will have `.rpm` packages in `dist` directory
  - Install [macports](http://www.macports.org/)
  - Then:
 
-`curl -O http://peak.telecommunity.com/dist/ez_setup.py`
-
-`sudo python ez_setup.py -U setuptools`
-
-`sudo easy_install -U py2app`
-
-`sudo easy_install http://launchpad.net/python-distutils-extra/trunk/2.22/+download/python-distutils-extra-2.22.tar.gz`
-
-`sudo port install py-psyco`
+    curl -O http://peak.telecommunity.com/dist/ez_setup.py
+    sudo python ez_setup.py -U setuptools
+    sudo easy_install -U py2app
+    sudo easy_install http://launchpad.net/python-distutils-extra/trunk/2.22/+download/python-distutils-extra-2.22.tar.gz
+    sudo port install py-psyco
 
 
  - Get the code of PythonTurtle
