@@ -11,6 +11,7 @@ import wx.aui
 import wx.lib.buttons
 import wx.lib.scrolledpanel
 
+
 from customscrolledpanel import CustomScrolledPanel
 import shelltoprocess
 import turtlewidget
@@ -110,7 +111,13 @@ class ApplicationWindow(wx.Frame):
         self.menu_bar = wx.MenuBar()
 
         self.file_menu = wx.Menu()
-        
+
+        self.open_menu_item = wx.MenuItem(self.file_menu,-1, _("O&pen"))
+        self.file_menu.AppendItem(self.open_menu_item)
+        self.Bind(wx.EVT_MENU, self.on_open, source = self.open_menu_item)
+
+        self.file_menu.AppendItem(wx.MenuItem(self.file_menu))
+
         self.reset_menu_item = wx.MenuItem(self.file_menu, -1, _('Reset'))
         self.file_menu.AppendItem(self.reset_menu_item)
         self.Bind(wx.EVT_MENU, self.reset, source=self.reset_menu_item)
@@ -241,7 +248,24 @@ that came up in the making of this program.""")
 
     def on_about(self, event=None):
         about_dialog = wx.AboutBox(self.about_dialog_info)
+
+    def on_open(self,event=None):
+        d = wx.FileDialog(self)
+        d.ShowModal()
+        fn = d.GetPath()
+
+        try:
+            #self.shell.runfile(fn)
+            self.shell.write("\n")
+            for x in open(fn).readlines():
+                self.shell.write(x)
+            self.shell.push("execfile('%s')"%fn)
+        except IOError:
+            #Not sure exactly how to display this?
+            self.shell.write("Error executing %s"%fn)
+
         
+
     def reset(self, event=None, object_oriented_mode=False):
 
         self.turtle_process.terminate()
