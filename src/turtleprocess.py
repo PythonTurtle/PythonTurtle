@@ -5,14 +5,28 @@ import math
 import time
 import wx
 
+import gettext
+gettext.install('pythonturtle', unicode=True)
+
+
 import smartsleep
 import misc.angles as angles
 import shelltoprocess
 
 from vector import Vector
 
-
 from animals import *
+
+class OopErrorMessage(object):
+    def __getattr__(self, name):
+        """docstring for __getattr__"""
+        print _("""You are in Object-Oriented mode.
+It means, that you should use object's methods and members
+rather than global functions, like '%s'.
+So, may be you want to do something like:
+    my_little_turtle = Turtle()
+    my_little_turtle.%s()""") % (name, name)
+        return None
 
 
 def log(x):
@@ -75,8 +89,18 @@ class TurtleProcess(multiprocessing.Process):
                             }
         
         else:
+            oop_error_message = OopErrorMessage()
             locals_for_console={"Frog":Frog, "Turtle":Turtle, "Animal":Animal, \
-                                "Vector":Vector, "system":system}
+        "Vector":Vector, "system":system,\
+        "go": oop_error_message.go, "turn": oop_error_message.turn, "color":oop_error_message.color,\
+        "fd": oop_error_message.go, "left": oop_error_message.left, "right": oop_error_message.turn,\
+        "width": oop_error_message.width, "visible": oop_error_message.visible,
+        "invisible": oop_error_message.invisible, "pen_down": oop_error_message.pen_down,
+        "pen_up": oop_error_message.pen_up, "is_visible": oop_error_message.is_visible,
+        "is_pen_down": oop_error_message.is_pen_down, "sin": oop_error_message.sin, "cos": oop_error_message.cos,
+        "turtle": oop_error_message, "clear": oop_error_message.clear,
+        "home": oop_error_message.home, "set_pos": oop_error_message.set_pos, "speed": oop_error_message.speed, "turnspeed":oop_error_message.turnspeed,
+                               }
 
         def commands():
             return "commands, "+", ".join(locals_for_console)

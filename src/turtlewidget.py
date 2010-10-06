@@ -122,7 +122,6 @@ class TurtleWidget(wx.Panel):
         self.Refresh()
 
 
-
 def draw_bitmap_to_dc_rotated( dc, bitmap, angle , point):
     """
     Rotate a bitmap and write it to the supplied device context.

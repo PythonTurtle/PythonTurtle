@@ -37,7 +37,7 @@ class ApplicationWindow(wx.Frame):
         wx.Frame.__init__(self,*args,**keywords)
         self.SetDoubleBuffered(True)
         self.SetIcon(wx.Icon(from_resource_folder("icon.ico"), wx.BITMAP_TYPE_ICO))
-        
+
         
     
         self.init_help_screen()
