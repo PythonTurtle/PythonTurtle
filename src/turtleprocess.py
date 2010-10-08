@@ -80,7 +80,7 @@ class TurtleProcess(multiprocessing.Process):
             locals_for_console={"go": self.turtle.go, "turn": self.turtle.turn, "color": self.turtle.color,
                             "fd": self.turtle.go, "left": self.turtle.left, "right": self.turtle.turn,
                             "width": self.turtle.width, "visible": self.turtle.visible,
-                            "invisible": self.turtle.invisible, "pen_down": self.turtle.pen_down,
+                            "invisible": self.turtle.invisible, "pen_down": self.turtle.bepen_down,
                             "pen_up": self.turtle.pen_up, "is_visible": self.turtle.is_visible,
                             "is_pen_down": self.turtle.is_pen_down, "sin": system.sin, "cos": system.cos,
                             "turtle": self.turtle, "clear": self.turtle.clear,
