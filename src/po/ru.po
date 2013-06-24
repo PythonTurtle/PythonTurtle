@@ -1,0 +1,73 @@
+# translation of pythonturtle.
+# Copyright (C)  2010 Sergey Klimov
+# Sergey Klimov <dcdarv@gmail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1\n"
+"POT-Creation-Date: 2010-09-29 08:08+EEST\n"
+"PO-Revision-Date: 2010-10-01 HO:MI+ZONE\n"
+"Last-Translator: Sergey Klimov <dcdarv@gmail.com>\n"
+"Language-Team: Russian <dcdarv@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: UTF-8\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: src/pythonturtle.py:111
+msgid "E&xit"
+msgstr "Выход"
+
+#: src/pythonturtle.py:118
+msgid "&Help\tF1"
+msgstr "Содержание"
+
+#: src/pythonturtle.py:124
+msgid "&About..."
+msgstr "О программе"
+
+#: src/pythonturtle.py:128
+msgid "&File"
+msgstr "Файл"
+
+#: src/pythonturtle.py:129
+msgid "&Help"
+msgstr "Справка"
+
+#: src/pythonturtle.py:152
+msgid "Level 1"
+msgstr "Уровень 1"
+
+#: src/pythonturtle.py:153
+msgid "Level 2"
+msgstr "Уровень 2"
+
+#: src/pythonturtle.py:154
+msgid "Level 3"
+msgstr "Уровень 3"
+
+#: src/pythonturtle.py:155
+msgid "Level 4"
+msgstr "Уровень 4"
+
+#: src/pythonturtle.py:210
+msgid ""
+"An educational environment for learning Python, suitable for beginners and children.\n"
+"Inspired by LOGO.\n"
+"\n"
+"Runs on Python 2.6, using wxPython, Psyco and py2exe. Thanks go to the developers\n"
+"responsible for these projects, as well as to the helpful folks at the user groups\n"
+"of these projects, and at StackOverflow.com, who have helped solved many problems\n"
+"that came up in the making of this program."
+msgstr "Образовательная программа для изучения Python, подходящая для начинающих и детей.\n"
+"Вдохновлена LOGO"
+
+#: src/pythonturtle.py:219
+msgid "MIT License, (C) 2009 Ram Rachum (\"cool-RR\")"
+msgstr "Лицензия MIT, (C) 2009 Ram Rachum (\"cool-RR\")"
+
+#: src/pythonturtle.py:245
+msgid "PythonTurtle"
+msgstr "PythonTurtle"
+

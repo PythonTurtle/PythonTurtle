@@ -1,6 +1,8 @@
 """
 Implements mainly the Vector class. See its documentation.
 """
+import random
+
 class VectorError(Exception):
     """
     An exception to use with Vector
@@ -126,7 +128,11 @@ class Vector(tuple):
             return Vector(self)
 
 
-
+    @classmethod
+    def random(cls, f, t):
+        return cls((random.randrange(f[0],t[1]),\
+                    random.randrange(f[0],t[1])))
+        
 
 ################################################################################################
 
