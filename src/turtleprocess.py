@@ -3,12 +3,21 @@ import multiprocessing
 import copy
 import math
 import time
+import wx
 
 import smartsleep
 import misc.angles as angles
 import shelltoprocess
-from my_turtle import *
+
 from vector import Vector
+
+
+OOPMODE=True
+#OOPMODE=False
+if OOPMODE:
+    from animals import *
+else:
+    from my_turtle import *
 
 def log(x):
     print(x)
@@ -48,12 +57,15 @@ class TurtleProcess(multiprocessing.Process):
         and draw graphics accordingly.
         """
         #self.turtle.fingerprint = random.randint(0,10000)
-        self.turtle_queue.put(self.turtle)
+        if OOPMODE:
+            self.turtle_queue.put(animal.get_animals())
+        else:
+            self.turtle_queue.put(self.turtle)
         #log(self.turtle.__dict__)
 
     def run(self):
-
-        self.turtle=Turtle()
+        if not OOPMODE:
+            self.turtle=Turtle()
 
         def go(distance):
             """
@@ -82,6 +94,20 @@ class TurtleProcess(multiprocessing.Process):
                 self.turtle.pos+=last_step
                 self.send_report()
 
+        def speed(newspeed):
+            """
+            Set the turtle's travel speed. Specify newspeed in pixels per second.
+            """
+            self.turtle.SPEED=newspeed
+
+        def turnspeed(newspeed):
+            """
+            Set the turtle's angular speed. Specify newspeed in degrees per second. 
+            """
+            if newspeed<1:
+                raise Exception("newspeed must be a number greater than one.")
+            self.turtle.ANGULAR_SPEED = newspeed
+
         def turn(angle):
             """
             Makes the turtle turn. Specify angle in degrees. A positive
@@ -107,6 +133,12 @@ class TurtleProcess(multiprocessing.Process):
                 self.turtle.orientation+=last_step
                 self.send_report()
 
+        def left(angle):
+            """
+            Turns the turtle anticlockwise by angle. See turn().
+            """
+            turn(-angle)
+
         def color(color):
             """
             Sets the color of the turtle's pen. Specify a color as a string.
@@ -116,8 +148,8 @@ class TurtleProcess(multiprocessing.Process):
             color("green")
             color("#00FFCC")
             """
-            #if not valid_color(color):
-            #    raise StandardError(color+" is not a valid color.")
+            if not valid_color(color):
+                raise StandardError(color+" is not a valid color.")
             self.turtle.color=color
             self.send_report()
 
@@ -199,20 +231,32 @@ class TurtleProcess(multiprocessing.Process):
         Had trouble implementing `home`.
         I couldn't control when the turtle would actually draw a line home.
 
+        I don't understand what wasn't working here?... ~Spacerat
+        """
         def home():
-            #\"""
+            """
             Places the turtle at the center of the screen, facing upwards.
-            #\"""
-            old_pen_down = self.turtle.pen_down
-            pen_up() # Sends a report as well
+            """
+
+          # old_pen_down = self.turtle.pen_down
+          # pen_up() # Sends a report as well
             self.send_report()
             self.turtle.pos = Vector((0, 0))
             self.turtle.orientation = 180
             self.send_report()
-            time.sleep(3)
-            pen_down(old_pen_down)
-        """
+          # time.sleep(3)
+          # pen_down(old_pen_down)
 
+
+        def set_pos(x,y):
+            """
+            Instantly set the position of the turtle to the given x/y coordinates,
+            drawing a line there if the pen is down.
+            """
+            self.send_report()
+            self.turtle.pos=Vector((x,y))
+            self.send_report()
+            
         def reset():
             """
             Resets all the turtle's properties and clears the screen.
@@ -220,23 +264,37 @@ class TurtleProcess(multiprocessing.Process):
             self.turtle = Turtle()
             clear()
 
-        locals_for_console={"go": go, "turn": turn, "color": color,
+        """
+        This seems to work. I'm not sure how good of an idea
+        constantly recreating wxApp is though ~ Spacerat.
+        """
+        def valid_color(color):
+            """
+            Return True of the given colour creates a vaild wxColour.
+            """
+            a=wx.App()
+            p = wx.Pen(color)
+            a.Destroy()
+            return p.Colour.IsOk()
+        
+        
+        if OOPMODE:
+            locals_for_console={"Frog":Frog, "animal":animal, "send":self.send_report, "Vector":Vector}
+        else:
+            locals_for_console={"go": go, "turn": turn, "color": color,
+                            "fd": go, "left": left, "right": turn,
                             "width": width, "visible": visible,
                             "invisible": invisible, "pen_down": pen_down,
                             "pen_up": pen_up, "is_visible": is_visible,
                             "is_pen_down": is_pen_down, "sin": sin, "cos": cos,
                             "turtle": self.turtle, "clear": clear,
+                            "home": home, "set_pos": set_pos,
+                            "speed": speed, "turnspeed":turnspeed,
                             "reset": reset}
 
-
-        """
-        A little thing I tried doing for checking if a color is
-        valid before setting it to the turtle. Didn't work.
-        import wx; app=wx.App();
-        def valid_color(color):
-            return not wx.Pen(color).GetColour()==wx.Pen("malformed").GetColour()
-        """
-
+        def commands():
+            return "commands, "+", ".join(locals_for_console)
+        locals_for_console['commands']=commands
 
         self.console = \
             shelltoprocess.Console(queue_pack=self.queue_pack,locals=locals_for_console)

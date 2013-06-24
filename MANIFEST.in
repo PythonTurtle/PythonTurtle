@@ -1,0 +1,4 @@
+include README.markdown
+include LICENSE
+recursive-include src/resources *.png
+recursive-include src/po/ *.in *.po
