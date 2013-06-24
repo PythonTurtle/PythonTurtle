@@ -1,0 +1,10 @@
+[Desktop Entry]
+_Name=PythonTurtle
+_GenericName=PythonTurtle education program
+Exec=/usr/bin/pythonturtle
+Icon=pythonturtle
+Type=Application
+_Comment=Educational enviroment for Python programmingЖ
+Terminal=false
+StartupNotify=true
+Categories=Education;

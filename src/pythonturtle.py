@@ -2,6 +2,10 @@
 Main module which defines ApplicationWindow,
 the main window of PythonTurtle.
 """
+import gettext
+gettext.install('pythonturtle', unicode=True)
+
+
 import wx
 import wx.aui
 import wx.lib.buttons
@@ -11,6 +15,7 @@ from customscrolledpanel import CustomScrolledPanel
 import shelltoprocess
 import turtlewidget
 import turtleprocess
+
 import multiprocessing
 import homedirectory; homedirectory.do()
 from misc.fromresourcefolder import from_resource_folder
@@ -33,6 +38,8 @@ class ApplicationWindow(wx.Frame):
         self.SetDoubleBuffered(True)
         self.SetIcon(wx.Icon(from_resource_folder("icon.ico"), wx.BITMAP_TYPE_ICO))
 
+        
+    
         self.init_help_screen()
 
         self.turtle_process = turtleprocess.TurtleProcess()
@@ -103,25 +110,39 @@ class ApplicationWindow(wx.Frame):
         self.menu_bar = wx.MenuBar()
 
         self.file_menu = wx.Menu()
-        self.exit_menu_item = wx.MenuItem(self.file_menu, -1, 'E&xit')
+        
+        self.reset_menu_item = wx.MenuItem(self.file_menu, -1, _('Reset'))
+        self.file_menu.AppendItem(self.reset_menu_item)
+        self.Bind(wx.EVT_MENU, self.reset, source=self.reset_menu_item)
+        
+        self.reset_all_menu_item = wx.MenuItem(self.file_menu, -1, \
+                                            _('Reset, delete initial turtle'))
+        self.file_menu.AppendItem(self.reset_all_menu_item)
+        self.Bind(wx.EVT_MENU, self.reset_all, \
+                  source=self.reset_all_menu_item)
+        
+        
+        
+        
+        self.exit_menu_item = wx.MenuItem(self.file_menu, -1, _('E&xit'))
         self.file_menu.AppendItem(self.exit_menu_item)
         self.Bind(wx.EVT_MENU, self.on_exit, source=self.exit_menu_item)
 
 
         self.help_menu = wx.Menu()
 
-        self.help_menu_item = wx.MenuItem(self.help_menu, -1, '&Help\tF1', kind=wx.ITEM_CHECK)
+        self.help_menu_item = wx.MenuItem(self.help_menu, -1, _('&Help\tF1'), kind=wx.ITEM_CHECK)
         self.help_menu.AppendItem(self.help_menu_item)
         self.Bind(wx.EVT_MENU, self.toggle_help, source=self.help_menu_item)
 
         self.help_menu.AppendSeparator()
 
-        self.about_menu_item = wx.MenuItem(self.help_menu, -1, "&About...")
+        self.about_menu_item = wx.MenuItem(self.help_menu, -1, _("&About..."))
         self.help_menu.AppendItem(self.about_menu_item)
         self.Bind(wx.EVT_MENU, self.on_about, source=self.about_menu_item)
 
-        self.menu_bar.Append(self.file_menu, '&File')
-        self.menu_bar.Append(self.help_menu, '&Help')
+        self.menu_bar.Append(self.file_menu, _('&File'))
+        self.menu_bar.Append(self.help_menu, _('&Help'))
 
         self.SetMenuBar(self.menu_bar)
 
@@ -144,10 +165,10 @@ class ApplicationWindow(wx.Frame):
         self.help_notebook.Bind(wx.EVT_SET_FOCUS, give_focus_to_selected_page)
         self.help_notebook.Bind(wx.EVT_CHILD_FOCUS, give_focus_to_selected_page)
 
-        self.help_images_list=[["Level 1", from_resource_folder("help1.png")],
-                               ["Level 2", from_resource_folder("help2.png")],
-                               ["Level 3", from_resource_folder("help3.png")],
-                               ["Level 4", from_resource_folder("help4.png")]]
+        self.help_images_list=[[_("Level 1"), from_resource_folder("help1.png")],
+                               [_("Level 2"), from_resource_folder("help2.png")],
+                               [_("Level 3"), from_resource_folder("help3.png")],
+                               [_("Level 4"), from_resource_folder("help4.png")]]
 
 
         self.help_pages=[HelpPage(parent=self.help_notebook, bitmap=wx.Bitmap(bitmap_file), caption=caption) \
@@ -202,24 +223,39 @@ class ApplicationWindow(wx.Frame):
         info = self.about_dialog_info = \
             wx.AboutDialogInfo()
 
-        description="""\
+        description=_("""\
 An educational environment for learning Python, suitable for beginners and children.
 Inspired by LOGO.
 
 Runs on Python 2.6, using wxPython, Psyco and py2exe. Thanks go to the developers
 responsible for these projects, as well as to the helpful folks at the user groups
 of these projects, and at StackOverflow.com, who have helped solved many problems
-that came up in the making of this program."""
+that came up in the making of this program.""")
 
-        info.SetCopyright("MIT License, (C) 2009 Ram Rachum (\"cool-RR\")")
+        info.SetCopyright(_("MIT License, (C) 2009 Ram Rachum (\"cool-RR\")"))
         info.SetDescription(description)
         info.SetName("PythonTurtle")
-        info.SetVersion("0.1.2009.8.2.1")
+        info.SetVersion("1.4")
         info.SetWebSite("http://pythonturtle.com")
 
 
     def on_about(self, event=None):
         about_dialog = wx.AboutBox(self.about_dialog_info)
+        
+    def reset(self, event=None, object_oriented_mode=False):
+
+        self.turtle_process.terminate()
+        self.turtle_process = turtleprocess.TurtleProcess(object_oriented_mode=object_oriented_mode)
+        self.turtle_process.start()
+        self.turtle_queue = self.turtle_process.turtle_queue
+        self.turtle_widget.set_turtle_queue(self.turtle_queue)
+        self.shell.set_queue_pack(self.turtle_process.queue_pack)
+        
+        
+        
+    
+    def reset_all(self, event=None):
+        self.reset(object_oriented_mode=True)
 
 
 class HelpPage(CustomScrolledPanel):
@@ -237,7 +273,7 @@ class HelpPage(CustomScrolledPanel):
 def run():
     multiprocessing.freeze_support()
     app = wx.PySimpleApp()
-    my_app_win = ApplicationWindow(None,-1,"PythonTurtle",size=(600,600))
+    my_app_win = ApplicationWindow(None,-1,_("PythonTurtle"),size=(600,600))
     #import cProfile; cProfile.run("app.MainLoop()")
     app.MainLoop()
 
