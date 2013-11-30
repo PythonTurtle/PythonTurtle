@@ -81,7 +81,7 @@ class TurtleWidget(wx.Panel):
         """
         if self.idle_block==True: return
 
-        if self.turtle_queue.qsize()>0: self.Refresh()
+        if not self.turtle_queue.empty(): self.Refresh()
 
         wx.CallLater(30,self._clear_idle_block_and_do) # Should make the delay customizable?
         self.idle_block=True
