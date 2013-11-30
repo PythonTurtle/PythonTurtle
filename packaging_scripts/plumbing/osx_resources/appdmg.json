@@ -1,0 +1,11 @@
+{
+  "title": "PythonTurtle",
+  "app": "../../../osx_dist/PythonTurtle.app",
+  "background": "dmg_background.png",
+  "icon": "../../../src/resources/icon.icns",
+  "icons": {
+    "size": 80,
+    "app": [192, 344],
+    "alias": [448, 344]
+  }
+}
