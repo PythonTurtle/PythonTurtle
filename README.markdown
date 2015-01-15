@@ -8,3 +8,8 @@ PythonTurtle strives to provide the lowest-threshold way to learn Python. Studen
 Tested with Python 2.6 and wxPython 2.8.10.1. Currently tested only on Windows and Ubuntu.
 
 This project is licensed under the MIT license.
+
+PythonTurtle was created by Ram Rachum as a side-project in 2009. I also provide 
+[freelance Django/Python development services](https://chipmunkdev.com).
+
+
