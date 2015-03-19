@@ -12,4 +12,9 @@ This project is licensed under the MIT license.
 PythonTurtle was created by Ram Rachum as a side-project in 2009. I also provide 
 [freelance Django/Python development services](https://chipmunkdev.com).
 
+Installing on Linux:
 
+    sudo apt-get install python-wxgtk2.8 git -y
+    git clone https://github.com/cool-RR/PythonTurtle.git
+    cd PythonTurtle/src
+    python pythonturtle.py
