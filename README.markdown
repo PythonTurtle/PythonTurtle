@@ -5,16 +5,18 @@ PythonTurtle strives to provide the lowest-threshold way to learn Python. Studen
 
 ![Screen shot](http://pythonturtle.org/images/screenshot.gif)
 
-Tested with Python 2.6 and wxPython 2.8.10.1. Currently tested only on Windows and Ubuntu.
+Tested with Python version 2.6, 2.7 and wxPython versions 2.8.10.1, 3.0.2.0.
+Currently manually tested only on Windows and Ubuntu Linux.
 
 This project is licensed under the MIT license.
 
-PythonTurtle was created by Ram Rachum as a side-project in 2009. I also provide 
+PythonTurtle was created by Ram Rachum as a side-project in 2009. I also provide
 [freelance Django/Python development services](https://chipmunkdev.com).
 
 Installing on Linux:
 
-    sudo apt-get install python-wxgtk2.8 git -y
+    sudo apt-get install python-wxgtk3.0 git -y
+    # NOTE: install `python-wxgtk2.8` on olders systems
     git clone https://github.com/cool-RR/PythonTurtle.git
     cd PythonTurtle/src
     python pythonturtle.py

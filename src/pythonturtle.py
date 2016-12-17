@@ -154,7 +154,11 @@ class ApplicationWindow(wx.Frame):
                     for [caption, bitmap_file] in self.help_images_list]
 
         for page in self.help_pages:
-            self.help_notebook.AddPage(page, caption=page.caption)
+            try:
+                # avoid TypeError: Required argument 'text' in wxPython > 2.9
+                self.help_notebook.AddPage(page, text=page.caption)
+            except TypeError:
+                self.help_notebook.AddPage(page, caption=page.caption)
 
         self.help_close_button_panel = wx.Panel(parent=self.help_screen)
         self.help_screen_sizer = wx.BoxSizer(wx.VERTICAL)
@@ -206,7 +210,7 @@ class ApplicationWindow(wx.Frame):
 An educational environment for learning Python, suitable for beginners and children.
 Inspired by LOGO.
 
-Runs on Python 2.6, using wxPython, Psyco and py2exe. Thanks go to the developers
+Runs on Python 2.6/2.7, using wxPython, Psyco and py2exe. Thanks go to the developers
 responsible for these projects, as well as to the helpful folks at the user groups
 of these projects, and at StackOverflow.com, who have helped solved many problems
 that came up in the making of this program."""
@@ -236,8 +240,12 @@ class HelpPage(CustomScrolledPanel):
 
 def run():
     multiprocessing.freeze_support()
-    app = wx.PySimpleApp()
-    my_app_win = ApplicationWindow(None,-1,"PythonTurtle",size=(600,600))
+    try:
+        # anticipate deprecation (wxPyDeprecationWarning in wxPython >= 2.9)
+        app = wx.PySimpleApp()
+    except AttributeError:
+        app = wx.App()
+    ApplicationWindow(None, -1, "PythonTurtle", size=(600, 600))
     #import cProfile; cProfile.run("app.MainLoop()")
     app.MainLoop()
 
