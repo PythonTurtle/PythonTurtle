@@ -1,0 +1,31 @@
+---
+language: python
+python:
+  - 2.6
+  - 2.7
+  - 3.5
+  - 3.6
+  - 3.7
+  - pypy
+  - pypy3
+
+stages:
+  - lint
+  - test
+  - build
+
+env:  # enable allow_failures
+matrix:
+  allow_failures:
+    - env: TOXENV=flake8
+    - env: TOXENV=pylint
+
+jobs:
+  include:
+    - { stage: lint, python: 2.7, env: TOXENV=flake8 }
+    - { stage: lint, python: 3.6, env: TOXENV=flake8 }
+    - { stage: lint, python: 2.7, env: TOXENV=pylint }
+    - { stage: lint, python: 3.6, env: TOXENV=pylint }
+
+install: pip install tox-travis
+script: tox

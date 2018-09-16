@@ -1,2 +1,4 @@
 *.pyc
+__pycache__/
 osx_build/
+.tox/
