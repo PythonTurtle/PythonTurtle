@@ -5,7 +5,6 @@ python:
   - 2.7
   - 3.5
   - 3.6
-  - 3.7
   - pypy
   - pypy3
 
@@ -26,6 +25,7 @@ jobs:
     - { stage: lint, python: 3.6, env: TOXENV=flake8 }
     - { stage: lint, python: 2.7, env: TOXENV=pylint }
     - { stage: lint, python: 3.6, env: TOXENV=pylint }
+    - { stage: test, python: 3.7, dist: xenial, sudo: true }
 
 install: pip install tox-travis
 script: tox
