@@ -24,13 +24,13 @@ custom_process.start()
 
 2. Set up the shell in the appropriate part of your code:
 
-self.shell = shelltoprocess.Shell(parent_window, queue_pack=custom_process.queue_pack)
+self.shell = shelltoprocess.Shell(parent_window,
+                                  queue_pack=custom_process.queue_pack)
 
 """
 
 import multiprocessing
-from shell import Shell
-from console import Console
+
 
 def make_queue_pack():
     """
@@ -40,4 +40,5 @@ def make_queue_pack():
     """
     return [multiprocessing.Queue() for i in range(4)]
 
-__all__=["Shell", "Console", "make_queue_pack"]
+
+__all__ = ["Shell", "Console", "make_queue_pack"]

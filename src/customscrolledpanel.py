@@ -1,14 +1,15 @@
 """
 See documentation for CustomScrolledPanel which is defined in this module.
 """
-
 import wx.lib.scrolledpanel
+
 
 class CustomScrolledPanel(wx.lib.scrolledpanel.ScrolledPanel):
     """
     A subclass of wx.lib.scrolledpanel.ScrolledPanel, which implements
     usage of the Home and the End keys.
     """
+
     def __init__(self, *args, **kwargs):
         wx.lib.scrolledpanel.ScrolledPanel.__init__(self, *args, **kwargs)
         self.Bind(wx.EVT_KEY_DOWN, self.on_key_down)
@@ -39,4 +40,3 @@ class CustomScrolledPanel(wx.lib.scrolledpanel.ScrolledPanel):
         """
         bottom = self.GetVirtualSize()[1]
         self.Scroll(-1, bottom)
-
