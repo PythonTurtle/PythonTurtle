@@ -2,7 +2,8 @@
 See documentation for the class Shell defined here.
 """
 import wx.py.interpreter as wxinterpreter
-import forkedpyshell
+
+from .forkedpyshell import Shell as ForkedShell
 
 
 class Interpreter(wxinterpreter.Interpreter):
@@ -27,7 +28,7 @@ class Interpreter(wxinterpreter.Interpreter):
         return more
 
 
-class Shell(forkedpyshell.Shell):
+class Shell(ForkedShell):
     """
     A wxPython shell based on PyShell. The important parameter is queue_pack,
     you must feed into it a queue pack you have created with the
@@ -37,7 +38,7 @@ class Shell(forkedpyshell.Shell):
     """
 
     def __init__(self, parent, *args, **kwargs):
-        forkedpyshell.Shell.__init__(self, parent, *args,
-                                     InterpClass=Interpreter,
-                                     process_shell=True,
-                                     **kwargs)
+        ForkedShell.__init__(self, parent, *args,
+                             InterpClass=Interpreter,
+                             process_shell=True,
+                             **kwargs)
