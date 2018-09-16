@@ -29,6 +29,9 @@ self.shell = shelltoprocess.Shell(parent_window,
 """
 import multiprocessing
 
+from shell import Shell
+from console import Console
+
 
 def make_queue_pack():
     """
