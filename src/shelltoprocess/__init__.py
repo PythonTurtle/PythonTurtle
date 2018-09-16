@@ -19,16 +19,14 @@ class CustomProcess(multiprocessing.Process):
         self.console = shelltoprocess.Console(queue_pack=self.queue_pack)
         self.console.interact()
 
-custom_process=CustomProcess()
+custom_process = CustomProcess()
 custom_process.start()
 
 2. Set up the shell in the appropriate part of your code:
 
 self.shell = shelltoprocess.Shell(parent_window,
                                   queue_pack=custom_process.queue_pack)
-
 """
-
 import multiprocessing
 
 
@@ -38,7 +36,7 @@ def make_queue_pack():
     the Shell and the Console. The same queue_pack must be fed into both.
     See package documentation for more info.
     """
-    return [multiprocessing.Queue() for i in range(4)]
+    return [multiprocessing.Queue() for _ in range(4)]
 
 
 __all__ = ["Shell", "Console", "make_queue_pack"]

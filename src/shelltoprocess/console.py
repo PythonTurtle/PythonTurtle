@@ -51,10 +51,10 @@ class Console(code.InteractiveConsole):
         return more
 
     def showsyntaxerror(self, filename=None):
-        type, value, sys.last_traceback = sys.exc_info()
-        sys.last_type = type
+        ex_type, value, sys.last_traceback = sys.exc_info()
+        sys.last_type = ex_type
         sys.last_value = value
-        if filename and type is SyntaxError:
+        if filename and ex_type is SyntaxError:
             # Work hard to stuff the correct filename in the exception
             try:
                 msg, (dummy_filename, lineno, offset, line) = value
@@ -65,9 +65,9 @@ class Console(code.InteractiveConsole):
                 # Stuff in the right filename
                 value = SyntaxError(msg, (filename, lineno, offset, line))
                 sys.last_value = value
-        list = traceback.format_exception_only(type, value)
+        ex_list = traceback.format_exception_only(ex_type, value)
 
-        map(self.write, list)
+        map(self.write, ex_list)
 
     def runsource(self, source, filename="<input>", symbol="single"):
         try:

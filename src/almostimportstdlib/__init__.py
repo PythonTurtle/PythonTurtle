@@ -1,3 +1,5 @@
+# flake8: noqa
+# pylint: skip-file
 """
 This small package makes py2exe pack the entire Python 2.6.2 stdlib.
 It does so by "almost" importing the entire stdlib.

@@ -1,3 +1,4 @@
+# pylint: skip-file
 """
 Forked by cool-RR as part of the shelltoprocess package.
 

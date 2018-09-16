@@ -1,11 +1,12 @@
 """
 See documentation for the class Shell defined here.
 """
-import forkedpyshell
 import wx.py.interpreter as wxinterpreter
+import forkedpyshell
 
 
 class Interpreter(wxinterpreter.Interpreter):
+    """A Python interpreter"""
 
     def __init__(self, *args, **kwargs):
         assert "queue_pack" in kwargs
@@ -20,6 +21,7 @@ class Interpreter(wxinterpreter.Interpreter):
         wxinterpreter.Interpreter.__init__(self, *args, **kwargs)
 
     def push(self, command):
+        """Put a command into the input queue"""
         self.input_queue.put(command)  # +"\n")
         more = self.more = self.runsource_return_queue.get()
         return more

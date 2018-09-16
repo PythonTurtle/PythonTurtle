@@ -24,7 +24,7 @@ class Vector(tuple):
         tuple.__init__(seq)
 
     def __add__(self, other):
-        if not (isinstance(other, Vector)):
+        if not isinstance(other, Vector):
             raise VectorError("right hand side is not a Vector")
         return Vector(map(lambda x, y: x + y, self, other))
 
@@ -43,7 +43,7 @@ class Vector(tuple):
         return Vector(map(lambda x: x * other, self))
 
     def __rmul__(self, other):
-        return (self * other)
+        return self * other
 
     def __div__(self, other):
         if not (isinstance(other, int) or isinstance(other, float)):
@@ -59,7 +59,7 @@ class Vector(tuple):
         this is a dot product, done like this: a&b
         must use () around it because of fucked up operator precedence.
         """
-        if not (isinstance(other, Vector)):
+        if not isinstance(other, Vector):
             raise VectorError("trying to do dot product of Vector "
                               "with non-Vector")
         """

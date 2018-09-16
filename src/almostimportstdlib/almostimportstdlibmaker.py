@@ -1,4 +1,5 @@
 # flake8: noqa
+# pylint: skip-file
 """
 This module creates a file called almostimportstdlib.py, which "almost" imports
 the entire Python stdlib. (i.e., if False: import...)
@@ -67,7 +68,7 @@ def make():
     import_modules = [("    import " + module) for module in modules]
     prologue = """\"\"\"
 To understand this module,
-please refer to the containing pacakge's documentation.
+please refer to the containing package's documentation.
 \"\"\"
 
 if False:

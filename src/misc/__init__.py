@@ -1,3 +1,3 @@
 """
-A package of miscellanious stuff for the PythonTurtle package.
+A package of miscellaneous stuff for the PythonTurtle package.
 """
