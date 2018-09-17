@@ -1,15 +1,22 @@
+"""
+Helper functions for building the executable.
+"""
 import os
 
-def smart_join(*args):
+
+def get_joined_path(*args):
+    """Join file path components computing the real file path"""
     temp = os.path.join(*args)
     optimized = os.path.realpath(temp)
-    return str(optimized) # to convert from unicode to ascii
+    return str(optimized)  # to convert from unicode to ascii
 
-def data_files(resources_dir):
-    data_files=[]
-    for file in os.listdir(resources_dir):
-        f1 = smart_join(resources_dir, file)
-        if os.path.isfile(f1): # skip directories
-            f2 = 'resources', [f1]
-            data_files.append(f2)
-    return data_files
+
+def get_data_files(resources_dir):
+    """Generate list of files in resources folder"""
+    file_list = []
+    for filename in os.listdir(resources_dir):
+        filepath = get_joined_path(resources_dir, filename)
+        if os.path.isfile(filepath):  # skip directories
+            file_item = 'resources', [filepath]
+            file_list.append(file_item)
+    return file_list
