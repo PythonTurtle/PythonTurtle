@@ -1,12 +1,12 @@
 ---
 language: python
 python:
+  - pypy
   - 2.6
   - 2.7
+  - pypy3
   - 3.5
   - 3.6
-  - pypy
-  - pypy3
 
 stages:
   - lint
@@ -26,6 +26,13 @@ jobs:
     - { stage: lint, python: 2.7, env: TOXENV=pylint }
     - { stage: lint, python: 3.6, env: TOXENV=pylint }
     - { stage: test, python: 3.7, dist: xenial, sudo: true }
+
+before_install:
+  - sudo apt-get update
+  - PYTHON_MAJOR=$(python -c 'import sys; print(sys.version[0])')
+  - if [ $PYTHON_MAJOR = '2' ]; then sudo apt-get install -y python-wxgtk2.8; fi
+  # - if [ $PYTHON_MAJOR = '3' ]; then sudo apt-get install -y python3-wxgtk4.0; fi
+  - dpkg -l *wxgtk*
 
 install: pip install tox-travis
 script: tox

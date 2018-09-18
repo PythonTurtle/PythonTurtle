@@ -9,12 +9,11 @@ def dump_queue(queue):
     Empties all pending items in a queue
     and returns them in a list.
     """
-    result=[]
+    result = []
 
     while True:
         try:
-            thing=queue.get(block=False)
+            thing = queue.get(block=False)
             result.append(thing)
         except Queue.Empty:
             return result
-
