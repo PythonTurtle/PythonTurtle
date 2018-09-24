@@ -8,11 +8,6 @@ import sys
 from os import chdir
 from os.path import dirname
 
-try:
-    unicode
-except NameError:
-    unicode = str  # pylint: disable=invalid-name,redefined-builtin
-
 
 def _are_we_frozen():
     """Returns whether we are frozen via py2exe.
@@ -27,9 +22,9 @@ def our_path():
     py2exe
     """
     if _are_we_frozen():
-        return dirname(unicode(sys.executable, sys.getfilesystemencoding()))
+        return dirname(str(sys.executable))
 
-    return dirname(unicode(__file__, sys.getfilesystemencoding()))
+    return dirname(str(__file__))
 
 
 def do():  # pylint: disable=invalid-name
