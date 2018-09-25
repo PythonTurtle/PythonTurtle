@@ -2,8 +2,8 @@
 TurtleWidget is defined in this module, see its documentation.
 """
 import wx
-from misc import dumpqueue
-from misc.fromresourcefolder import from_resource_folder
+
+from helpers import dump_queue, from_resource_folder
 from my_turtle import BITMAP_SIZE, Turtle, from_my_pos, from_my_angle
 from vector import Vector
 
@@ -40,10 +40,9 @@ class TurtleWidget(wx.Panel):
         Paint event handler. Reads the turtle reports and draws graphics
         accordingly.
         """
-        turtle_reports = dumpqueue.dump_queue(self.turtle_queue)
+        turtle_reports = dump_queue(self.turtle_queue)
         dc = wx.GCDC(wx.MemoryDC(self.bitmap))
         for turtle_report in turtle_reports:
-            # print(turtle_report.__dict__)
             if turtle_report.pen_down is True:
                 dc.SetPen(turtle_report.give_pen())
                 dc.DrawLine(from_my_pos(self.turtle.pos),
@@ -62,10 +61,9 @@ class TurtleWidget(wx.Panel):
         widget_size = Vector(self.GetSize())
         top_left_corner = (-BITMAP_SIZE + widget_size) / 2.0
 
-        # Draw the bitmap:
         dc.DrawBitmap(self.bitmap, *top_left_corner)
 
-        # Draw the turtle:
+        # draw the turtle
         if self.turtle.visible:
             new_pos = top_left_corner + from_my_pos(self.turtle.pos)
             draw_bitmap_to_dc_rotated(dc,

@@ -15,12 +15,13 @@ import homedirectory
 import shelltoprocess
 import turtleprocess
 import turtlewidget
-from customscrolledpanel import CustomScrolledPanel
 
-homedirectory.do()
-from misc.fromresourcefolder import from_resource_folder
+from customscrolledpanel import CustomScrolledPanel
+from helpers import from_resource_folder
 
 __version__ = "0.2.2018"
+
+homedirectory.do()
 
 
 class ApplicationWindow(wx.Frame):
@@ -222,7 +223,7 @@ class ApplicationWindow(wx.Frame):
         info.SetCopyright(license_terms.split(os.linesep)[0])
         info.SetName("PythonTurtle")
         info.SetVersion(__version__)
-        info.SetWebSite("http://pythonturtle.com")
+        info.SetWebSite("http://pythonturtle.org")
         info.SetDevelopers(developer_list)
         info.SetIcon(wx.Icon(from_resource_folder("turtle.png")))
 

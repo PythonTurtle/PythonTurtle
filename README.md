@@ -30,19 +30,19 @@ Installation
 ------------
 
 Installers for Microsoft Windows and macOS are available from
-[pythonturtle.org](http://pythonturtle.org).
+[pythonturtle.org](http://pythonturtle.org) and [GitHub](
+https://github.com/cool-RR/PythonTurtle/releases).
 
 Ubuntu Linux:
 
 ```bash
-# NOTE: install `python-wxgtk2.8` on older systems
-sudo apt-get install -y git python-wxgtk3.0
+sudo apt-get install -y git python3-wxgtk4.0
 ```
 
 Fedora:
 
 ```bash
-dnf install wxPython
+python3 -m pip install wxpython
 ```
 
 On any GNU/Linux distribution: (after installing prerequisites from above)
@@ -50,7 +50,7 @@ On any GNU/Linux distribution: (after installing prerequisites from above)
 ```bash
 git clone https://github.com/cool-RR/PythonTurtle.git
 cd PythonTurtle/src
-python pythonturtle.py
+python3 pythonturtle.py
 ```
 
 If you're into automation:
