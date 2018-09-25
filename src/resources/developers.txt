@@ -1,4 +1,5 @@
-Ram Rachum
-Chris van Es
-Ryne Everett
-Peter Bittner
+Ram Rachum (original author)
+Chris van Es (contributor)
+Peter Bittner (contributor)
+Ryne Everett (contributor)
+Sergey Klimov (contributor)
