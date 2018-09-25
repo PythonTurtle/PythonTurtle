@@ -61,7 +61,7 @@ If you're into automation:
 Compatibility
 -------------
 
-Tested with Python version 2.6, 2.7 and wxPython versions 2.8.10.1, 3.0.2.0.
+Tested with Python version 3.6 and wxPython version 4.0.1.
 Currently manually tested only on Windows, macOS, Ubuntu Linux, and Fedora.
 
 About

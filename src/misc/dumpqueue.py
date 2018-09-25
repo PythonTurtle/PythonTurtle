@@ -1,7 +1,7 @@
 """
 See documentation for dump_queue defined here.
 """
-import Queue
+from queue import Empty
 
 
 def dump_queue(queue):
@@ -15,5 +15,5 @@ def dump_queue(queue):
         try:
             thing = queue.get(block=False)
             result.append(thing)
-        except Queue.Empty:
+        except Empty:
             return result

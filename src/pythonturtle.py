@@ -3,8 +3,10 @@ Main module which defines ApplicationWindow,
 the main window of PythonTurtle.
 """
 import multiprocessing
+import os
 
 import wx
+import wx.adv
 import wx.aui
 import wx.lib.buttons
 import wx.lib.scrolledpanel
@@ -18,12 +20,7 @@ from customscrolledpanel import CustomScrolledPanel
 homedirectory.do()
 from misc.fromresourcefolder import from_resource_folder
 
-try:
-    import psyco
-
-    psyco.full()
-except ImportError:
-    pass
+__version__ = "0.2.2018"
 
 
 class ApplicationWindow(wx.Frame):
@@ -108,20 +105,20 @@ class ApplicationWindow(wx.Frame):
 
         self.file_menu = wx.Menu()
         self.exit_menu_item = wx.MenuItem(self.file_menu, -1, 'E&xit')
-        self.file_menu.AppendItem(self.exit_menu_item)
+        self.file_menu.Append(self.exit_menu_item)
         self.Bind(wx.EVT_MENU, self.on_exit, source=self.exit_menu_item)
 
         self.help_menu = wx.Menu()
 
         self.help_menu_item = \
             wx.MenuItem(self.help_menu, -1, '&Help\tF1', kind=wx.ITEM_CHECK)
-        self.help_menu.AppendItem(self.help_menu_item)
+        self.help_menu.Append(self.help_menu_item)
         self.Bind(wx.EVT_MENU, self.toggle_help, source=self.help_menu_item)
 
         self.help_menu.AppendSeparator()
 
         self.about_menu_item = wx.MenuItem(self.help_menu, -1, "&About...")
-        self.help_menu.AppendItem(self.about_menu_item)
+        self.help_menu.Append(self.about_menu_item)
         self.Bind(wx.EVT_MENU, self.on_about, source=self.about_menu_item)
 
         self.menu_bar.Append(self.file_menu, '&File')
@@ -213,25 +210,24 @@ class ApplicationWindow(wx.Frame):
 
     def init_about_dialog_info(self):
         info = self.about_dialog_info = \
-            wx.AboutDialogInfo()
+            wx.adv.AboutDialogInfo()
 
-        description = """\
-An educational environment for learning Python, suitable for beginners and children.
-Inspired by LOGO.
+        description = open(from_resource_folder('about.txt')).read()
+        license_terms = open(from_resource_folder('license.txt')).read()
+        developer_list = open(from_resource_folder('developers.txt')
+                              ).read().split(os.linesep)
 
-Runs on Python 2.6/2.7, using wxPython, Psyco and py2exe. Thanks go to the developers
-responsible for these projects, as well as to the helpful folks at the user groups
-of these projects, and at StackOverflow.com, who have helped solved many problems
-that came up in the making of this program."""
-
-        info.SetCopyright('MIT License, (C) 2009 Ram Rachum ("cool-RR")')
         info.SetDescription(description)
+        info.SetLicence(license_terms)
+        info.SetCopyright(license_terms.split(os.linesep)[0])
         info.SetName("PythonTurtle")
-        info.SetVersion("0.1.2009.8.2.1")
+        info.SetVersion(__version__)
         info.SetWebSite("http://pythonturtle.com")
+        info.SetDevelopers(developer_list)
+        info.SetIcon(wx.Icon(from_resource_folder("turtle.png")))
 
     def on_about(self, event=None):
-        wx.AboutBox(self.about_dialog_info)
+        wx.adv.AboutBox(self.about_dialog_info, self)
 
 
 class HelpPage(CustomScrolledPanel):
@@ -248,11 +244,7 @@ class HelpPage(CustomScrolledPanel):
 
 def run():
     multiprocessing.freeze_support()
-    try:
-        # anticipate deprecation (wxPyDeprecationWarning in wxPython >= 2.9)
-        app = wx.PySimpleApp()
-    except AttributeError:
-        app = wx.App()
+    app = wx.App()
     ApplicationWindow(None, -1, "PythonTurtle", size=(600, 600))
     # import cProfile; cProfile.run("app.MainLoop()")
     app.MainLoop()

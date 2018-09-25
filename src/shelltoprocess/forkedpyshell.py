@@ -38,7 +38,7 @@ from wx.py.version import VERSION
 sys.ps3 = '<-- '  # Input prompt.
 
 NAVKEYS = (wx.WXK_END, wx.WXK_LEFT, wx.WXK_RIGHT,
-           wx.WXK_UP, wx.WXK_DOWN, wx.WXK_PRIOR, wx.WXK_NEXT)
+           wx.WXK_UP, wx.WXK_DOWN, wx.WXK_PAGEUP, wx.WXK_PAGEDOWN)
 
 RE_INDENT_LINE = re.compile(
     r"(\>\>\>)*\s*(if|else|elif|for|while|def|class)\s+.*\:$")
@@ -177,7 +177,7 @@ class ShellFacade:
         d = self.__dict__
         d['other'] = other
         d['helpText'] = HELP_TEXT
-        d['this'] = other.this
+        # d['this'] = other.this
 
     def help(self):
         """Display some useful information about how to use the shell."""
@@ -423,9 +423,9 @@ class Shell(editwindow.EditWindow):
 
         This sets "close", "exit" and "quit" to a helpful string.
         """
-        import __builtin__
-        __builtin__.close = __builtin__.exit = __builtin__.quit = \
-            'Click on the close button to leave the application.'
+        # import __builtin__
+        # __builtin__.close = __builtin__.exit = __builtin__.quit = \
+        #     'Click on the close button to leave the application.'
 
     def quit(self):
         """Quit the application."""
@@ -915,7 +915,7 @@ Platform: %s""" % (
                 self.write(os.linesep)
             else:
                 self.push(command)
-                wx.FutureCall(1, self.EnsureCaretVisible)
+                wx.CallLater(1, self.EnsureCaretVisible)
         # Or replace the current command with the other command.
         else:
             # If the line contains a command (even an invalid one).

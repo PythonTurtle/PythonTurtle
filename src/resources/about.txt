@@ -1,0 +1,9 @@
+An educational environment for learning Python,
+suitable for beginners and children.
+Inspired by LOGO.
+
+Runs on Python 3.6/3.7, using wxPython, and PyInstaller.
+A massive "thank you!" to the developers of these projects,
+as well as to the helpful folks at the user groups of these
+projects, and at StackOverflow, who have helped solve many
+problems that came up in the making of this program.

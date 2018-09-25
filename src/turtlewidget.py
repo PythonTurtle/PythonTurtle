@@ -1,8 +1,8 @@
 """
 TurtleWidget is defined in this module, see its documentation.
 """
-import misc.dumpqueue as dumpqueue
 import wx
+from misc import dumpqueue
 from misc.fromresourcefolder import from_resource_folder
 from my_turtle import BITMAP_SIZE, Turtle, from_my_pos, from_my_angle
 from vector import Vector
@@ -26,7 +26,7 @@ class TurtleWidget(wx.Panel):
         #     BACKGROUND_COLOR[0],
         #     BACKGROUND_COLOR[1],
         #     BACKGROUND_COLOR[2], 255) # todo: Change to something smarter?
-        self.bitmap = wx.EmptyBitmap(*BITMAP_SIZE)
+        self.bitmap = wx.Bitmap(*BITMAP_SIZE)
         self.Bind(wx.EVT_PAINT, self.on_paint)
         self.Bind(wx.EVT_SIZE, self.on_size)
         self.Bind(wx.EVT_IDLE, self.on_idle)
@@ -46,8 +46,8 @@ class TurtleWidget(wx.Panel):
             # print(turtle_report.__dict__)
             if turtle_report.pen_down is True:
                 dc.SetPen(turtle_report.give_pen())
-                dc.DrawLinePoint(from_my_pos(self.turtle.pos),
-                                 from_my_pos(turtle_report.pos))
+                dc.DrawLine(from_my_pos(self.turtle.pos),
+                            from_my_pos(turtle_report.pos))
             if turtle_report.clear is True:
                 brush = wx.Brush("black")
                 dc.SetBackground(brush)
@@ -108,4 +108,4 @@ def draw_bitmap_to_dc_rotated(dc, bitmap, angle, point):
     img_centre = wx.Point(img.GetWidth() / 2.0, img.GetHeight() / 2.0)
     img = img.Rotate(angle, img_centre, interpolating=True)
     new_point = Vector(point) - Vector(img.GetSize()) / 2
-    dc.DrawBitmapPoint(img.ConvertToBitmap(), new_point, useMask=True)
+    dc.DrawBitmap(img.ConvertToBitmap(), new_point, useMask=True)
