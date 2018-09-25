@@ -16,8 +16,8 @@ import pythonturtle
 from . import shelltoprocess
 from . import turtleprocess
 from . import turtlewidget
-from .customscrolledpanel import CustomScrolledPanel
 from .helpers import from_resource_folder
+from .helppages import get_help_pages
 
 
 class ApplicationWindow(wx.Frame):
@@ -144,24 +144,8 @@ class ApplicationWindow(wx.Frame):
         self.help_notebook.Bind(wx.EVT_CHILD_FOCUS,
                                 give_focus_to_selected_page)
 
-        self.help_images_list = [
-            ["Level 1", from_resource_folder("help1.png")],
-            ["Level 2", from_resource_folder("help2.png")],
-            ["Level 3", from_resource_folder("help3.png")],
-            ["Level 4", from_resource_folder("help4.png")]]
-
-        self.help_pages = [HelpPage(parent=self.help_notebook,
-                                    bitmap=wx.Bitmap(bitmap_file),
-                                    caption=caption)
-                           for [caption, bitmap_file]
-                           in self.help_images_list]
-
-        for page in self.help_pages:
-            try:
-                # avoid TypeError: Required argument 'text' in wxPython > 2.9
-                self.help_notebook.AddPage(page, text=page.caption)
-            except TypeError:
-                self.help_notebook.AddPage(page, caption=page.caption)
+        for page in get_help_pages(parent=self.help_notebook):
+            self.help_notebook.AddPage(page, caption=page.caption)
 
         self.help_close_button_panel = wx.Panel(parent=self.help_screen)
         self.help_screen_sizer = wx.BoxSizer(wx.VERTICAL)
@@ -225,18 +209,6 @@ class ApplicationWindow(wx.Frame):
 
     def on_about(self, event=None):
         wx.adv.AboutBox(self.about_dialog_info, self)
-
-
-class HelpPage(CustomScrolledPanel):
-    def __init__(self, parent, bitmap, caption):
-        CustomScrolledPanel.__init__(self, parent=parent, id=-1)
-        self.SetupScrolling()
-        self.sizer = wx.BoxSizer(wx.VERTICAL)
-        self.static_bitmap = wx.StaticBitmap(self, -1, bitmap)
-        self.sizer.Add(self.static_bitmap, 1, wx.EXPAND)
-        self.SetSizer(self.sizer)
-        self.SetVirtualSize(self.static_bitmap.GetSize())
-        self.caption = caption
 
 
 def run():
