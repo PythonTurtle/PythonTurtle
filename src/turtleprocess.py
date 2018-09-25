@@ -4,9 +4,10 @@ import multiprocessing
 import sys
 import time
 
-import misc.angles as angles
 import shelltoprocess
 import smartsleep
+
+from helpers import deg_to_rad, rad_to_deg
 from my_turtle import Turtle, from_my_angle
 from vector import Vector
 
@@ -179,13 +180,13 @@ class TurtleProcess(multiprocessing.Process):
             """
             Calculates sine, with the angle specified in degrees.
             """
-            return math.sin(angles.deg_to_rad(angle))
+            return math.sin(deg_to_rad(angle))
 
         def cos(angle):
             """
             Calculates cosine, with the angle specified in degrees.
             """
-            return math.cos(angles.deg_to_rad(angle))
+            return math.cos(deg_to_rad(angle))
 
         def clear():
             """
