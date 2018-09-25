@@ -11,17 +11,13 @@ import wx.aui
 import wx.lib.buttons
 import wx.lib.scrolledpanel
 
-import homedirectory
-import shelltoprocess
-import turtleprocess
-import turtlewidget
+import pythonturtle
 
-from customscrolledpanel import CustomScrolledPanel
-from helpers import from_resource_folder
-
-__version__ = "0.2.2018"
-
-homedirectory.do()
+from . import shelltoprocess
+from . import turtleprocess
+from . import turtlewidget
+from .customscrolledpanel import CustomScrolledPanel
+from .helpers import from_resource_folder
 
 
 class ApplicationWindow(wx.Frame):
@@ -222,8 +218,8 @@ class ApplicationWindow(wx.Frame):
         info.SetLicence(license_terms)
         info.SetCopyright(license_terms.split(os.linesep)[0])
         info.SetName("PythonTurtle")
-        info.SetVersion(__version__)
-        info.SetWebSite("http://pythonturtle.org")
+        info.SetVersion(pythonturtle.__version__)
+        info.SetWebSite(pythonturtle.__url__)
         info.SetDevelopers(developer_list)
         info.SetIcon(wx.Icon(from_resource_folder("turtle.png")))
 
@@ -249,7 +245,3 @@ def run():
     ApplicationWindow(None, -1, "PythonTurtle", size=(600, 600))
     # import cProfile; cProfile.run("app.MainLoop()")
     app.MainLoop()
-
-
-if __name__ == "__main__":
-    run()

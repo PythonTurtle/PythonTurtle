@@ -1,30 +1,26 @@
+"""
+A TurtleProcess is a subclass of ``multiprocessing.Process``.
+It is the process from which the user of PythonTurtle works.
+"""
 import copy
 import math
 import multiprocessing
 import sys
 import time
 
-import shelltoprocess
-import smartsleep
-
-from helpers import deg_to_rad, rad_to_deg
-from my_turtle import Turtle, from_my_angle
-from vector import Vector
-
-
-def log(x):
-    print(x)
-    sys.stdout.flush()
+from . import shelltoprocess
+from . import smartsleep
+from .helpers import deg_to_rad  # , log
+from .my_turtle import Turtle, from_my_angle
+from .vector import Vector
 
 
 class TurtleProcess(multiprocessing.Process):
     """
-    A TurtleProcess is a subclass of multiprocessing.Process.
-    It is the process from which the user of PythonTurtle works;
-    It defines all the turtle commands (i.e. go, turn, width, etc.).
-    Then it runs a shelltoprocess.Console which connects to the shell
-    in the main application window, allowing the user to control
-    this process.
+    Defines all the turtle commands (i.e. go, turn, width, etc.),
+    then runs a ``shelltoprocess.Console`` which connects to the shell
+    in the main application window, allowing the user to control this
+    process.
     """
 
     def __init__(self, *args, **kwargs):
@@ -35,9 +31,9 @@ class TurtleProcess(multiprocessing.Process):
         self.turtle_queue = multiprocessing.Queue()
         self.queue_pack = shelltoprocess.make_queue_pack()
 
-        """
-        Constants:
-        """
+        #
+        # constants:
+        #
         self.FPS = 25
         self.FRAME_TIME = 1 / float(self.FPS)
 

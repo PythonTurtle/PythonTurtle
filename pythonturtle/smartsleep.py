@@ -1,10 +1,9 @@
 """
-A short module for implementing `Sleeper`. See its documentation.
+The Sleeper context manager class implementation.
 """
 import time
+# from helpers import log
 
-
-# def log(text): print(text); sys.stdout.flush()
 
 class Sleeper(object):
     """

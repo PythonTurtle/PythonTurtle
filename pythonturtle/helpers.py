@@ -35,9 +35,11 @@ def from_resource_folder(filename):
     """
     Absolute path for a file assumed to be in resources folder.
     """
-    return os.path.join('PythonTurtle.app',
-                        'Contents',
-                        'Resources',
-                        'resources',
-                        filename) if sys.platform == "darwin" \
-        else os.path.join('resources', filename)
+    my_location = os.path.dirname(__file__)
+    return os.path.join(my_location, 'resources', filename)
+
+
+def log(x):
+    """A very simple logging function"""
+    print(x)
+    sys.stdout.flush()
