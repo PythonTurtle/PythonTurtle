@@ -3,9 +3,9 @@ A TurtleWidget display the turtle and all the drawings that it made.
 """
 import wx
 
-from .helpers import dump_queue, from_resource_folder
+from .misc.helpers import dump_queue, from_resource_folder
+from .misc.vector import Vector
 from .my_turtle import BITMAP_SIZE, Turtle, from_my_pos, from_my_angle
-from .vector import Vector
 
 
 class TurtleWidget(wx.Panel):

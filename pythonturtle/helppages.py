@@ -5,7 +5,7 @@ import wx
 
 from wx.lib.scrolledpanel import ScrolledPanel
 
-from .helpers import from_resource_folder
+from .misc.helpers import from_resource_folder
 
 
 class CustomScrolledPanel(ScrolledPanel):
@@ -61,7 +61,7 @@ class HelpPage(CustomScrolledPanel):
         self.caption = caption
 
 
-def get_help_pages(parent=None):
+def page_list(parent=None):
     """
     Generate and return list of help pages for being displayed.
     """

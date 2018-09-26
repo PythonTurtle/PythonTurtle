@@ -9,10 +9,10 @@ import sys
 import time
 
 from . import shelltoprocess
-from . import smartsleep
-from .helpers import deg_to_rad  # , log
+from .misc import smartsleep
+from .misc.helpers import deg_to_rad  # , log
+from .misc.vector import Vector
 from .my_turtle import Turtle, from_my_angle
-from .vector import Vector
 
 
 class TurtleProcess(multiprocessing.Process):

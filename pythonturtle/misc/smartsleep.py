@@ -2,7 +2,8 @@
 The Sleeper context manager class implementation.
 """
 import time
-# from helpers import log
+
+# from .helpers import log
 
 
 class Sleeper(object):

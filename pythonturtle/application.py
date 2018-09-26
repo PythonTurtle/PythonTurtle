@@ -13,11 +13,11 @@ import wx.lib.scrolledpanel
 
 import pythonturtle
 
+from . import helppages
 from . import shelltoprocess
 from . import turtleprocess
 from . import turtlewidget
-from .helpers import from_resource_folder
-from .helppages import get_help_pages
+from .misc.helpers import from_resource_folder
 
 
 class ApplicationWindow(wx.Frame):
@@ -144,7 +144,7 @@ class ApplicationWindow(wx.Frame):
         self.help_notebook.Bind(wx.EVT_CHILD_FOCUS,
                                 give_focus_to_selected_page)
 
-        for page in get_help_pages(parent=self.help_notebook):
+        for page in helppages.page_list(parent=self.help_notebook):
             self.help_notebook.AddPage(page, caption=page.caption)
 
         self.help_close_button_panel = wx.Panel(parent=self.help_screen)
