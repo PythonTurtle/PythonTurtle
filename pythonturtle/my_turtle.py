@@ -1,7 +1,7 @@
 import wx
 
-from helpers import deg_to_rad, rad_to_deg
-from vector import Vector
+from .misc.helpers import deg_to_rad, rad_to_deg
+from .misc.vector import Vector
 
 # Size of the turtle canvas. We assume no user will have a screen
 # so big that the canvas will be bigger than this.
