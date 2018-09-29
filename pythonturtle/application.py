@@ -5,11 +5,19 @@ the main window of PythonTurtle.
 import multiprocessing
 import os
 
-import wx
-import wx.adv
-import wx.aui
-import wx.lib.buttons
-import wx.lib.scrolledpanel
+try:
+    import wx
+    import wx.adv
+    import wx.aui
+    import wx.lib.buttons
+    import wx.lib.scrolledpanel
+except ModuleNotFoundError:
+    print("wxPython doesn't seem to be installed. You need to install "
+          "the appropriate prerequisites for your operating system.")
+    print("Please consult the installation instructions in the README at "
+          "https://github.com/cool-RR/PythonTurtle#installation")
+    from sys import exit
+    exit(255)
 
 import pythonturtle
 
