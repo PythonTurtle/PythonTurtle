@@ -190,18 +190,18 @@ class ApplicationWindow(wx.Frame):
         return self.Close()
 
     def init_about_dialog_info(self):
-        info = self.about_dialog_info = \
-            wx.adv.AboutDialogInfo()
+        info = self.about_dialog_info = wx.adv.AboutDialogInfo()
 
         description = open(from_resource_folder('about.txt')).read()
         license_terms = open(from_resource_folder('license.txt')).read()
+        license_copyright = license_terms.split(os.linesep)[0]
         developer_list = open(from_resource_folder('developers.txt')
                               ).read().split(os.linesep)
 
         info.SetDescription(description)
         info.SetLicence(license_terms)
-        info.SetCopyright(license_terms.split(os.linesep)[0])
-        info.SetName("PythonTurtle")
+        info.SetCopyright(license_copyright)
+        info.SetName(pythonturtle.__product_name__)
         info.SetVersion(pythonturtle.__version__)
         info.SetWebSite(pythonturtle.__url__)
         info.SetDevelopers(developer_list)
