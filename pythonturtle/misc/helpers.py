@@ -2,9 +2,11 @@
 Various helper functions used by PythonTurtle.
 """
 import math
-import os
+import pkg_resources
 import queue
 import sys
+
+import pythonturtle
 
 
 def deg_to_rad(deg):
@@ -31,13 +33,23 @@ def dump_queue(my_queue):
             return result
 
 
-def from_resource_folder(filename):
+def resource_filename(filename):
     """
     Absolute path for a file assumed to be in resources folder.
+
+    Should be avoided for performance reasons as of
+    https://setuptools.readthedocs.io/en/latest/setuptools.html
+    #accessing-data-files-at-runtime
     """
-    my_location = os.path.dirname(__file__)
-    package_location = os.path.dirname(my_location)
-    return os.path.join(package_location, 'resources', filename)
+    return pkg_resources.resource_filename(pythonturtle.__name__,
+                                           '/'.join(['resources', filename]))
+
+
+def resource_string(filename):
+    """Text from a resource file."""
+    text = pkg_resources.resource_string(pythonturtle.__name__,
+                                         '/'.join(['resources', filename]))
+    return text.decode()
 
 
 def log(x):

@@ -5,7 +5,7 @@ import wx
 
 from wx.lib.scrolledpanel import ScrolledPanel
 
-from .misc.helpers import from_resource_folder
+from .misc.helpers import resource_filename
 
 
 class CustomScrolledPanel(ScrolledPanel):
@@ -66,10 +66,10 @@ def page_list(parent=None):
     Generate and return list of help pages for being displayed.
     """
     help_images_list = [
-        ["Level 1", from_resource_folder("help1.png")],
-        ["Level 2", from_resource_folder("help2.png")],
-        ["Level 3", from_resource_folder("help3.png")],
-        ["Level 4", from_resource_folder("help4.png")],
+        ["Level 1", resource_filename("help1.png")],
+        ["Level 2", resource_filename("help2.png")],
+        ["Level 3", resource_filename("help3.png")],
+        ["Level 4", resource_filename("help4.png")],
     ]
 
     pages = [

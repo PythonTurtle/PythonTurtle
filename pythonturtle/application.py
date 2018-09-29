@@ -25,7 +25,7 @@ from . import helppages
 from . import shelltoprocess
 from . import turtleprocess
 from . import turtlewidget
-from .misc.helpers import from_resource_folder
+from .misc.helpers import resource_filename, resource_string
 
 
 class ApplicationWindow(wx.Frame):
@@ -36,7 +36,7 @@ class ApplicationWindow(wx.Frame):
     def __init__(self, *args, **keywords):
         wx.Frame.__init__(self, *args, **keywords)
         self.SetDoubleBuffered(True)
-        self.SetIcon(wx.Icon(from_resource_folder("icon.ico"),
+        self.SetIcon(wx.Icon(resource_filename("icon.ico"),
                              wx.BITMAP_TYPE_ICO))
 
         self.init_help_screen()
@@ -62,8 +62,7 @@ class ApplicationWindow(wx.Frame):
         self.help_open_button_panel = \
             wx.Panel(parent=self.bottom_sizer_panel)
 
-        help_open_button_bitmap = wx.Bitmap(
-            from_resource_folder("teach_me.png"))
+        help_open_button_bitmap = wx.Bitmap(resource_filename("teach_me.png"))
         self.help_open_button = wx.lib.buttons.GenBitmapButton(
             self.help_open_button_panel, -1, help_open_button_bitmap)
         self.help_open_button_sizer = wx.BoxSizer(wx.VERTICAL)
@@ -162,7 +161,7 @@ class ApplicationWindow(wx.Frame):
         self.help_screen.SetSizer(self.help_screen_sizer)
 
         help_close_button_bitmap = wx.Bitmap(
-            from_resource_folder("lets_code.png"))
+            resource_filename("lets_code.png"))
         self.help_close_button = wx.lib.buttons.GenBitmapButton(
             self.help_close_button_panel, -1, help_close_button_bitmap)
         self.help_close_button_sizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -200,11 +199,10 @@ class ApplicationWindow(wx.Frame):
     def init_about_dialog_info(self):
         info = self.about_dialog_info = wx.adv.AboutDialogInfo()
 
-        description = open(from_resource_folder('about.txt')).read()
-        license_terms = open(from_resource_folder('license.txt')).read()
+        description = resource_string('about.txt')
+        license_terms = resource_string('license.txt')
         license_copyright = license_terms.split(os.linesep)[0]
-        developer_list = open(from_resource_folder('developers.txt')
-                              ).read().split(os.linesep)
+        developer_list = resource_string('developers.txt').split(os.linesep)
 
         info.SetDescription(description)
         info.SetLicence(license_terms)
@@ -213,7 +211,7 @@ class ApplicationWindow(wx.Frame):
         info.SetVersion(pythonturtle.__version__)
         info.SetWebSite(pythonturtle.__url__)
         info.SetDevelopers(developer_list)
-        info.SetIcon(wx.Icon(from_resource_folder("turtle.png")))
+        info.SetIcon(wx.Icon(resource_filename("turtle.png")))
 
     def on_about(self, event=None):
         wx.adv.AboutBox(self.about_dialog_info, self)

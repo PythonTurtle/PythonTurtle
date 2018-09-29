@@ -33,9 +33,9 @@ setup(
     author_email='ram@rachum.com',
     url=package.__url__,
     license=package.__license__,
-    include_package_data=True,
     packages=find_packages(exclude=['tests']),
+    include_package_data=True,
     install_requires=['wxPython'],
     tests_require=['tox'],
-    zip_safe=False,
+    zip_safe=True,
 )

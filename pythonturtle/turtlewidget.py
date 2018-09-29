@@ -3,7 +3,7 @@ A TurtleWidget display the turtle and all the drawings that it made.
 """
 import wx
 
-from .misc.helpers import dump_queue, from_resource_folder
+from .misc.helpers import dump_queue, resource_filename
 from .misc.vector import Vector
 from .my_turtle import BITMAP_SIZE, Turtle, from_my_pos, from_my_angle
 
@@ -19,7 +19,7 @@ class TurtleWidget(wx.Panel):
                           *args, **kwargs)
 
         self.BACKGROUND_COLOR = wx.Colour(212, 208, 200)
-        self.TURTLE_IMAGE = wx.Bitmap(from_resource_folder("turtle.png"))
+        self.TURTLE_IMAGE = wx.Bitmap(resource_filename("turtle.png"))
 
         self.turtle = Turtle()
         # bitmap = self.bitmap = wx.EmptyBitmapRGBA(2000, 1200,
