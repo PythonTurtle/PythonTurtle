@@ -1,5 +1,14 @@
+# Python byte code files
 *.py[co]
 __pycache__/
-osx_build/
-.tox/
+
+# editors and IDE's
 *.wpu
+
+# testing artifacts
+/.tox/
+
+# packaging artifacts
+/build/
+/dist/
+/*.spec
