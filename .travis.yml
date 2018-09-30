@@ -6,7 +6,6 @@ language: python
 python:
   - 3.6
   - 3.7
-  - pypy3
 
 stages:
   - lint
@@ -17,7 +16,6 @@ env:  # enable allow_failures
 matrix:
   allow_failures:
     - env: TOXENV=pylint
-    - python: pypy3
     - python: 3.7
 
 jobs:
