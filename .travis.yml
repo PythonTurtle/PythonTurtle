@@ -13,8 +13,8 @@ env:  # enable allow_failures
 matrix:
   allow_failures:
     - env: TOXENV=pylint
-    - env: TOXENV=pypy3
-    - env: TOXENV=py37
+    - python: pypy3
+    - python: 3.7
 
 jobs:
   include:
