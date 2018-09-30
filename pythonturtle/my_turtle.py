@@ -43,7 +43,7 @@ def to_my_pos(pos):
     return -pos + origin
 
 
-class Turtle(object):
+class Turtle:
     """
     A Turtle object defines a turtle by its attributes, such as
     position, orientation, color, etc. See source of __init__ for

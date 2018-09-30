@@ -67,7 +67,7 @@ class TurtleProcess(multiprocessing.Process):
             angle = from_my_angle(self.turtle.orientation)
             unit_vector = Vector((math.sin(angle), math.cos(angle))) * sign
             step = distance_per_frame * unit_vector
-            for i in range(steps - 1):
+            for _ in range(steps - 1):
                 with smartsleep.Sleeper(self.FRAME_TIME):
                     self.turtle.pos += step
                     self.send_report()
@@ -93,7 +93,7 @@ class TurtleProcess(multiprocessing.Process):
             angle_per_frame = self.FRAME_TIME * self.turtle.ANGULAR_SPEED
             steps = int(math.ceil(angle / float(angle_per_frame)))
             step = angle_per_frame * sign
-            for i in range(steps - 1):
+            for _ in range(steps - 1):
                 with smartsleep.Sleeper(self.FRAME_TIME):
                     self.turtle.orientation += step
                     self.send_report()

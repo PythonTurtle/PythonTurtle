@@ -9,6 +9,7 @@ class VectorError(Exception):
     """
 
     def __init__(self, msg):
+        super().__init__()
         self.msg = msg
 
     def __str__(self):
@@ -38,7 +39,7 @@ class Vector(tuple):
         return Vector(map(lambda x, y: x - y, self, other))
 
     def __mul__(self, other):
-        if not (isinstance(other, int) or isinstance(other, float)):
+        if not isinstance(other, (int, float)):
             raise VectorError("right hand side is illegal")
         return Vector(map(lambda x: x * other, self))
 
@@ -46,7 +47,7 @@ class Vector(tuple):
         return self * other
 
     def __truediv__(self, other):
-        if not (isinstance(other, int) or isinstance(other, float)):
+        if not isinstance(other, (int, float)):
             raise VectorError("right hand side is illegal")
         return Vector(map(lambda x: x / other, self))
 

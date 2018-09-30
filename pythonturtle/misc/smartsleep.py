@@ -6,7 +6,7 @@ import time
 # from .helpers import log
 
 
-class Sleeper(object):
+class Sleeper:
     """
     A smarter way to use `time.sleep()`, implemented as a context manager.
     Use it like this:
@@ -31,6 +31,5 @@ class Sleeper(object):
         if interval_gone >= self.interval:
             # log("didn't sleep")
             return
-        else:
-            # log("slept")
-            time.sleep(self.interval - interval_gone)
+        # log("slept")
+        time.sleep(self.interval - interval_gone)

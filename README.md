@@ -49,8 +49,8 @@ On any GNU/Linux distribution: (after installing prerequisites from above)
 
 ```bash
 git clone https://github.com/cool-RR/PythonTurtle.git
-cd PythonTurtle/src
-python3 pythonturtle.py
+cd PythonTurtle
+python3 -m pythonturtle
 ```
 
 If you're into automation:

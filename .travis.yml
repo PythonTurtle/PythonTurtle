@@ -1,36 +1,41 @@
 ---
+dist: xenial
+sudo: true
+
 language: python
 python:
-  - pypy
-  - 2.6
-  - 2.7
-  - pypy3
-  - 3.5
   - 3.6
+  - 3.7
 
 stages:
   - lint
   - test
-  - build
+  - publish
 
 env:  # enable allow_failures
 matrix:
   allow_failures:
-    - env: TOXENV=flake8
     - env: TOXENV=pylint
+    - python: 3.7
 
 jobs:
   include:
-    - { stage: lint, python: 2.7, env: TOXENV=flake8 }
     - { stage: lint, python: 3.6, env: TOXENV=flake8 }
-    - { stage: lint, python: 2.7, env: TOXENV=pylint }
     - { stage: lint, python: 3.6, env: TOXENV=pylint }
-    - { stage: test, python: 3.7, dist: xenial, sudo: true }
+
+    - stage: publish
+      script: skip
+      deploy:
+        provider: pypi
+        user: coolRR
+        password:
+          secure: <travis-encrypt-value-here>
+      on:
+        tags: true
 
 before_install:
   - sudo apt-get update
   - PYTHON_MAJOR=$(python -c 'import sys; print(sys.version[0])')
-  - if [ $PYTHON_MAJOR = '2' ]; then sudo apt-get install -y python-wxgtk2.8; fi
   # - if [ $PYTHON_MAJOR = '3' ]; then sudo apt-get install -y python3-wxgtk4.0; fi
   - dpkg -l *wxgtk*
 

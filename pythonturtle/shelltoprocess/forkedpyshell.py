@@ -784,11 +784,11 @@ Platform: %s""" % (
 
         # unique (no duplicate words
         # oneliner from german python forum => unique list
-        unlist = [thlist[i] for i in xrange(len(thlist))
+        unlist = [thlist[i] for i in range(len(thlist))
                   if thlist[i] not in thlist[:i]]
 
         # sort lowercase
-        unlist.sort(lambda a, b: cmp(a.lower(), b.lower()))
+        unlist.sort(lambda a, b: a.lower() == b.lower())
 
         # this is more convenient, isn't it?
         self.AutoCompSetIgnoreCase(True)
