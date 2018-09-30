@@ -2,9 +2,9 @@
 Various helper functions used by PythonTurtle.
 """
 import math
-import pkg_resources
 import queue
 import sys
+import pkg_resources
 
 import pythonturtle
 

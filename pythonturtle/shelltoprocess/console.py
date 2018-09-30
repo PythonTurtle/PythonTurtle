@@ -1,14 +1,14 @@
 """
 See documentation for the class Console defined here.
 """
-import code
+from code import InteractiveConsole
 import sys
 import traceback
 
 from wx.py.pseudo import PseudoFileIn, PseudoFileOut, PseudoFileErr
 
 
-class Console(code.InteractiveConsole):
+class Console(InteractiveConsole):
     """
     Console based on code.InteractiveConsole. You are supposed to run this
     console in a process you create with the `multiprocessing` package.
@@ -19,7 +19,7 @@ class Console(code.InteractiveConsole):
     """
 
     def __init__(self, queue_pack, *args, **kwargs):
-        code.InteractiveConsole.__init__(self, *args, **kwargs)
+        super().__init__(self, *args, **kwargs)
 
         (self.input_queue,
          self.output_queue,

@@ -16,8 +16,8 @@ except ModuleNotFoundError:
           "the appropriate prerequisites for your operating system.")
     print("Please consult the installation instructions in the README at "
           "https://github.com/cool-RR/PythonTurtle#installation")
-    from sys import exit
-    exit(255)
+    import sys
+    sys.exit(255)
 
 import pythonturtle
 

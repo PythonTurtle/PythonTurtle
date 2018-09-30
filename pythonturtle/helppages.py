@@ -26,11 +26,10 @@ class CustomScrolledPanel(ScrolledPanel):
         if key in (wx.WXK_HOME, wx.WXK_NUMPAD_HOME):
             self.scroll_home()
             return
-        elif key in (wx.WXK_END, wx.WXK_NUMPAD_END):
+        if key in (wx.WXK_END, wx.WXK_NUMPAD_END):
             self.scroll_end()
             return
-        else:
-            event.Skip()
+        event.Skip()
 
     def scroll_home(self):
         """

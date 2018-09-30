@@ -54,7 +54,7 @@ class TurtleWidget(wx.Panel):
 
             self.turtle = turtle_report
         del dc
-        if len(turtle_reports) > 0:
+        if turtle_reports:
             self.Refresh()
 
         dc = wx.PaintDC(self)
