@@ -1,11 +1,7 @@
 ---
 language: python
 python:
-  - pypy
-  - 2.6
-  - 2.7
   - pypy3
-  - 3.5
   - 3.6
 
 stages:
@@ -16,21 +12,19 @@ stages:
 env:  # enable allow_failures
 matrix:
   allow_failures:
-    - env: TOXENV=flake8
     - env: TOXENV=pylint
+    - env: TOXENV=pypy3
+    - env: TOXENV=py37
 
 jobs:
   include:
-    - { stage: lint, python: 2.7, env: TOXENV=flake8 }
     - { stage: lint, python: 3.6, env: TOXENV=flake8 }
-    - { stage: lint, python: 2.7, env: TOXENV=pylint }
     - { stage: lint, python: 3.6, env: TOXENV=pylint }
     - { stage: test, python: 3.7, dist: xenial, sudo: true }
 
 before_install:
   - sudo apt-get update
   - PYTHON_MAJOR=$(python -c 'import sys; print(sys.version[0])')
-  - if [ $PYTHON_MAJOR = '2' ]; then sudo apt-get install -y python-wxgtk2.8; fi
   # - if [ $PYTHON_MAJOR = '3' ]; then sudo apt-get install -y python3-wxgtk4.0; fi
   - dpkg -l *wxgtk*
 

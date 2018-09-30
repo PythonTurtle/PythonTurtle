@@ -7,8 +7,10 @@ __pycache__/
 
 # testing artifacts
 /.tox/
+/tests/reports/
 
 # packaging artifacts
 /build/
 /dist/
+/*.egg-info
 /*.spec
