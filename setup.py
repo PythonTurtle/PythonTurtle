@@ -38,4 +38,9 @@ setup(
     # install_requires=['wxPython'],
     tests_require=['tox'],
     zip_safe=True,
+    entry_points={
+        'console_scripts': [
+            'PythonTurtle = pythonturtle.__main__:run',
+        ],
+    },
 )
