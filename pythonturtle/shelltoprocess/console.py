@@ -19,7 +19,7 @@ class Console(InteractiveConsole):
     """
 
     def __init__(self, queue_pack, *args, **kwargs):
-        super().__init__(self, *args, **kwargs)
+        InteractiveConsole.__init__(self, *args, **kwargs)
 
         (self.input_queue,
          self.output_queue,
