@@ -1,8 +1,12 @@
 ---
+dist: xenial
+sudo: true
+
 language: python
 python:
-  - pypy3
   - 3.6
+  - 3.7
+  - pypy3
 
 stages:
   - lint
@@ -20,7 +24,6 @@ jobs:
   include:
     - { stage: lint, python: 3.6, env: TOXENV=flake8 }
     - { stage: lint, python: 3.6, env: TOXENV=pylint }
-    - { stage: test, python: 3.7, dist: xenial, sudo: true }
 
 before_install:
   - sudo apt-get update
