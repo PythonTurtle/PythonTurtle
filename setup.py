@@ -17,9 +17,17 @@ def read_file(filename):
 setup(
     name=package.name,
     version=package.__version__,
-    description=package.__doc__.strip(),
-    long_description=read_file('README.md'),
+    license=package.__license__,
+    author='Ram Rachum',
+    author_email='ram@rachum.com',
+    description=package.__doc__.strip().split('\n')[0],
     long_description_content_type='text/markdown',
+    long_description=read_file('README.md'),
+    url=package.__url__,
+    project_urls={
+        'Source': 'https://github.com/cool-RR/PythonTurtle',
+    },
+    keywords=['turtle', 'learning', 'children', 'beginners', 'logo '],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: MacOS X',
@@ -35,16 +43,12 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Topic :: Education',
     ],
-    keywords=['turtle', 'learning', 'children', 'beginners', 'logo '],
-    author='Ram Rachum',
-    author_email='ram@rachum.com',
-    url=package.__url__,
-    license=package.__license__,
+    python_requires='>=3',
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
+    zip_safe=True,
     # install_requires=['wxPython'],
     tests_require=['tox'],
-    zip_safe=True,
     entry_points={
         'console_scripts': [
             'PythonTurtle = pythonturtle.__main__:run',
