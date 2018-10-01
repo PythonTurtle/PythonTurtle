@@ -207,7 +207,7 @@ class ApplicationWindow(wx.Frame):
         info.SetDescription(description)
         info.SetLicence(license_terms)
         info.SetCopyright(license_copyright)
-        info.SetName(pythonturtle.__product_name__)
+        info.SetName(pythonturtle.name)
         info.SetVersion(pythonturtle.__version__)
         info.SetWebSite(pythonturtle.__url__)
         info.SetDevelopers(developer_list)
