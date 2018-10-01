@@ -9,7 +9,7 @@ turtle that is displayed on the screen. An illustrated help screen
 demonstrates how to move the turtle and introduces the student to the
 basics of Python programming.
 """
-__license__ = 'MIT'
-__product_name__ = 'PythonTurtle'
-__url__ = 'http://pythonturtle.org'
+name = 'PythonTurtle'
 __version__ = '0.3.0'
+__license__ = 'MIT'
+__url__ = 'http://pythonturtle.org'
