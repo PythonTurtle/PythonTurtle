@@ -4,6 +4,7 @@ Python Turtle
 [![Build Status](https://img.shields.io/travis/cool-RR/PythonTurtle/master.svg)](https://travis-ci.org/cool-RR/PythonTurtle
 ) [![GitHub issues](https://img.shields.io/github/issues-raw/cool-RR/PythonTurtle.svg)](https://github.com/cool-RR/PythonTurtle/issues
 ) [![GitHub PRs](https://img.shields.io/github/issues-pr-raw/cool-RR/PythonTurtle.svg)](https://github.com/cool-RR/PythonTurtle/pulls
+) [![Python Versions](https://img.shields.io/pypi/pyversions/PythonTurtle.svg)](https://pypi.org/project/PythonTurtle/
 ) [![MIT License](https://img.shields.io/github/license/cool-RR/PythonTurtle.svg)](https://github.com/cool-RR/PythonTurtle/blob/master/LICENSE)
 
 An educational environment for learning Python, suitable for beginners and children.
@@ -36,7 +37,7 @@ https://github.com/cool-RR/PythonTurtle/releases).
 Ubuntu Linux:
 
 ```bash
-sudo apt-get install -y git python3-wxgtk4.0
+sudo apt-get install -y python3-wxgtk4.0
 ```
 
 Fedora:
@@ -48,21 +49,32 @@ python3 -m pip install wxpython
 On any GNU/Linux distribution: (after installing prerequisites from above)
 
 ```bash
-git clone https://github.com/cool-RR/PythonTurtle.git
-cd PythonTurtle
-python3 -m pythonturtle
+python3 -m pip install --user PythonTurtle
+PythonTurtle
 ```
 
 If you're into automation:
 
-[Ansible tasks](https://github.com/painless-software/ansible-software/blob/master/roles/education/tasks/main.yml#L11-L33
+[Ansible tasks](https://github.com/painless-software/ansible-software/blob/master/roles/education/tasks/programming.yml#L11-L34
 ) for setting up PythonTurtle including a desktop shortcut for GNOME.
 
 Compatibility
 -------------
 
 Tested with Python version 3.6 and wxPython version 4.0.1.
-Currently manually tested only on Windows, macOS, Ubuntu Linux, and Fedora.
+Reported to run on Windows, macOS, Ubuntu Linux, and Fedora.
+
+Development
+-----------
+
+```bash
+git clone https://github.com/cool-RR/PythonTurtle.git
+cd PythonTurtle
+python3 -m pythonturtle
+```
+
+Please [open a pull request](https://github.com/cool-RR/PythonTurtle/pulls
+) for contributions or bug fixes. If you can, please also add tests.
 
 About
 -----
