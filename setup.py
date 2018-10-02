@@ -27,7 +27,7 @@ setup(
     project_urls={
         'Source': 'https://github.com/cool-RR/PythonTurtle',
     },
-    keywords=['turtle', 'learning', 'children', 'beginners', 'logo '],
+    keywords=['turtle', 'learning', 'children', 'beginners', 'logo'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: MacOS X',
