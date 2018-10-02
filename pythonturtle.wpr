@@ -11,3 +11,4 @@ proj.directory-list = [{'dirloc': loc('.'),
                         'recursive': True,
                         'watch_for_changes': True}]
 proj.file-type = 'shared'
+proj.main-file = loc('pythonturtle/__main__.py')
