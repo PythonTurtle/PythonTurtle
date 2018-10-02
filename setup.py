@@ -51,7 +51,7 @@ setup(
     tests_require=['tox'],
     entry_points={
         'console_scripts': [
-            'PythonTurtle = pythonturtle.__main__:run',
+            'PythonTurtle = pythonturtle.__main__:application.run',
         ],
     },
 )

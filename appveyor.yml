@@ -1,0 +1,20 @@
+---
+image:
+- Visual Studio 2017
+- Ubuntu
+
+environment:
+  matrix:
+  - PYTHON: "C:\\Python36"
+
+install:
+- "%PYTHON%\\python.exe -m pip install PyInstaller"
+
+build_script:
+- "%PYTHON%\\python.exe -m PyInstaller --name PythonTurtle --onefile --windowed --icon pythonturtle\\resources\\icon.ico pythonturtle\\__main__.py"
+
+artifacts:
+- path: dist
+
+on_success:
+- dir dist
