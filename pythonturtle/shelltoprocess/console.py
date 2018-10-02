@@ -57,7 +57,7 @@ class Console(InteractiveConsole):
         if filename and ex_type is SyntaxError:
             # Work hard to stuff the correct filename in the exception
             try:
-                msg, (dummy_filename, lineno, offset, line) = value
+                msg, (dummy_filename, lineno, offset, line) = value.args
             except ValueError:
                 # Not the format we expect; leave it alone
                 pass
@@ -67,7 +67,8 @@ class Console(InteractiveConsole):
                 sys.last_value = value
         ex_list = traceback.format_exception_only(ex_type, value)
 
-        map(self.write, ex_list)
+        for line in ex_list:
+            self.write(line)
 
     def runsource(self, source, filename="<input>", symbol="single"):
         try:
