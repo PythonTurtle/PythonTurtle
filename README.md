@@ -1,11 +1,12 @@
 Python Turtle
 =============
 
-[![Build Status](https://img.shields.io/travis/cool-RR/PythonTurtle/master.svg)](https://travis-ci.org/cool-RR/PythonTurtle
+[![Travis CI](https://img.shields.io/travis/cool-RR/PythonTurtle/master.svg)](https://travis-ci.org/cool-RR/PythonTurtle
+) [![AppVeyor](https://img.shields.io/appveyor/ci/cool-RR/PythonTurtle.svg)](https://ci.appveyor.com/project/cool-RR/PythonTurtle
 ) [![GitHub issues](https://img.shields.io/github/issues-raw/cool-RR/PythonTurtle.svg)](https://github.com/cool-RR/PythonTurtle/issues
 ) [![GitHub PRs](https://img.shields.io/github/issues-pr-raw/cool-RR/PythonTurtle.svg)](https://github.com/cool-RR/PythonTurtle/pulls
-) [![Python Versions](https://img.shields.io/pypi/pyversions/PythonTurtle.svg)](https://pypi.org/project/PythonTurtle/
-) [![MIT License](https://img.shields.io/github/license/cool-RR/PythonTurtle.svg)](https://github.com/cool-RR/PythonTurtle/blob/master/LICENSE)
+) [![Python versions](https://img.shields.io/pypi/pyversions/PythonTurtle.svg)](https://pypi.org/project/PythonTurtle/
+) [![MIT license](https://img.shields.io/github/license/cool-RR/PythonTurtle.svg)](https://github.com/cool-RR/PythonTurtle/blob/master/LICENSE)
 
 An educational environment for learning Python, suitable for beginners and children.
 Inspired by LOGO.

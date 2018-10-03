@@ -8,10 +8,12 @@ environment:
   - PYTHON: "C:\\Python36"
 
 install:
-- "%PYTHON%\\python.exe -m pip install PyInstaller"
+- "%PYTHON%\\python.exe -m pip install PyInstaller wxPython"
+
+build: off
 
 build_script:
-- "%PYTHON%\\python.exe -m PyInstaller --name PythonTurtle --onefile --windowed --icon pythonturtle\\resources\\icon.ico pythonturtle\\__main__.py"
+- "%PYTHON%\\python.exe setup.py clean bundle"
 
 artifacts:
 - path: dist
