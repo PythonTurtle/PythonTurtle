@@ -73,6 +73,12 @@ cd PythonTurtle
 python3 -m pythonturtle
 ```
 
+Build application bundles like this:
+
+```bash
+python3 setup.py clean bundle
+```
+
 Please [open a pull request](https://github.com/cool-RR/PythonTurtle/pulls
 ) for contributions or bug fixes. If you can, please also add tests.
 

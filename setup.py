@@ -2,15 +2,89 @@
 """
 Packaging implementation for PythonTurtle.
 """
-from os.path import dirname, join
+from glob import glob
+import os
+import os.path
+import shutil
+
+from setuptools.command.test import test
 from setuptools import setup, find_packages
 
 import pythonturtle as package
 
 
+class Bundle(test):
+    """A setuptools command to build application bundles for all platforms"""
+
+    def run(self):
+        import PyInstaller.__main__
+
+        resources_folder = os.path.join('pythonturtle', 'resources')
+
+        def resource_path(file_glob):
+            return os.path.join(resources_folder, file_glob)
+
+        def include_resources(file_glob):
+            return '{src}{separator}{dest}'.format(
+                src=resource_path(file_glob),
+                separator=os.pathsep,
+                dest=resources_folder)
+
+        PyInstaller.__main__.run([
+            '--name=%s' % package.name,
+            '--onefile',
+            '--windowed',
+            '--add-binary=%s' % include_resources('*.ic*'),
+            '--add-binary=%s' % include_resources('*.png'),
+            '--add-data=%s' % include_resources('*.txt'),
+            '--icon=%s' % resource_path('icon.ico'),
+            os.path.join('pythonturtle', '__main__.py'),
+        ])
+
+
+class Clean(test):
+    """A setuptools command to remove build files and folders"""
+
+    def run(self):
+        delete_in_root = [
+            'build',
+            'dist',
+            '.eggs',
+            '*.egg-info',
+            '.pytest_cache',
+            '*.spec',
+            '.tox',
+        ]
+        delete_everywhere = [
+            '*.pyc',
+            '__pycache__',
+        ]
+        for candidate in delete_in_root:
+            rmtree_glob(candidate)
+        for visible_dir in glob('[A-Za-z0-9_]*'):
+            for candidate in delete_everywhere:
+                rmtree_glob(os.path.join(visible_dir, candidate))
+                rmtree_glob(os.path.join(visible_dir, '*', candidate))
+                rmtree_glob(os.path.join(visible_dir, '*', '*', candidate))
+
+
+def rmtree_glob(file_glob):
+    """Platform independent rmtree, which also allows wildcards (globbing)"""
+    for item in glob(file_glob):
+        try:
+            shutil.rmtree(item)
+            print('%s/ removed ...' % item)
+        except OSError:
+            try:
+                os.remove(item)
+                print('%s removed ...' % item)
+            except OSError as err:
+                print(err)
+
+
 def read_file(filename):
     """Source the contents of a file"""
-    with open(join(dirname(__file__), filename)) as file:
+    with open(os.path.join(os.path.dirname(__file__), filename)) as file:
         return file.read()
 
 
@@ -49,6 +123,11 @@ setup(
     zip_safe=True,
     # install_requires=['wxPython'],
     tests_require=['tox'],
+    test_suite='tests',
+    cmdclass={
+        'bundle': Bundle,
+        'clean': Clean,
+    },
     entry_points={
         'console_scripts': [
             'PythonTurtle = pythonturtle.__main__:application.run',
