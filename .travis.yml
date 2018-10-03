@@ -56,3 +56,21 @@ jobs:
       skip_cleanup: true
       on:
         tags: true
+
+  - name: macOS bundle
+    stage: publish
+    os: osx
+    language: generic
+    install:
+    - python3 --version
+    - python3 -m pip install --upgrade pip
+    - python3 -m pip install PyInstaller wxPython
+    script:
+    - ./setup.py clean bundle
+    deploy:
+      provider: releases
+      api_key: "GITHUB OAUTH TOKEN"
+      file: dist/PythonTurtle
+      skip_cleanup: true
+      on:
+        tags: true
