@@ -78,21 +78,19 @@ class Clean(SimpleCommand):
             rmtree_glob(candidate)
         for visible_dir in glob('[A-Za-z0-9_]*'):
             for candidate in delete_everywhere:
-                rmtree_glob(os.path.join(visible_dir, candidate))
-                rmtree_glob(os.path.join(visible_dir, '*', candidate))
-                rmtree_glob(os.path.join(visible_dir, '*', '*', candidate))
+                rmtree_glob(os.path.join(visible_dir, '**', candidate))
 
 
 def rmtree_glob(file_glob):
     """Platform independent rmtree, which also allows wildcards (globbing)"""
-    for item in glob(file_glob):
+    for item in glob(file_glob, recursive=True):
         try:
-            shutil.rmtree(item)
-            print('%s/ removed ...' % item)
+            os.remove(item)
+            print('%s removed ...' % item)
         except OSError:
             try:
-                os.remove(item)
-                print('%s removed ...' % item)
+                shutil.rmtree(item)
+                print('%s/ removed ...' % item)
             except OSError as err:
                 print(err)
 
