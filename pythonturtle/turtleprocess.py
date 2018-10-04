@@ -7,6 +7,7 @@ import math
 import multiprocessing
 import sys
 import time
+import builtins
 
 from . import shelltoprocess
 from .misc import smartsleep
@@ -49,7 +50,10 @@ class TurtleProcess(multiprocessing.Process):
         # log(self.turtle.__dict__)
 
     def run(self):
-
+        
+        builtins.help = builtins.license = builtins.exit = \
+                                lambda *args,  **kwargs: print('Not supported')
+        
         self.turtle = Turtle()
 
         def go(distance):
