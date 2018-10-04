@@ -7,16 +7,29 @@ import os
 import os.path
 import shutil
 
-from setuptools.command.test import test
+from setuptools import Command
 from setuptools import setup, find_packages
 
 import pythonturtle as package
 
 
-class Bundle(test):
-    """A setuptools command to build application bundles for all platforms"""
+class SimpleCommand(Command):
+    """A simple setuptools command (implementation of abstract base class)"""
+    user_options = []
 
-    def run(self):
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+
+class Bundle(SimpleCommand):
+    """Build an application bundle for the current platform"""
+    description = __doc__
+
+    @staticmethod
+    def run():
         import PyInstaller.__main__
 
         resources_folder = os.path.join('pythonturtle', 'resources')
@@ -42,10 +55,12 @@ class Bundle(test):
         ])
 
 
-class Clean(test):
-    """A setuptools command to remove build files and folders"""
+class Clean(SimpleCommand):
+    """Remove build files and folders, including Python byte-code"""
+    description = __doc__
 
-    def run(self):
+    @staticmethod
+    def run():
         delete_in_root = [
             'build',
             'dist',
