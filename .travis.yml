@@ -9,6 +9,7 @@ python:
 
 install:
 - pip install tox-travis
+- sudo apt-get install libsdl-ttf2.0-0
 script:
 - tox
 
