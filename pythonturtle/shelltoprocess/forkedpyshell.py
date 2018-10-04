@@ -774,7 +774,7 @@ Platform: %s""" % (
         joined = " ".join(his)
 
         # sort out only "good" words
-        newlist = re.split("[ \.\[\]=}(\)\,0-9\"]", joined)
+        newlist = re.split(r'[ \.\[\]=}(\)\,0-9"]', joined)
 
         # length > 1 (mix out "trash")
         thlist = []
