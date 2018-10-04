@@ -220,6 +220,6 @@ class ApplicationWindow(wx.Frame):
 def run():
     multiprocessing.freeze_support()
     app = wx.App()
-    ApplicationWindow(None, -1, "PythonTurtle", size=(600, 600))
+    ApplicationWindow(None, -1, pythonturtle.name, size=(600, 600))
     # import cProfile; cProfile.run("app.MainLoop()")
     app.MainLoop()
