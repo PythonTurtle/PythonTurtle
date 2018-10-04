@@ -2,7 +2,8 @@ Python Turtle
 =============
 
 [![Travis CI](https://img.shields.io/travis/cool-RR/PythonTurtle/master.svg)](https://travis-ci.org/cool-RR/PythonTurtle
-) [![AppVeyor](https://img.shields.io/appveyor/ci/cool-RR/PythonTurtle.svg)](https://ci.appveyor.com/project/cool-RR/PythonTurtle
+) [![AppVeyor](https://img.shields.io/appveyor/ci/cool-RR/PythonTurtle/master.svg)](https://ci.appveyor.com/project/cool-RR/PythonTurtle
+) [![Shippable](https://img.shields.io/shippable/5bb5a1f6d8769507003ac8c7/master.svg)](https://app.shippable.com/github/cool-RR/PythonTurtle/dashboard
 ) [![GitHub issues](https://img.shields.io/github/issues-raw/cool-RR/PythonTurtle.svg)](https://github.com/cool-RR/PythonTurtle/issues
 ) [![GitHub PRs](https://img.shields.io/github/issues-pr-raw/cool-RR/PythonTurtle.svg)](https://github.com/cool-RR/PythonTurtle/pulls
 ) [![Python versions](https://img.shields.io/pypi/pyversions/PythonTurtle.svg)](https://pypi.org/project/PythonTurtle/

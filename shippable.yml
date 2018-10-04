@@ -1,0 +1,21 @@
+---
+language: python
+python: 3.6
+
+jobs:
+- name: Build on Windows
+  type: runSh
+  runtime:
+    nodePool: custom__x86_64__WindowsServer_2016
+  steps:
+  - TASK:
+      name: Windows EXE file
+      runtime:
+        options:
+          imageName: microsoft/windowsservercore
+          imageTag: 10.0.14393.1884
+      script:
+      - python3 --version
+      - python3 -m pip install PyInstaller wxPython
+      - python3 setup.py clean bundle
+      - dir dist
