@@ -2,19 +2,27 @@
 language: python
 python: 3.6
 
+resources:
+- name: pythonturtle_repo
+  type: gitRepo
+  integration: github
+  pointer:
+    sourceName: cool-RR/PythonTurtle
+
 jobs:
-- name: Build on Windows
+- name: Windows build
   type: runSh
+  allowPublicAccess: true
   runtime:
-    nodePool: custom__x86_64__WindowsServer_2016
+    nodePool: dyn_win16
   steps:
+  - IN: pythonturtle_repo
   - TASK:
       name: Windows EXE file
-      runtime:
-        options:
-          imageName: microsoft/windowsservercore
-          imageTag: 10.0.14393.1884
       script:
+      - systeminfo
+      - Get-Process
+      - pushd $(shipctl get_resource_state "pythonturtle_repo")
       - python3 --version
       - python3 -m pip install PyInstaller wxPython
       - python3 setup.py clean bundle
