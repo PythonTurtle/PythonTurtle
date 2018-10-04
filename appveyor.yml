@@ -3,18 +3,26 @@ image: Visual Studio 2017
 
 environment:
   matrix:
-  - PYTHON: "C:\\Python36"
-
-install:
-- "%PYTHON%\\python.exe -m pip install PyInstaller wxPython"
+  - PYTHON: C:\Python36
 
 build: off
 
-build_script:
-- "%PYTHON%\\python.exe setup.py clean bundle"
+install:
+- set PATH=C:\Python36\Scripts;%PATH%
+- '%PYTHON%\python.exe -m pip install PyInstaller wxPython pypiwin32'
+
+before_test:
+- '%PYTHON%\python.exe -m pip install tox'
+
+test_script:
+- '%PYTHON%\python.exe -m tox -e flake8'
+- '%PYTHON%\python.exe -m tox -e py36'
+
+after_test:
+- '%PYTHON%\python.exe setup.py clean bundle'
 
 artifacts:
-- path: dist
+- path: dist\PythonTurtle.exe
 
 on_success:
 - dir dist
