@@ -26,13 +26,51 @@ jobs:
   - { stage: lint, python: 3.6, env: TOXENV=flake8 }
   - { stage: lint, python: 3.6, env: TOXENV=pylint }
 
-  - stage: publish
+  - name: PyPI package
+    stage: publish
+    python: 3.6
+    install: skip
+    script: skip
     deploy:
       provider: pypi
       user: coolRR
       password:
         secure: fdbhH+rsqfG9WfILlBZXlNNSXZVHrfBH9zWa7kKiUY55GMYKli+u/MzG1i6Ezn53Vg1wL1NTQMm5rFbbUfBE2l5/+S191saBZGApEhQZhulSkG702FCbpuGs1a26Zm+dhjyiRvuNdnPB8BA61uHSpWFzDgpLurGsZB0TyB2hZqv7LFL1eG56mKh70LTIDO5XmDh5/yDEXfc23M2nS7Zwx2xJEM047Fay/yeZSjo+LEYgCoTM/z9TftyxkyuLOGsiRoBMwL7eb7wKJzk79vSAvgZP/fSuAqc8ut1lrk1S9OIO4I9s7Zpi1QneJSGDJu4IHfV3nlge/+tlN8aeLA6GsSy/RrrzueBdtYTpbt34vO5rVfhJwjHIKTQa4GUF0R6gCiQ0JjJiXLC+UAbePZxzAKQWaxJWWpqq8L9e+LlHWpEtuB4jEqncFs6FeTT7mTWz2HMTQvvIVAsI2xFkItY4yCpE3P5+5f6UgqwqFpuKCXWF6ohQ090wTlNxN5cikNSYdPPQj7hypKzWrYcH5z4Z4pU63mnO2fZgTEZomvYKXa9mcdtZcCBhPNJW9WTgxqKSouPcjYc4me9wk4wv4ncJaCPLlxbuW7T/Nv+Xy/HYn7eljRapnu7/XcVQgB6gG4vxbRkkLkr1Ybj0xcR2neAQcxhBBqzfCyQezh210dPGqF8=
-    install: skip
-    script: skip
-    on:
-      tags: true
+      distributions: 'sdist bdist_wheel'
+      skip_cleanup: true
+      on:
+        tags: true
+
+  - name: Linux bundle
+    stage: publish
+    python: 3.6
+    install:
+    - pip install PyInstaller
+    - pip install --find-links https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython
+    script:
+    - ./setup.py clean bundle
+    deploy:
+      provider: releases
+      api_key: "GITHUB OAUTH TOKEN"
+      file: dist/PythonTurtle
+      skip_cleanup: true
+      on:
+        tags: true
+
+  - name: macOS bundle
+    stage: publish
+    os: osx
+    language: generic
+    install:
+    - python3 --version
+    - python3 -m pip install --upgrade pip
+    - python3 -m pip install PyInstaller wxPython
+    script:
+    - ./setup.py clean bundle
+    deploy:
+      provider: releases
+      api_key: "GITHUB OAUTH TOKEN"
+      file: dist/PythonTurtle
+      skip_cleanup: true
+      on:
+        tags: true

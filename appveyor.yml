@@ -1,0 +1,20 @@
+---
+image: Visual Studio 2017
+
+environment:
+  matrix:
+  - PYTHON: "C:\\Python36"
+
+install:
+- "%PYTHON%\\python.exe -m pip install PyInstaller wxPython"
+
+build: off
+
+build_script:
+- "%PYTHON%\\python.exe setup.py clean bundle"
+
+artifacts:
+- path: dist
+
+on_success:
+- dir dist
