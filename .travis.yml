@@ -9,7 +9,9 @@ python:
 
 install:
 - pip install tox-travis
-- sudo apt-get install libsdl-ttf2.0-0
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+    sudo apt-get install libsdl-ttf2.0-0
+  ; fi
 script:
 - tox
 
@@ -22,10 +24,12 @@ jobs:
   allow_failures:
   - env: TOXENV=pylint
   - python: 3.7
+  - { os: osx, stage: publish }
 
   include:
   - { stage: lint, python: 3.6, env: TOXENV=flake8 }
   - { stage: lint, python: 3.6, env: TOXENV=pylint }
+  - { stage: test, os: osx, language: generic, env: TOXENV=py36 }
 
   - name: PyPI package
     stage: publish
