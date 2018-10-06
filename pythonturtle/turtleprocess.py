@@ -243,8 +243,8 @@ class TurtleProcess(multiprocessing.Process):
         # valid before setting it to the turtle. Didn't work.
         # import wx; app=wx.App();
         # def valid_color(color):
-            # return not wx.Pen(color).GetColour() == \
-                # wx.Pen("malformed").GetColour()
+        #     return not wx.Pen(color).GetColour() == \
+        #         wx.Pen("malformed").GetColour()
 
         self.console = shelltoprocess.Console(queue_pack=self.queue_pack,
                                               locals=locals_for_console)

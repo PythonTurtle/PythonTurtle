@@ -119,13 +119,13 @@ class Console(InteractiveConsole):
         except AttributeError:
             sys.ps2 = "... "
         # cprt = 'Type "help", "copyright", "credits" or "license" ' \
-               # 'for more information.'
+        #       'for more information.'
         # if banner is None:
-            # self.write("Python %s on %s\n%s\n(%s)\n" %
-                       # (sys.version, sys.platform, cprt,
-                        # self.__class__.__name__))
+        #     self.write("Python %s on %s\n%s\n(%s)\n" %
+        #                (sys.version, sys.platform, cprt,
+        #                 self.__class__.__name__))
         # else:
-            # self.write("%s\n" % str(banner))
+        #     self.write("%s\n" % str(banner))
         more = 0
         while True:
             try:
