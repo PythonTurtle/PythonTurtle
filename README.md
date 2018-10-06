@@ -7,7 +7,8 @@ Python Turtle
 ) [![GitHub issues](https://img.shields.io/github/issues-raw/cool-RR/PythonTurtle.svg)](https://github.com/cool-RR/PythonTurtle/issues
 ) [![GitHub PRs](https://img.shields.io/github/issues-pr-raw/cool-RR/PythonTurtle.svg)](https://github.com/cool-RR/PythonTurtle/pulls
 ) [![Python versions](https://img.shields.io/pypi/pyversions/PythonTurtle.svg)](https://pypi.org/project/PythonTurtle/
-) [![MIT license](https://img.shields.io/github/license/cool-RR/PythonTurtle.svg)](https://github.com/cool-RR/PythonTurtle/blob/master/LICENSE)
+) [![MIT license](https://img.shields.io/github/license/cool-RR/PythonTurtle.svg)](https://github.com/cool-RR/PythonTurtle/blob/master/LICENSE
+) [![Gitter](https://img.shields.io/gitter/room/PythonTurtle/Lobby.svg)](https://gitter.im/PythonTurtle/Lobby)
 
 An educational environment for learning Python, suitable for beginners and children.
 Inspired by LOGO.
