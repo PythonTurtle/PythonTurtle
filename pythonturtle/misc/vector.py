@@ -63,11 +63,6 @@ class Vector(tuple):
         if not isinstance(other, Vector):
             raise VectorError("trying to do dot product of Vector "
                               "with non-Vector")
-        """
-        if self.dim()!=other.dim():
-                raise("trying to do dot product of Vectors of unequal "
-                      "dimension!")
-        """
         d = self.dim()
         s = 0.
         for i in range(d):

@@ -198,23 +198,21 @@ class TurtleProcess(multiprocessing.Process):
             self.turtle.clear = False
             self.send_report()
 
-        """
-        Had trouble implementing `home`.
-        I couldn't control when the turtle would actually draw a line home.
+        # Had trouble implementing `home`.
+        # I couldn't control when the turtle would actually draw a line home.
 
-        def home():
-            #\"""
-            Places the turtle at the center of the screen, facing upwards.
-            #\"""
-            old_pen_down = self.turtle.pen_down
-            pen_up() # Sends a report as well
-            self.send_report()
-            self.turtle.pos = Vector((0, 0))
-            self.turtle.orientation = 180
-            self.send_report()
-            time.sleep(3)
-            pen_down(old_pen_down)
-        """
+        # def home():
+            # #\"""
+            # Places the turtle at the center of the screen, facing upwards.
+            # #\"""
+            # old_pen_down = self.turtle.pen_down
+            # pen_up() # Sends a report as well
+            # self.send_report()
+            # self.turtle.pos = Vector((0, 0))
+            # self.turtle.orientation = 180
+            # self.send_report()
+            # time.sleep(3)
+            # pen_down(old_pen_down)
 
         def reset():
             """
@@ -241,14 +239,12 @@ class TurtleProcess(multiprocessing.Process):
             "reset": reset,
         }
 
-        """
-        A little thing I tried doing for checking if a color is
-        valid before setting it to the turtle. Didn't work.
-        import wx; app=wx.App();
-        def valid_color(color):
-            return not wx.Pen(color).GetColour() == \
-                wx.Pen("malformed").GetColour()
-        """
+        # A little thing I tried doing for checking if a color is
+        # valid before setting it to the turtle. Didn't work.
+        # import wx; app=wx.App();
+        # def valid_color(color):
+            # return not wx.Pen(color).GetColour() == \
+                # wx.Pen("malformed").GetColour()
 
         self.console = shelltoprocess.Console(queue_pack=self.queue_pack,
                                               locals=locals_for_console)
