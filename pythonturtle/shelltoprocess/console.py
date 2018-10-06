@@ -42,7 +42,8 @@ class Console(InteractiveConsole):
         # self.log(output)
         return self.writefunc(output)
 
-    def log(self, output):
+    @staticmethod
+    def log(output):
         print(output)
         sys.stdout.flush()
 

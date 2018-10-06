@@ -51,7 +51,8 @@ class Vector(tuple):
             raise VectorError("right hand side is illegal")
         return Vector(map(lambda x: x / other, self))
 
-    def __rdiv__(self, other):
+    @staticmethod
+    def __rdiv__(other):
         raise VectorError("you sick pervert! "
                           "you tried to divide something by a vector!")
 
