@@ -52,23 +52,22 @@ class Vector(tuple):
         return Vector(map(lambda x: x / other, self))
 
     @staticmethod
-    def __rdiv__(other):
-        raise VectorError("you sick pervert! "
-                          "you tried to divide something by a vector!")
+    def __rdiv__():
+        raise VectorError("you can't divide something by a vector")
 
     def __and__(self, other):
         """
         this is a dot product, done like this: a&b
-        must use () around it because of fucked up operator precedence.
+        must use () around it because of broken operator precedence.
         """
         if not isinstance(other, Vector):
-            raise VectorError("trying to do dot product of Vector "
-                              "with non-Vector")
-        d = self.dim()
-        s = 0.
-        for i in range(d):
-            s += self[i] * other[i]
-        return s
+            raise VectorError("you can't do dot product of Vector with a "
+                              "non-Vector")
+        dimension = self.dim()
+        size = 0.
+        for i in range(dimension):
+            size += self[i] * other[i]
+        return size
 
     def __rand__(self, other):
         return self & other
@@ -133,15 +132,15 @@ class Vector(tuple):
         return Vector(self)
 
 
-def zeros(n):
+def zeros(length):
     """
     Returns a zero Vector of length n.
     """
-    return Vector(map(lambda x: 0., range(n)))
+    return Vector(map(lambda x: 0., range(length)))
 
 
-def ones(n):
+def ones(length):
     """
     Returns a Vector of length n with all ones.
     """
-    return Vector(map(lambda x: 1., range(n)))
+    return Vector(map(lambda x: 1., range(length)))

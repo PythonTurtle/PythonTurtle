@@ -20,6 +20,7 @@ class Sleeper:
 
     def __init__(self, interval):
         self.interval = interval
+        self.starting_time = None
 
     def __enter__(self, *args, **kwargs):
         self.starting_time = time.time()

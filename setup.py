@@ -18,10 +18,10 @@ class SimpleCommand(Command):
     user_options = []
 
     def initialize_options(self):
-        pass
+        """Abstract method of the base class (required to be overridden)"""
 
     def finalize_options(self):
-        pass
+        """Abstract method of the base class (required to be overridden)"""
 
 
 class Bundle(SimpleCommand):
@@ -30,6 +30,9 @@ class Bundle(SimpleCommand):
 
     @staticmethod
     def run():
+        """
+        Create an application bundle (using PyInstaller)
+        """
         import PyInstaller.__main__
 
         resources_folder = os.path.join('pythonturtle', 'resources')
@@ -61,6 +64,9 @@ class Clean(SimpleCommand):
 
     @staticmethod
     def run():
+        """
+        Clean up files not meant for version control
+        """
         delete_in_root = [
             'build',
             'dist',

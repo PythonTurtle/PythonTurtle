@@ -52,7 +52,7 @@ def resource_string(filename):
     return text.decode()
 
 
-def log(x):
+def log(message):
     """A very simple logging function"""
-    print(x)
+    print(message)
     sys.stdout.flush()
