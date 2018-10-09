@@ -16,13 +16,16 @@ before_test:
 
 test_script:
 - '%PYTHON%\python.exe -m tox -e flake8'
+- '%PYTHON%\python.exe -m tox -e pylint'
 - '%PYTHON%\python.exe -m tox -e py36'
 
 after_test:
 - '%PYTHON%\python.exe setup.py clean bundle'
+- '%PYTHON%\python.exe setup.py bdist_msi'
 
 artifacts:
 - path: dist\PythonTurtle.exe
+- path: dist\PythonTurtle-*.msi
 
 on_success:
 - dir dist

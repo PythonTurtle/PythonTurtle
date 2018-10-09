@@ -1,16 +1,15 @@
 ---
-language: python
-python: 3.6
-
 resources:
 - name: pythonturtle_repo
   type: gitRepo
   integration: github
+  buildOnPullRequest: true
   pointer:
     sourceName: cool-RR/PythonTurtle
 
 jobs:
-- name: Windows build
+
+- name: windows_build
   type: runSh
   allowPublicAccess: true
   runtime:
@@ -18,12 +17,40 @@ jobs:
   steps:
   - IN: pythonturtle_repo
   - TASK:
-      name: Windows EXE file
+      name: System information
       script:
       - systeminfo
       - Get-Process
       - pushd $(shipctl get_resource_state "pythonturtle_repo")
-      - python3 --version
-      - python3 -m pip install PyInstaller wxPython
-      - python3 setup.py clean bundle
+      - choco install -y python --version 3.6.3
+      - 'C:\Python36\python.exe --version'
+  - TASK:
+      name: Install prerequisites
+      script:
+      - 'C:\Python36\python.exe -m pip install PyInstaller wxPython pypiwin32'
+  - TASK:
+      name: Lint
+      script:
+      - 'C:\Python36\python.exe -m tox -e flake8'
+      - 'C:\Python36\python.exe -m tox -e pylint'
+  - TASK:
+      name: Test
+      script:
+      - 'C:\Python36\python.exe -m tox -e py36'
+  - TASK:
+      name: Windows EXE file
+      script:
+      - 'C:\Python36\python.exe setup.py clean bundle'
+
+- name: push_artifacts
+  type: runSh
+  allowPublicAccess: true
+  runtime:
+    nodePool: dyn_win16
+  steps:
+  - IN: windows_build
+  - TASK:
+      name: push artifacts somewhere
+      script:
+      - systeminfo
       - dir dist
