@@ -17,7 +17,7 @@ jobs:
   steps:
   - IN: pythonturtle_repo
   - TASK:
-      name: System information
+      name: System_info
       script:
       - systeminfo
       - Get-Process
@@ -25,7 +25,7 @@ jobs:
       - choco install -y python --version 3.6.3
       - 'C:\Python36\python.exe --version'
   - TASK:
-      name: Install prerequisites
+      name: Prerequisites
       script:
       - 'C:\Python36\python.exe -m pip install PyInstaller wxPython pypiwin32'
   - TASK:
@@ -38,7 +38,7 @@ jobs:
       script:
       - 'C:\Python36\python.exe -m tox -e py36'
   - TASK:
-      name: Windows EXE file
+      name: Windows_exe
       script:
       - 'C:\Python36\python.exe setup.py clean bundle'
 
@@ -50,7 +50,7 @@ jobs:
   steps:
   - IN: windows_build
   - TASK:
-      name: push artifacts somewhere
+      name: push_artifacts_somewhere
       script:
       - systeminfo
       - dir dist
