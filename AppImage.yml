@@ -1,0 +1,31 @@
+app: PythonTurtle
+
+ingredients:
+  dist: bionic
+  sources:
+    - deb http://archive.ubuntu.com/ubuntu/ bionic main universe
+  packages:
+    - python3-minimal
+    - python3-pip
+  script:
+    - python3 -m pip install --find-links https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython
+    - python3 -m pip install setuptools
+
+script:
+  - python3 ../../setup.py install --root .
+  - ln -s /usr/local/bin/PythonTurtle ./usr/bin/
+  - cp ../../pythonturtle/resources/turtle.png ./pythonturtle.png
+  - cat > pythonturtle.desktop <<EOF
+  - [Desktop Entry]
+  - Version=1.0
+  - Type=Application
+  - Terminal=false
+  - Name=Python Turtle
+  - Exec=PythonTurtle %u
+  - Icon=/pythonturtle.png
+  - Comment=Learning environment for Python
+  - Categories=Education;
+  - EOF
+# - ln -s pythonturtle.desktop ./usr/share/applications/
+# - ln -s /pythonturtle.png ./usr/share/icons/
+# - rm -rv PythonTurtle.egg-info

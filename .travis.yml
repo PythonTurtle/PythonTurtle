@@ -45,6 +45,24 @@ jobs:
       on:
         tags: true
 
+  - name: Linux AppImage
+    stage: publish
+    python: 3.6
+    install:
+    - sudo apt-get install desktop-file-utils
+    - wget https://raw.githubusercontent.com/AppImage/AppImages/master/pkg2appimage
+    - chmod 755 pkg2appimage
+    script:
+    - ./pkg2appimage AppImage.yml
+    - bash -c "mv -v out/Python*AppImage PythonTurtle.AppImage"
+    deploy:
+      provider: releases
+      api_key: "GITHUB OAUTH TOKEN"
+      file: PythonTurtle.AppImage
+      skip_cleanup: true
+      on:
+        tags: true
+
   - name: Linux bundle
     stage: publish
     python: 3.6
