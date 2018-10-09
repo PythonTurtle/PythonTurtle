@@ -45,7 +45,7 @@ jobs:
       on:
         tags: true
 
-  - name: Linux AppImage
+  - name: GNU/Linux AppImage
     stage: publish
     python: 3.6
     install:
@@ -63,7 +63,7 @@ jobs:
       on:
         tags: true
 
-  - name: Linux bundle
+  - name: GNU/Linux bundle
     stage: publish
     python: 3.6
     install:
