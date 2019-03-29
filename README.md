@@ -58,7 +58,7 @@ PythonTurtle
 
 If you're into automation:
 
-[Ansible tasks](https://github.com/painless-software/ansible-software/blob/master/roles/education/tasks/programming.yml#L11-L34
+[Ansible tasks](https://github.com/painless-software/ansible-role-software/blob/master/tasks/education/programming.yml#L12-L43
 ) for setting up PythonTurtle including a desktop shortcut for GNOME.
 
 Compatibility
