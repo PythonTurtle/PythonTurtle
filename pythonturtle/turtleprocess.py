@@ -2,12 +2,13 @@
 A TurtleProcess is a subclass of ``multiprocessing.Process``.
 It is the process from which the user of PythonTurtle works.
 """
+import builtins
 import copy
 import math
 import multiprocessing
 import sys
 import time
-import builtins
+import webbrowser
 
 from . import shelltoprocess
 from .misc import smartsleep
@@ -51,10 +52,49 @@ class TurtleProcess(multiprocessing.Process):
 
     def run(self):
 
-        builtins.help = builtins.license = builtins.exit = \
-                                lambda *args, **kwargs: print('Not supported')
-
         self.turtle = Turtle()
+
+        def exit():
+            """
+            Close the app when a user types `exit()` or `quit()`.
+
+            The built-in exit and quit functions terminate the
+            interpreter hence making the application unusable. We
+            terminate the application directly instead.
+            """
+            print(self.window.Close())
+            print(self.window.Destroy())
+
+        builtins.exit = exit
+        builtins.quit = exit
+
+        def help(object=None):
+            """
+            Show a command's docstring or the app's help screen.
+
+            The built-in help function prints to the console and is
+            interactive there, thus blocking the UI. We simply display
+            the docstring of an object, when called with an argument,
+            or show the application help screen otherwise.
+            """
+            if object:
+                print(object.__doc__)
+            else:
+                self.window.show_help()
+
+        builtins.help = help
+
+        def license():
+            """
+            Open a browser window with Python's license explained.
+
+            The built-in license function is interactive and blocks the
+            UI. We open the default web browser with the Python website
+            displaying the license instead.
+            """
+            webbrowser.open('https://docs.python.org/3/license.html')
+
+        builtins.license = license
 
         def go(distance):
             """
