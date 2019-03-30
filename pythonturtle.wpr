@@ -1,7 +1,7 @@
 #!wing
-#!version=6.0
+#!version=7.0
 ##################################################################
-# Wing IDE project file                                          #
+# Wing project file                                              #
 ##################################################################
 [project attributes]
 proj.directory-list = [{'dirloc': loc('.'),
