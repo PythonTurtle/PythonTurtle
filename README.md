@@ -91,4 +91,4 @@ About
 This project is licensed under the MIT license.
 
 PythonTurtle was created by Ram Rachum as a side-project in 2009. I also provide
-[freelance Django/Python development services](https://chipmunkdev.com).
+[freelance Django/Python development services](https://chipmunkdev.com). I [give Python workshops](http://pythonworkshops.co/) to teach people Python and related topics. ([Hebrew website](http://pythonworkshops.co/).)
