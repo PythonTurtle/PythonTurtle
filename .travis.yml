@@ -57,7 +57,7 @@ jobs:
     - bash -c "mv -v out/Python*AppImage PythonTurtle.AppImage"
     deploy:
       provider: releases
-      api_key: "GITHUB OAUTH TOKEN"
+      api_key: $GITHUB_TOKEN
       file: PythonTurtle.AppImage
       skip_cleanup: true
       on:
@@ -73,7 +73,7 @@ jobs:
     - ./setup.py clean bundle
     deploy:
       provider: releases
-      api_key: "GITHUB OAUTH TOKEN"
+      api_key: $GITHUB_TOKEN
       file: dist/PythonTurtle
       skip_cleanup: true
       on:
@@ -91,7 +91,7 @@ jobs:
     - ./setup.py clean bundle
     deploy:
       provider: releases
-      api_key: "GITHUB OAUTH TOKEN"
+      api_key: $GITHUB_TOKEN
       file: dist/PythonTurtle
       skip_cleanup: true
       on:
