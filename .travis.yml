@@ -57,7 +57,7 @@ jobs:
     - bash -c "mv -v out/Python*AppImage PythonTurtle.AppImage"
     deploy:
       provider: releases
-      api_key: EY5m706JrxnEaSK7s3knGQj4cO8rHQyIztRq4UhN+zx0xCGuq65rBOPB7/dtthLgpB9cjWHbN3RQZOi9OiPlzaimMaZT4q1rQo+0bMoH61ML/xSXG3xY6dhCdQXvNElDerii6K0tgWJtnOOylvnNv4YWw+IlUMHXHCpwg0ZcDu2yLmpyozqAzSiMIbPa2UQtG0idFKyh59EwAdEohOC9WuqGLdF7ngJCEcF/C0+DHgH1MJsblmognrng2RAjhzbQNjQD5YLLQ7h4ODYGPRqr1aw1TXObmRH6AOVMpGSTFbFwOgTJoYZp2NKDL6ffjxR0YAxkgXLcv1c/xsp1qe3RAYflLGAz2Gw5cSRL1HhB8qtVrfFdXkBO7Gc9dtj+wOOmn9o/9OaaISvYcmXJv63x4oz8As1TXXO+Xf9zRhnxBKeDTlPsOSAzgWMPq2RKTwVjpWfslxqtEFrgYtjf0QArly+XahX244umLd2pFb4mLhmQyHFIhTb2pu+9f/nQkeBNogpB1PVPdLhrySvnR/6kdjsDyMnNIY8ROs4c/ZHfwm3sPAztlbIYByZFR4cjzRGObsZBKbUG1R1w47FYk2uE055V73sktJYsxAe+HBFfN85VSLOi8nLU160MLEWNhzMbGm0rnqLnmVx6Q7Va35KdbrgnXnHyhwUUUUQWNvI7ZTo=
+      api_key: $GITHUB_TOKEN
       file: PythonTurtle.AppImage
       skip_cleanup: true
       on:
