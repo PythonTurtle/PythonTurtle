@@ -1,12 +1,12 @@
 Python Turtle
 =============
 
-[![Travis CI](https://img.shields.io/travis/cool-RR/PythonTurtle/master.svg?logo=travis)](https://travis-ci.org/cool-RR/PythonTurtle
+[![Travis CI](https://img.shields.io/travis/PythonTurtle/PythonTurtle/master.svg?logo=travis)](https://travis-ci.org/PythonTurtle/PythonTurtle
 ) [![AppVeyor](https://img.shields.io/appveyor/ci/cool-RR/PythonTurtle/master.svg?logo=appveyor)](https://ci.appveyor.com/project/cool-RR/PythonTurtle
-) [![GitHub issues](https://img.shields.io/github/issues-raw/cool-RR/PythonTurtle.svg)](https://github.com/cool-RR/PythonTurtle/issues
-) [![GitHub PRs](https://img.shields.io/github/issues-pr-raw/cool-RR/PythonTurtle.svg)](https://github.com/cool-RR/PythonTurtle/pulls
+) [![GitHub issues](https://img.shields.io/github/issues-raw/PythonTurtle/PythonTurtle.svg)](https://github.com/PythonTurtle/PythonTurtle/issues
+) [![GitHub PRs](https://img.shields.io/github/issues-pr-raw/PythonTurtle/PythonTurtle.svg)](https://github.com/PythonTurtle/PythonTurtle/pulls
 ) [![Python versions](https://img.shields.io/pypi/pyversions/PythonTurtle.svg)](https://pypi.org/project/PythonTurtle/
-) [![MIT license](https://img.shields.io/github/license/cool-RR/PythonTurtle.svg)](https://github.com/cool-RR/PythonTurtle/blob/master/LICENSE
+) [![MIT license](https://img.shields.io/github/license/PythonTurtle/PythonTurtle.svg)](https://github.com/PythonTurtle/PythonTurtle/blob/master/LICENSE
 ) [![Gitter](https://img.shields.io/gitter/room/PythonTurtle/Lobby.svg)](https://gitter.im/PythonTurtle/Lobby)
 
 An educational environment for learning Python, suitable for beginners and children.
@@ -34,7 +34,7 @@ Installation
 
 Installers for Microsoft Windows and macOS are available from
 [pythonturtle.org](http://pythonturtle.org) and [GitHub](
-https://github.com/cool-RR/PythonTurtle/releases).
+https://github.com/PythonTurtle/PythonTurtle/releases).
 
 Ubuntu Linux:
 
@@ -70,7 +70,7 @@ Development
 -----------
 
 ```bash
-git clone https://github.com/cool-RR/PythonTurtle.git
+git clone https://github.com/PythonTurtle/PythonTurtle.git
 cd PythonTurtle
 python3 -m pythonturtle
 ```
@@ -81,7 +81,7 @@ Build application bundles like this:
 python3 setup.py clean bundle
 ```
 
-Please [open a pull request](https://github.com/cool-RR/PythonTurtle/pulls
+Please [open a pull request](https://github.com/PythonTurtle/PythonTurtle/pulls
 ) for contributions or bug fixes. If you can, please also add tests.
 
 About
