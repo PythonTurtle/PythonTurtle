@@ -13,5 +13,7 @@ __pycache__/
 # packaging artifacts
 /build/
 /dist/
+/out/
+/PythonTurtle/
 /*.egg-info
 /*.spec

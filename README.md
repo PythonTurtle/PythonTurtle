@@ -60,6 +60,12 @@ If you're into automation:
 [Ansible tasks](https://github.com/painless-software/ansible-role-software/blob/master/tasks/education/programming.yml#L12-L43
 ) for setting up PythonTurtle including a desktop shortcut for GNOME.
 
+### Troubleshooting
+
+> ImportError: libpng12.so.0: cannot open shared object file: No such file or directory
+
+See https://askubuntu.com/a/978338/14650
+
 Compatibility
 -------------
 
