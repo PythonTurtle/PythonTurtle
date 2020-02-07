@@ -44,7 +44,6 @@ class ApplicationWindow(wx.Frame):
         self.turtle_process = turtleprocess.TurtleProcess()
         self.turtle_process.start()
         self.turtle_queue = self.turtle_process.turtle_queue
-
         self.init_menu_bar()
 
         self.init_about_dialog_info()
@@ -108,6 +107,12 @@ class ApplicationWindow(wx.Frame):
         self.menu_bar = wx.MenuBar()
 
         self.file_menu = wx.Menu()
+
+        self.open_menu_item = wx.MenuItem(self.file_menu, -1, 'O&pen...')
+        self.file_menu.Append(self.open_menu_item)
+        self.Bind(wx.EVT_MENU, self.on_open, source=self.open_menu_item)
+        self.file_menu.AppendSeparator()
+        
         self.exit_menu_item = wx.MenuItem(self.file_menu, -1, 'E&xit')
         self.file_menu.Append(self.exit_menu_item)
         self.Bind(wx.EVT_MENU, self.on_exit, source=self.exit_menu_item)
@@ -193,6 +198,21 @@ class ApplicationWindow(wx.Frame):
         else:
             self.show_help()
 
+    def on_open(self, event=None):
+        #ptf = python turtle functions
+        with wx.FileDialog(self, "Open PythonTurtle file", wildcard="PTF files (*.ptf)|*.ptf",
+                       style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as fileDialog:
+
+            if fileDialog.ShowModal() == wx.ID_CANCEL:
+                return     
+
+            pathname = fileDialog.GetPath()
+            try:
+                with open(pathname, 'r') as file:
+                    self.loadFunctionsFromFile(file)
+            except IOError:
+                wx.LogError("Cannot open file '%s'." % newfile)
+
     def on_exit(self, event=None):
         return self.Close()
 
@@ -216,6 +236,15 @@ class ApplicationWindow(wx.Frame):
     def on_about(self, event=None):
         wx.adv.AboutBox(self.about_dialog_info, self)
 
+    def loadFunctionsFromFile(self, file):        
+        commands = file.read()
+        self.shell.EnterFromFile(commands)
+        
+                
+        
+       
+    def saveAs(self, file):
+        wx.adv.AboutBox(self.about_dialog_info, self)
 
 def run():
     multiprocessing.freeze_support()

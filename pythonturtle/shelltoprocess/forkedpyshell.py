@@ -1347,22 +1347,46 @@ Platform: %s""" % (
             wx.TheClipboard.SetData(data)
             wx.TheClipboard.Flush()
             wx.TheClipboard.Close()
+            
+    def FormatCommand(self, command):
+        ps2 = str(sys.ps2)
+        command = command.rstrip()
+        command = self.fixLineEndings(command)
+        command = self.lstripPrompt(text=command)
+        command = command.replace(os.linesep + ps2, '\n')
+        command = command.replace(os.linesep, '\n')
+        command = command.replace('\n', os.linesep + ps2)    
+        return command
+    
+    def EnterFromFile(self, commands):
+        """take contents of ptf (python turtle function) file, split into 
+        separate functions, and enter them"""
+        
+        #can't handle it if multiple defs are fed in at once; split them, 
+        #and handle them individually
+        commandList = commands.split("def")
+        for command in commandList:
+            #split results in some blank strings where def was
+            if(len(command) > 0):
+                #split above removes def, so need to add it back
+                command = "def" + command
+                command = self.FormatCommand(command)
+                self.write(command)
+                self.processLine()
+                self.prompt()
+                self.processLine()
+                self.prompt()
 
     def Paste(self):
         """Replace selection with clipboard contents."""
         if self.CanPaste() and wx.TheClipboard.Open():
-            ps2 = str(sys.ps2)
+
             if wx.TheClipboard.IsSupported(wx.DataFormat(wx.DF_TEXT)):
                 data = wx.TextDataObject()
                 if wx.TheClipboard.GetData(data):
                     self.ReplaceSelection('')
                     command = data.GetText()
-                    command = command.rstrip()
-                    command = self.fixLineEndings(command)
-                    command = self.lstripPrompt(text=command)
-                    command = command.replace(os.linesep + ps2, '\n')
-                    command = command.replace(os.linesep, '\n')
-                    command = command.replace('\n', os.linesep + ps2)
+                    command = self.FormatCommand(command)
                     self.write(command)
             wx.TheClipboard.Close()
 
