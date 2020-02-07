@@ -1,0 +1,27 @@
+PythonTurtle can load a file with functions already in it.  These functions
+will then be available to use in your programs.
+Note: The file can contain only functions; it can't contain direct commands
+like "go".  It can only contain functions that start with "def".  Other 
+items will cause a "syntax error" when loading.
+
+How to load functions from a file:
+
+-Create a file, using a text editor. 
+
+-Add functions to the file; for example:
+
+def polygon(n):
+    for i in range(n):
+        go(50)
+        turn(360.0/n)
+
+def polygon100(n):
+    for i in range(n):
+        go(100)
+        turn(360.0/n)
+        
+-Save the file with the extension ".ptf"
+
+-From PythonTurtle, select File->Open...
+
+-Select your file and open.

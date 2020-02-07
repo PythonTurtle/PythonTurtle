@@ -69,6 +69,7 @@ def page_list(parent=None):
         ["Level 2", resource_filename("help2.png")],
         ["Level 3", resource_filename("help3.png")],
         ["Level 4", resource_filename("help4.png")],
+        ["Using Files", resource_filename("UsingFilesHelp.png")],
     ]
 
     pages = [
