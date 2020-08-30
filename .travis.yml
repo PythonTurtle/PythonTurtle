@@ -1,16 +1,17 @@
 ---
-dist: xenial
-sudo: true
+os: linux
+dist: bionic
 language: python
 
 python:
 - 3.6
 - 3.7
+- 3.8
 
 install:
 - pip install tox-travis
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-    sudo apt-get install libsdl-ttf2.0-0
+    sudo apt-get install libsdl2-2.0-0
   ; fi
 script:
 - tox
@@ -22,13 +23,11 @@ stages:
 
 jobs:
   allow_failures:
-  - python: 3.7
   - { os: osx, stage: publish }
 
   include:
   - { stage: lint, python: 3.6, env: TOXENV=flake8 }
   - { stage: lint, python: 3.6, env: TOXENV=pylint }
-  - { stage: test, os: osx, language: generic, env: TOXENV=py36 }
 
   - name: PyPI package
     stage: publish
@@ -68,7 +67,7 @@ jobs:
     python: 3.6
     install:
     - pip install PyInstaller
-    - pip install --find-links https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython
+    - pip install --find-links https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-18.04 wxPython
     script:
     - ./setup.py clean bundle
     deploy:
