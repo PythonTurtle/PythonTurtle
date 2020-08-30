@@ -15,7 +15,7 @@ except ModuleNotFoundError:
     print("wxPython doesn't seem to be installed. You need to install "
           "the appropriate prerequisites for your operating system.")
     print("Please consult the installation instructions in the README at "
-          "https://github.com/cool-RR/PythonTurtle#installation")
+          "https://github.com/PythonTurtle/PythonTurtle#installation")
     import sys
     sys.exit(255)
 
