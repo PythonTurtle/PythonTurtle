@@ -3,6 +3,8 @@ Python Turtle
 
 [![Travis CI](https://img.shields.io/travis/PythonTurtle/PythonTurtle/master.svg?logo=travis)](https://travis-ci.org/PythonTurtle/PythonTurtle
 ) [![AppVeyor](https://img.shields.io/appveyor/ci/cool-RR/PythonTurtle/master.svg?logo=appveyor)](https://ci.appveyor.com/project/cool-RR/PythonTurtle
+) [![Checks](https://img.shields.io/github/workflow/status/PythonTurtle/PythonTurtle/Checks/master?label=Checks&logo=github)](https://github.com/PythonTurtle/PythonTurtle/actions?query=workflow%3AChecks
+) [![Tests](https://img.shields.io/github/workflow/status/PythonTurtle/PythonTurtle/Tests/master?label=Tests&logo=github)](https://github.com/PythonTurtle/PythonTurtle/actions?query=workflow%3ATests
 ) [![GitHub issues](https://img.shields.io/github/issues-raw/PythonTurtle/PythonTurtle.svg)](https://github.com/PythonTurtle/PythonTurtle/issues
 ) [![GitHub PRs](https://img.shields.io/github/issues-pr-raw/PythonTurtle/PythonTurtle.svg)](https://github.com/PythonTurtle/PythonTurtle/pulls
 ) [![Python versions](https://img.shields.io/pypi/pyversions/PythonTurtle.svg)](https://pypi.org/project/PythonTurtle/
