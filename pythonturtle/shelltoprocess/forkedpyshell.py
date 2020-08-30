@@ -1033,11 +1033,11 @@ Platform: %s""" % (
     def fixLineEndings(self, text):
         """Return text with line endings replaced by OS-specific endings."""
         lines = text.split('\r\n')
-        for l in range(len(lines)):
-            chunks = lines[l].split('\r')
-            for c in range(len(chunks)):
-                chunks[c] = os.linesep.join(chunks[c].split('\n'))
-            lines[l] = os.linesep.join(chunks)
+        for line in range(len(lines)):
+            chunks = lines[line].split('\r')
+            for chunk in range(len(chunks)):
+                chunks[chunk] = os.linesep.join(chunks[chunk].split('\n'))
+            lines[line] = os.linesep.join(chunks)
         text = os.linesep.join(lines)
         return text
 
