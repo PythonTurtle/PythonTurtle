@@ -1,6 +1,6 @@
 """
 This package implements a wxPython shell, based on PyShell,
-which controls a seperate Python process, creating with the
+which controls a separate Python process, creating with the
 `multiprocessing` package.
 
 Here is the canonical way to use it:
