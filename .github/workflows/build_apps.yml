@@ -1,0 +1,32 @@
+name: Build_apps
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]  # TODO cclauss: Add macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+    - name: Install dependencies for Ubuntu
+      if: matrix.os == 'ubuntu-latest'
+      run: sudo apt-get install libsdl2-2.0-0
+    - name: Install prerequisites
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install pyinstaller
+    - name: Build a platform specific app
+      run: python setup.py clean bundle
+    - name: Push app to GitHub Releases
+      # run: https://github.com/actions/create-release
+      run: echo "TODO (cclauss) Push app to GitHub Releases"
