@@ -27,6 +27,13 @@ jobs:
         python -m pip install pyinstaller
     - name: Build a platform specific app
       run: python setup.py clean bundle
-    - name: Push app to GitHub Releases
-      # run: https://github.com/actions/create-release
-      run: echo "TODO (cclauss) Push app to GitHub Releases"
+    - name: Push Linux app to GitHub Releases
+      if: matrix.os == 'ubuntu-latest'
+      uses: actions/upload-artifact@v2
+      with:
+        path: /home/runner/work/PythonTurtle/PythonTurtle/dist/PythonTurtle
+    - name: Push Windows .exe to GitHub Releases
+      if: matrix.os == 'windows-latest'
+      uses: actions/upload-artifact@v2
+      with:
+        path: D:\a\PythonTurtle\PythonTurtle\dist\PythonTurtle.exe
