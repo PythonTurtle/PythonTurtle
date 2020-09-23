@@ -31,9 +31,11 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       uses: actions/upload-artifact@v2
       with:
+        name: PythonTurtle for Linux
         path: /home/runner/work/PythonTurtle/PythonTurtle/dist/PythonTurtle
     - name: Push Windows .exe to GitHub Releases
       if: matrix.os == 'windows-latest'
       uses: actions/upload-artifact@v2
       with:
+        name: PythonTurtle for Windows
         path: D:\a\PythonTurtle\PythonTurtle\dist\PythonTurtle.exe
