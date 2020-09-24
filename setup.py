@@ -110,15 +110,15 @@ def read_file(filename):
 setup(
     name=package.name,
     version=package.__version__,
-    license=package.__license__,
-    author='Ram Rachum',
-    author_email='ram@rachum.com',
+    author=package.__author__,
+    author_email=package.__author_email__,
     description=package.__doc__.strip().split('\n')[0],
+    license=package.__license__,
     long_description_content_type='text/markdown',
     long_description=read_file('README.md'),
     url=package.__url__,
     project_urls={
-        'Source': 'https://github.com/cool-RR/PythonTurtle',
+        'Source': package.__source__,
     },
     keywords=['turtle', 'learning', 'children', 'beginners', 'logo'],
     classifiers=[

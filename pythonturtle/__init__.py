@@ -10,6 +10,9 @@ demonstrates how to move the turtle and introduces the student to the
 basics of Python programming.
 """
 name = 'PythonTurtle'
-__version__ = '0.3.1'
+__author__ = 'Ram Rachum and contributors'
+__author_email__ = 'ram@rachum.com'
 __license__ = 'MIT'
+__source__ = 'https://github.com/PythonTurtle/PythonTurtle'
 __url__ = 'http://pythonturtle.org'
+__version__ = '0.3.2'
