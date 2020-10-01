@@ -1,0 +1,21 @@
+name: Build macOS app
+
+on:
+  push:
+  #  tags:
+  #  - "*"
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.7  # see breaking changes in Py38 multiprocessing
+    - run: python -m pip install pyinstaller wxPython
+    - run: python setup.py clean bundle
+    - uses: actions/upload-artifact@v2
+      with:
+        name: PythonTurtle.app for macOS
+        path: /home/runner/work/PythonTurtle/PythonTurtle/dist/PythonTurtle.app
