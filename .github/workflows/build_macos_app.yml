@@ -15,7 +15,9 @@ jobs:
         python-version: 3.7  # see breaking changes in Py38 multiprocessing
     - run: python -m pip install pyinstaller wxPython
     - run: python setup.py clean bundle
+    - run: echo $GITHUB_WORKSPACE
+    - run: echo $github_workspace
     - uses: actions/upload-artifact@v2
       with:
         # name: PythonTurtle.app
-        path: ${{ GITHUB_WORKSPACE }}/dist/*.app
+        path: "${GITHUB_WORKSPACE}/dist/*.app"
