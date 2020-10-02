@@ -17,5 +17,5 @@ jobs:
     - run: python setup.py clean bundle
     - uses: actions/upload-artifact@v2
       with:
-        # name: PythonTurtle.app
-        path: ${{ github.workspace }}/dist/*.app
+        name: PythonTurtle.app
+        path: ${{ github.workspace }}/dist
