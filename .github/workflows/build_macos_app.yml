@@ -15,7 +15,8 @@ jobs:
         python-version: 3.7  # see breaking changes in Py38 multiprocessing
     - run: python -m pip install pyinstaller wxPython
     - run: python setup.py clean bundle
+    - run: env
     - uses: actions/upload-artifact@v2
       with:
         name: PythonTurtle.app for macOS
-        path: /Users/runner/work/PythonTurtle/PythonTurtle/dist/PythonTurtle.app
+        path: /Users/runner/work/PythonTurtle/PythonTurtle/dist/*.app
