@@ -1,4 +1,4 @@
-name: Publish Python package
+name: Publish binaries and Python package
 
 on:
   push:
@@ -6,7 +6,12 @@ on:
     - "*"
 
 jobs:
-  deploy:
+  binaries:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+  pypi:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
