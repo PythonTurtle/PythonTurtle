@@ -33,7 +33,7 @@ class Bundle(SimpleCommand):
         """
         Create an application bundle (using PyInstaller)
         """
-        import PyInstaller.__main__
+        import PyInstaller.__main__  # pylint: disable=import-outside-toplevel
 
         resources_folder = os.path.join('pythonturtle', 'resources')
 
