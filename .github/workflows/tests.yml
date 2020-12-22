@@ -1,12 +1,11 @@
 name: Tests
 
 on:
-  pull_request:
-    branches:
-    - master
-  push:
-    branches:
-    - master
+  workflow_run:
+    workflows:
+    - Checks
+    types:
+    - completed
 
 jobs:
   build:
