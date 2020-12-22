@@ -19,7 +19,7 @@ jobs:
     - run: python setup.py clean bundle
     - uses: actions/upload-artifact@v2
       with:
-        name: PythonTurtle for Linux
+        name: PythonTurtle
         path: ${{ github.workspace }}/dist/PythonTurtle
 
   macos-app:
@@ -29,10 +29,11 @@ jobs:
     - uses: actions/setup-python@v2
     - run: python -m pip install pyinstaller
     - run: python setup.py clean bundle
+    - run: rm ${{ github.workspace }}/dist/PythonTurtle
     - uses: actions/upload-artifact@v2
       with:
-        name: PythonTurtle for macOS
-        path: ${{ github.workspace }}/dist/PythonTurtle.app
+        name: PythonTurtle.app
+        path: ${{ github.workspace }}/dist/
 
   windows-exe:
     runs-on: windows-latest
@@ -43,5 +44,5 @@ jobs:
     - run: python setup.py clean bundle
     - uses: actions/upload-artifact@v2
       with:
-        name: PythonTurtle for Windows
+        name: PythonTurtle.exe
         path: ${{ github.workspace }}\dist\PythonTurtle.exe
