@@ -2,9 +2,11 @@ name: Checks
 
 on:
   pull_request:
-    branches: [master]
+    branches:
+    - master
   push:
-    branches: [master]
+    branches:
+    - master
 
 jobs:
   build:
@@ -12,7 +14,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        env: [flake8, pylint]
+        env:
+        - flake8
+        - pylint
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
