@@ -8,6 +8,7 @@ import multiprocessing
 import sys
 import time
 import builtins
+import wx
 
 from . import shelltoprocess
 from .misc import smartsleep
@@ -84,6 +85,14 @@ class TurtleProcess(multiprocessing.Process):
                 self.turtle.pos += last_step
                 self.send_report()
 
+        def g():
+            """Walk of a reasonable distance."""
+            go(20)
+
+        def G():
+            """Walk of a diagonal's distance."""
+            go(20*math.sqrt(2))
+
         def turn(angle):
             """
             Makes the turtle turn. Specify angle in degrees. A positive
@@ -109,6 +118,21 @@ class TurtleProcess(multiprocessing.Process):
                 last_step = last_angle * sign
                 self.turtle.orientation += last_step
                 self.send_report()
+
+        def t(a):
+            turn(a)
+
+        def R():
+            t(90)
+
+        def r():
+            t(45)
+
+        def L():
+            t(-90)
+
+        def l():
+            t(-45)
 
         def color(color):
             """
@@ -156,6 +180,9 @@ class TurtleProcess(multiprocessing.Process):
             self.turtle.pen_down = down
             self.send_report()
 
+        def D():
+            pen_down()
+
         def pen_up():
             """
             Puts the pen in the "up" position, making the turtle not leave a
@@ -163,6 +190,9 @@ class TurtleProcess(multiprocessing.Process):
             """
             self.turtle.pen_down = False
             self.send_report()
+
+        def U():
+            pen_up()
 
         def is_visible():
             """
@@ -221,26 +251,57 @@ class TurtleProcess(multiprocessing.Process):
             self.turtle = Turtle()
             clear()
 
+        def C():
+            reset()
+
+        def do(cmd):
+            for c in cmd:
+                locals_for_console[c]()
+
+        def repeat(cmd,times=2):
+            for i in range(times):
+                do(cmd)
+
+        def P(cmd,times=2):
+            repeat(cmd,times)
+
+        _ = wx.GetTranslation
+
         locals_for_console = {
-            "go": go,
-            "turn": turn,
-            "color": color,
-            "width": width,
-            "visible": visible,
-            "invisible": invisible,
-            "pen_down": pen_down,
-            "pen_up": pen_up,
-            "is_visible": is_visible,
-            "is_pen_down": is_pen_down,
-            "sin": sin,
-            "cos": cos,
-            "turtle": self.turtle,
-            "clear": clear,
-            "reset": reset,
+            _("go"): go,
+            _("turn"): turn,
+            _("color"): color,
+            _("width"): width,
+            _("visible"): visible,
+            _("invisible"): invisible,
+            _("pen_down"): pen_down,
+            _("pen_up"): pen_up,
+            _("is_visible"): is_visible,
+            _("is_pen_down"): is_pen_down,
+            _("sin"): sin,
+            _("cos"): cos,
+            _("turtle"): self.turtle,
+            _("clear"): clear,
+            _("reset"): reset,
+            _("do") : do,
+            _("repeat"): repeat,
+            _("do") : do,
+            _("O") : do,
+            _("g") : g, # go(20)
+            _("G") : G, # go(20√2) [for diagonals]
+            _("L") : L, # turn(-90)
+            _("l") : l, # turn(-45)
+            _("R") : R, # turn(90)
+            _("r") : r, # turn(45)
+            _("U") : U, # pen_up
+            _("D") : D, # pen_down
+            _("C") : C, # reset (clear)
+            _("P") : P, # repeat(cmd,times=2)
+
         }
 
         # A little thing I tried doing for checking if a color is
-        # valid before setting it to the turtle. Didn't work.
+        # valid before setting itPto the turtle. Didn't work.
         # import wx; app=wx.App();
         # def valid_color(color):
         #     return not wx.Pen(color).GetColour() == \
