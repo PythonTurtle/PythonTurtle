@@ -1,4 +1,4 @@
-Python Turtle
+PythonTurtle
 =============
 
 [![Travis CI](https://img.shields.io/travis/PythonTurtle/PythonTurtle/master.svg?logo=travis)](https://travis-ci.org/PythonTurtle/PythonTurtle
