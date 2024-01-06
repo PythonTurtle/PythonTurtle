@@ -1,5 +1,4 @@
-PythonTurtle
-=============
+# PythonTurtle
 
 [![Travis CI](https://img.shields.io/travis/PythonTurtle/PythonTurtle/master.svg?logo=travis)](https://travis-ci.org/PythonTurtle/PythonTurtle
 ) [![AppVeyor](https://img.shields.io/appveyor/ci/cool-RR/PythonTurtle/master.svg?logo=appveyor)](https://ci.appveyor.com/project/cool-RR/PythonTurtle
@@ -16,8 +15,7 @@ Inspired by LOGO.
 
 Homepage: [http://pythonturtle.org](http://pythonturtle.org)
 
-An Appealing Environment to Learn Python
-----------------------------------------
+## An Appealing Environment to Learn Python
 
 PythonTurtle strives to provide the lowest-threshold way to learn Python.
 Students command an interactive Python shell (similar to the [IDLE development
@@ -31,8 +29,7 @@ to students.
 
 ![Screen shot](http://pythonturtle.org/images/screenshot.gif)
 
-Installation
-------------
+## Installation
 
 Installers for Microsoft Windows and macOS are available from
 [pythonturtle.org](http://pythonturtle.org) and [GitHub](
@@ -62,20 +59,20 @@ If you're into automation:
 [Ansible tasks](https://github.com/painless-software/ansible-role-software/blob/master/tasks/education/programming.yml#L12-L43
 ) for setting up PythonTurtle including a desktop shortcut for GNOME.
 
-### Troubleshooting
+## Troubleshooting
 
 > ImportError: libpng12.so.0: cannot open shared object file: No such file or directory
 
 See https://askubuntu.com/a/978338/14650
 
-Compatibility
--------------
+
+## Compatibility
 
 Tested with Python version 3.6 and wxPython version 4.0.1.
 Reported to run on Windows, macOS, Ubuntu Linux, and Fedora.
 
-Development
------------
+
+## Development
 
 ```bash
 git clone https://github.com/PythonTurtle/PythonTurtle.git
@@ -92,10 +89,28 @@ python3 setup.py clean bundle
 Please [open a pull request](https://github.com/PythonTurtle/PythonTurtle/pulls
 ) for contributions or bug fixes. If you can, please also add tests.
 
-About
------
+
+
+## Citing PythonTurtle
+
+If you refer to PythonTurtle in academic work, please use this citation format:
+
+```bibtex
+@misc{rachum2009pythonturtle,
+    author={Rachum, Ram and Bittner, Peter},
+    title={PythonTurtle: A learning environment for Python suited for beginners and children, inspired by Logo},
+    month={may},
+    year={2009},
+    publisher={GitHub},
+    doi={10.5281/zenodo.10465283},
+    url={https://github.com/PythonTurtle/PythonTurtle/}
+}
+```
+
+
+## License
 
 This project is licensed under the MIT license.
 
-PythonTurtle was created by Ram Rachum as a side-project in 2009. I also provide
-[freelance Django/Python development services](https://chipmunkdev.com). I [give Python workshops](http://pythonworkshops.co/) to teach people Python and related topics. ([Hebrew website](http://pythonworkshops.co.il/).)
+
+
