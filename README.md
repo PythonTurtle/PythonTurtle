@@ -97,7 +97,7 @@ If you refer to PythonTurtle in academic work, please use this citation format:
 
 ```bibtex
 @misc{rachum2009pythonturtle,
-    author={Rachum, Ram and Bittner, Peter},
+    author={Rachum, Ram and Bittner, Peter and others},
     title={PythonTurtle: A learning environment for Python suited for beginners and children, inspired by Logo},
     month={may},
     year={2009},
