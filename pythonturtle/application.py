@@ -42,6 +42,7 @@ class ApplicationWindow(wx.Frame):
         self.init_help_screen()
 
         self.turtle_process = turtleprocess.TurtleProcess()
+        self.turtle_process.window = self
         self.turtle_process.start()
         self.turtle_queue = self.turtle_process.turtle_queue
 
@@ -220,6 +221,7 @@ class ApplicationWindow(wx.Frame):
 def run():
     multiprocessing.freeze_support()
     app = wx.App()
-    ApplicationWindow(None, -1, pythonturtle.name, size=(600, 600))
-    # import cProfile; cProfile.run("app.MainLoop()")
+    ApplicationWindow(parent=None,
+                      title=pythonturtle.name,
+                      size=(600, 600))
     app.MainLoop()
