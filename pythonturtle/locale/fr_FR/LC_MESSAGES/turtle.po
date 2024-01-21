@@ -1,0 +1,136 @@
+# PythonTurtle internationalization
+# Copyright (C) 2022 nojhan
+# nojhan <nojhan@nojhan.net> 2022
+msgid ""
+msgstr ""
+"Project-Id-Version: PythonTurtle\n"
+"POT-Creation-Date: 2022-01-09 17:20+0100\n"
+"PO-Revision-Date: 2022-01-09 17:20+0100\n"
+"Last-Translator: nojhan <nojhan@nojhan.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"Language-Team: French\n"
+"Language: fr\n"
+
+msgid "E&xit"
+msgstr "&Quitter"
+
+msgid "&Help\tF1"
+msgstr "&Aide\tF1"
+
+msgid "&Help"
+msgstr "&Aide"
+
+msgid "&About..."
+msgstr "À &Propos..."
+
+msgid "&Turtle"
+msgstr "&Tortue"
+
+msgid "go"
+msgstr "avance"
+
+msgid "turn"
+msgstr "tourne"
+
+msgid "color"
+msgstr "couleur"
+
+msgid "width"
+msgstr "largeur"
+
+msgid "visible"
+msgstr "visible"
+
+msgid "invisible"
+msgstr "invisible"
+
+msgid "pen_down"
+msgstr "stylo_bas"
+
+msgid "pen_up"
+msgstr "stylo_haut"
+
+msgid "is_visible"
+msgstr "est_visible"
+
+msgid "is_pen_down"
+msgstr "stylo_est_bas"
+
+msgid "sin"
+msgstr "sin"
+
+msgid "cos"
+msgstr "cos"
+
+msgid "turtle"
+msgstr "tortue"
+
+msgid "clear"
+msgstr "efface"
+
+msgid "reset"
+msgstr "reset"
+
+msgid "do"
+msgstr "fait"
+
+msgid "repeat"
+msgstr "répéte"
+
+# go(40)
+msgid "G"  
+msgstr "A" 
+# Avance
+
+# go(20)
+msgid "g"  
+msgstr "a" 
+# avance
+
+# turn(-90)
+msgid "L"  
+msgstr "G" 
+# Gauche
+
+# turn(-45)
+msgid "l"  
+msgstr "g" 
+# gauche
+
+# turn(90)
+msgid "R"  
+msgstr "D" 
+# Droite
+
+# turn(45)
+msgid "r"  
+msgstr "d" 
+# droite
+
+# pen_up()
+msgid "U"  
+msgstr "L" 
+# lever
+
+# pen_down()
+msgid "D"  
+msgstr "B" 
+# baisser
+
+# reset() (clear)
+msgid "C"  
+msgstr "E" 
+# efface
+
+# repeat
+msgid "P"  
+msgstr "R" 
+# Répète
+
+# do
+msgid "O"
+msgstr "F"
+# fait

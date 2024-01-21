@@ -33,8 +33,37 @@ class ApplicationWindow(wx.Frame):
     The main window of PythonTurtle.
     """
 
+    def init_locale(self):
+
+        self.languages = {
+            "System default" : wx.LANGUAGE_DEFAULT,
+            "English"        : wx.LANGUAGE_ENGLISH,
+            "French"         : wx.LANGUAGE_FRENCH,
+        }
+        self.locale = wx.Locale()
+        self.locale.AddCatalogLookupPathPrefix("./pythonturtle/locale")
+
+        #asked_lang = "French" # TODO implement config file + settings
+        #lang = self.languages[asked_lang]
+        lang = self.languages["System default"]
+
+        if lang == wx.LANGUAGE_ENGLISH:
+            return
+            
+        if not self.locale.Init(lang):
+            wx.LogWarning("This language is not supported by the system, falls back to English.")
+            return
+            
+        if not self.locale.AddCatalog("turtle"):
+            wx.LogError("Couldn't find the catalog for locale '" + self.locale.GetCanonicalName() + "', falls back to English.")
+            return
+
+
     def __init__(self, *args, **keywords):
         wx.Frame.__init__(self, *args, **keywords)
+
+        self.init_locale()
+
         self.SetDoubleBuffered(True)
         self.SetIcon(wx.Icon(resource_filename("icon.ico"),
                              wx.BITMAP_TYPE_ICO))
@@ -105,28 +134,30 @@ class ApplicationWindow(wx.Frame):
         """
         Initialize the menu bar.
         """
+        _ = wx.GetTranslation
+
         self.menu_bar = wx.MenuBar()
 
         self.file_menu = wx.Menu()
-        self.exit_menu_item = wx.MenuItem(self.file_menu, -1, 'E&xit')
+        self.exit_menu_item = wx.MenuItem(self.file_menu, -1, _('E&xit'))
         self.file_menu.Append(self.exit_menu_item)
         self.Bind(wx.EVT_MENU, self.on_exit, source=self.exit_menu_item)
 
         self.help_menu = wx.Menu()
 
         self.help_menu_item = \
-            wx.MenuItem(self.help_menu, -1, '&Help\tF1', kind=wx.ITEM_CHECK)
+            wx.MenuItem(self.help_menu, -1, _('&Help\tF1'), kind=wx.ITEM_CHECK)
         self.help_menu.Append(self.help_menu_item)
         self.Bind(wx.EVT_MENU, self.toggle_help, source=self.help_menu_item)
 
         self.help_menu.AppendSeparator()
 
-        self.about_menu_item = wx.MenuItem(self.help_menu, -1, "&About...")
+        self.about_menu_item = wx.MenuItem(self.help_menu, -1, _("&About..."))
         self.help_menu.Append(self.about_menu_item)
         self.Bind(wx.EVT_MENU, self.on_about, source=self.about_menu_item)
 
-        self.menu_bar.Append(self.file_menu, '&File')
-        self.menu_bar.Append(self.help_menu, '&Help')
+        self.menu_bar.Append(self.file_menu, _('&Turtle'))
+        self.menu_bar.Append(self.help_menu, _('&Help'))
 
         self.SetMenuBar(self.menu_bar)
 
